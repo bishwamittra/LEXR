@@ -306,7 +306,7 @@ class DagSATEncoding:
                 if '!' in self.listOfOperators:
                       #negation
                      self.solver.assert_and_track(Implies(self.x[(i, '!')],\
-                                                           And([\
+                                                            And([\
                                                                Implies(\
                                                                          self.l[(i,onlyArg)],\
                                                                          And([\
@@ -361,12 +361,14 @@ class DagSATEncoding:
                                                            And([\
                                                                Implies(\
                                                                          self.l[(i,onlyArg)],\
-                                                                         And([\
-                                                                              self.y[(i, traceIdx, timestep)] ==\
-                                                                              self.y[(onlyArg, traceIdx, tr.nextPos(timestep))]\
-                                                                              for timestep in range(tr.lengthOfTrace)\
-                                                                              ])\
-                                                                          )\
+                                                                         And(
+                                                                            And([\
+                                                                                self.y[(i, traceIdx, timestep)] ==\
+                                                                                self.y[(onlyArg, traceIdx, tr.nextPos(timestep))]\
+                                                                                for timestep in range(tr.lengthOfTrace-1)\
+                                                                                ]),\
+                                                                                Not(self.y[i,traceIdx,tr.lengthOfTrace-1]))\
+                                                                            )\
                                                                for onlyArg in range(i)\
                                                                ])\
                                                            ),\
