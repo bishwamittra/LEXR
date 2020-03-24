@@ -11,8 +11,9 @@ class DagSATEncoding:
       - each trace is a list of recordings at time units (time point)
       - each time point is a list of variable values (x1,..., xk)
     """
-    def __init__(self, D, testTraces): 
-        
+    def __init__(self,  testTraces): 
+
+                
         defaultOperators = ['G', 'F', '!', 'U', '&','|', '->', 'X']
         unary = ['G', 'F', '!', 'X']
         binary = ['&', '|', 'U', '->']
@@ -32,10 +33,11 @@ class DagSATEncoding:
         
         #self.noneOperator = 'none' # a none operator is not needed in this encoding
         
+
         self.solver = Solver()
         
         
-        self.formulaDepth = D
+        
         
         
         #traces = [t.traceVector for t in testTraces.acceptedTraces + testTraces.rejectedTraces]
@@ -44,7 +46,11 @@ class DagSATEncoding:
 
         self.listOfVariables = [i for i in range(self.traces.numVariables)]
         
-        
+        self.x={}
+        self.l={}
+        self.r={}
+        self.y={}
+    
         
         
         #keeping track of which positions in a tree (and in time) are visited, so that constraints are not generated twice
@@ -54,8 +60,9 @@ class DagSATEncoding:
     def getInformativeVariables(self):
         res = []
         res += [v for v in self.x.values()]
-        res += [v for v in self.l.values()]
-        res += [v for v in self.r.values()]
+        if(self.formulaDepth>1):
+            res += [v for v in self.l.values()]
+            res += [v for v in self.r.values()]
 
 
         return res
@@ -66,42 +73,70 @@ class DagSATEncoding:
         - r[i][j]: "right operand of subformula i is subformula j"
         - y[i][tr][t]: semantics of formula i in time point t of trace tr
     """
-    def encodeFormula(self, unsatCore=True):
+    def encodeFormula(self, D, unsatCore=True):
         self.operatorsAndVariables = self.listOfOperators + self.listOfVariables
-        
-        self.x = { (i, o) : Bool('x_'+str(i)+'_'+str(o)) for i in range(self.formulaDepth) for o in self.operatorsAndVariables }
-        self.l = {(parentOperator, childOperator) : Bool('l_'+str(parentOperator)+'_'+str(childOperator))\
-                                                 for parentOperator in range(1, self.formulaDepth)\
-                                                 for childOperator in range(parentOperator)}
-        self.r = {(parentOperator, childOperator) : Bool('r_'+str(parentOperator)+'_'+str(childOperator))\
-                                                 for parentOperator in range(1, self.formulaDepth)\
-                                                 for childOperator in range(parentOperator)}
 
-        self.y = { (i, traceIdx, positionInTrace) : Bool('y_'+str(i)+'_'+str(traceIdx)+'_'+str(positionInTrace))\
-                  for i in range(self.formulaDepth)\
+
+        
+        self.formulaDepth = D
+
+        # load previous constraints
+        # if(self.formulaDepth > 1):
+        #     self.solver.reset()
+        #     prev_constraints = z3.parse_smt2_file("temp_"+str(self.formulaDepth-1)+".txt", sorts={}, decls={})
+        #     self.solver.add(prev_constraints)
+        
+        
+        index = self.formulaDepth-1
+
+        self.x.update({ (index, o) : Bool('x_'+str(index)+'_'+str(o)) for o in self.operatorsAndVariables })
+        
+        self.y.update({ (index, traceIdx, positionInTrace) : Bool('y_'+str(index)+'_'+str(traceIdx)+'_'+str(positionInTrace))\
+                #   for i in range(self.formulaDepth-1,self.formulaDepth)\
                   for traceIdx, trace in enumerate(self.traces.acceptedTraces + self.traces.rejectedTraces)\
-                  for positionInTrace in range(trace.lengthOfTrace)}
+                  for positionInTrace in range(trace.lengthOfTrace)})
+        
+
+        if(self.formulaDepth > 1):
+            
+            parentOperator = self.formulaDepth - 1 
+
+            self.l.update({(parentOperator, childOperator) : Bool('l_'+str(parentOperator)+'_'+str(childOperator))\
+                                                    for childOperator in range(parentOperator)})
+            self.r.update({(parentOperator, childOperator) : Bool('r_'+str(parentOperator)+'_'+str(childOperator))\
+                                                    for childOperator in range(parentOperator)})
+
         
         
         self.solver.set(unsat_core=unsatCore)
 
-        self.exactlyOneOperator()       
-        self.firstOperatorVariable()
+        self.exactlyOneOperator() 
+
+        if(self.formulaDepth==1):      
+            self.firstOperatorVariable()
 
         self.propVariablesSemantics()
          
         self.operatorsSemantics()
         self.noDanglingVariables()
         
-        self.solver.assert_and_track(And( [ self.y[(self.formulaDepth - 1, traceIdx, 0)] for traceIdx in range(len(self.traces.acceptedTraces))] ), 'accepted traces should be accepting')
+        # the following constraints are specific to current depth of the formula
+        self.solver.push()
+        # with open("temp_"+str(self.formulaDepth)+".txt", mode='w') as f:
+        #     f.write(self.solver.to_smt2())
+
+
+
+        self.solver.assert_and_track(And( [ self.y[(self.formulaDepth - 1, traceIdx, 0)] for traceIdx in range(len(self.traces.acceptedTraces))] ), 'accepted traces should be accepting for depth %d'%(self.formulaDepth-1))
         self.solver.assert_and_track(And( [ Not(self.y[(self.formulaDepth - 1, traceIdx, 0)]) for traceIdx in range(len(self.traces.acceptedTraces), len(self.traces.acceptedTraces+self.traces.rejectedTraces))] ),\
-                                     'rejecting traces should be rejected')
+                                     'rejecting traces should be rejected for depth %d'%(self.formulaDepth-1))
+        
+        # print("Encoding complete for depth:", self.formulaDepth)
         
         
-    
-    
     def propVariablesSemantics(self):
-        for i in range(self.formulaDepth):
+        # for i in range(self.formulaDepth):
+            i=self.formulaDepth-1
             for p in self.listOfVariables:
                 for traceIdx, tr in enumerate(self.traces.acceptedTraces + self.traces.rejectedTraces):
                     self.solver.assert_and_track(Implies(self.x[(i, p)],\
@@ -118,16 +153,17 @@ class DagSATEncoding:
                                      'first operator a variable')
 
     def noDanglingVariables(self):
-        if self.formulaDepth > 0:
+        if self.formulaDepth > 1:
+            i = self.formulaDepth - 2 
             self.solver.assert_and_track(
                 And([
                     Or(
                         AtLeast([self.l[(rowId, i)] for rowId in range(i+1, self.formulaDepth)]+ [1]),
                         AtLeast([self.r[(rowId, i)] for rowId in range(i+1, self.formulaDepth)] + [1])
-                    )
-                    for i in range(self.formulaDepth - 1)]
-                ),
-                "no dangling variables"
+                    )\
+                    # for i in range(self.formulaDepth - 1)
+                    ]),
+                "no dangling variables for depth %d"%(self.formulaDepth-1)
             )
     
     def exactlyOneOperator(self):
@@ -135,19 +171,22 @@ class DagSATEncoding:
             
             self.solver.assert_and_track(And([\
                                               AtMost( [self.x[k] for k in self.x if k[0] == i] +[1])\
-                                              for i in range(self.formulaDepth)\
+                                              for i in range(self.formulaDepth-1,self.formulaDepth)\
                                               ]),\
-                                              "at most one operator per subformula"\
+                                              "at most one operator per subformula for depth %d"%(self.formulaDepth-1)\
             )
             
             self.solver.assert_and_track(And([\
                                               AtLeast( [self.x[k] for k in self.x if k[0] == i] +[1])\
-                                              for i in range(self.formulaDepth)\
+                                              for i in range(self.formulaDepth-1,self.formulaDepth)\
                                               ]),\
-                                              "at least one operator per subformula"\
+                                              "at least one operator per subformula for depth %d"%(self.formulaDepth-1)\
             )
             
-            if (self.formulaDepth > 0):
+            if (self.formulaDepth > 1):
+
+                i=self.formulaDepth - 1 
+
                 self.solver.assert_and_track(And([\
                                                 Implies(
                                                     Or(
@@ -155,12 +194,12 @@ class DagSATEncoding:
                                                     ),
                                                     AtMost( [self.l[k] for k in self.l if k[0] == i] +[1])\
                     )
-                                              for i in range(1,self.formulaDepth)\
+                                            #   for i in range(1,self.formulaDepth)\
                                               ]),\
-                                              "at most one left operator for binary and unary operators"\
+                                              "at most one left operator for binary and unary operators for depth %d"%(self.formulaDepth-1)\
             )
             
-            if (self.formulaDepth > 0):
+            # if (self.formulaDepth > 0):
                 self.solver.assert_and_track(And([\
                                                 Implies(
                                                     Or(
@@ -169,12 +208,12 @@ class DagSATEncoding:
                                                     ),
                                                     AtLeast( [self.l[k] for k in self.l if k[0] == i] +[1])\
                                                     )
-                                              for i in range(1,self.formulaDepth)\
+                                            #   for i in range(1,self.formulaDepth)\
                                               ]),\
-                                              "at least one left operator for binary and unary operators"\
+                                              "at least one left operator for binary and unary operators for depth %d"%(self.formulaDepth-1)\
             )
 
-            if (self.formulaDepth > 0):
+            # if (self.formulaDepth > 0):
                 self.solver.assert_and_track(And([ \
                     Implies(
                         Or(
@@ -182,12 +221,12 @@ class DagSATEncoding:
                         ),
                         AtMost([self.r[k] for k in self.r if k[0] == i] + [1]) \
                         )
-                    for i in range(1, self.formulaDepth) \
+                    # for i in range(1, self.formulaDepth) \
                     ]), \
-                    "at most one right operator for binary" \
+                    "at most one right operator for binary for depth %d"%(self.formulaDepth-1) \
                     )
 
-            if (self.formulaDepth > 0):
+            # if (self.formulaDepth > 0):
                 self.solver.assert_and_track(And([ \
                     Implies(
                         Or(
@@ -196,12 +235,12 @@ class DagSATEncoding:
                         ),
                         AtLeast([self.r[k] for k in self.r if k[0] == i] + [1]) \
                         )
-                    for i in range(1, self.formulaDepth) \
+                    # for i in range(1, self.formulaDepth) \
                     ]), \
-                    "at least one right operator for binary" \
+                    "at least one right operator for binary for depth %d"%(self.formulaDepth-1) \
                     )
 
-            if (self.formulaDepth > 0):
+            # if (self.formulaDepth > 0):
                 self.solver.assert_and_track(And([ \
                     Implies(
                         Or(
@@ -212,12 +251,12 @@ class DagSATEncoding:
                             Or([self.r[k] for k in self.r if k[0] == i]) \
                         )
                     )
-                    for i in range(1, self.formulaDepth) \
+                    # for i in range(1, self.formulaDepth) \
                     ]), \
-                    "no right operators for unary" \
+                    "no right operators for unary for depth %d"%(self.formulaDepth-1) \
                     )
 
-            if (self.formulaDepth > 0):
+            # if (self.formulaDepth > 0):
                 self.solver.assert_and_track(And([ \
                     Implies(
                         Or(
@@ -232,9 +271,9 @@ class DagSATEncoding:
 
                         )
                     )
-                    for i in range(1, self.formulaDepth) \
+                    # for i in range(1, self.formulaDepth) \
                     ]), \
-                    "no left or right children for variables" \
+                    "no left or right children for variables for depth %d"%(self.formulaDepth-1) \
                     )
 
 
@@ -242,8 +281,11 @@ class DagSATEncoding:
 
 
         for traceIdx, tr in enumerate(self.traces.acceptedTraces + self.traces.rejectedTraces):
-            for i in range(1, self.formulaDepth):
+            # for i in range(1, self.formulaDepth):
                 
+            if(self.formulaDepth > 1 ):
+                i = self.formulaDepth-1
+
                 if '|' in self.listOfOperators:
                     #disjunction
                      self.solver.assert_and_track(Implies(self.x[(i, '|')],\

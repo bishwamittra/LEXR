@@ -52,6 +52,9 @@ def main():
     finalDepth = int(args.maxDepth)
     traces = ExperimentTraces()
     traces.readTracesFromFile(tracesFileName)
+
+
+    
     solvingTimeout = int(args.timeout)
     #print(traces)
     timeout = int(args.timeout)

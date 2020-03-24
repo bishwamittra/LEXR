@@ -9,20 +9,23 @@ from utils.SimpleTree import Formula
 def get_models(finalDepth, traces, startValue, step, encoder, maxNumModels=1):
     results = []
     i = startValue
-    fg = encoder(i, traces)
-    fg.encodeFormula()
+    fg = encoder(traces)
+    fg.encodeFormula(i)
     while len(results) < maxNumModels and i < finalDepth:
         solverRes = fg.solver.check()
+        # pop state of SAT solver
+        fg.solver.pop()
+
         if not solverRes == sat:
             logging.debug("not sat for i = {}".format(i))
             i += step
-            fg = encoder(i, traces)
-            fg.encodeFormula()
+            # fg = encoder(traces)
+            fg.encodeFormula(i)
         else:
             solverModel = fg.solver.model()
             formula = fg.reconstructWholeFormula(solverModel)
             logging.info("found formula {}".format(formula.prettyPrint()))
-            #print("found formula {}".format(formula))
+            print("found formula {}".format(formula))
             formula = Formula.normalize(formula)
             logging.info("normalized formula {}".format(formula))
             if formula not in results:
