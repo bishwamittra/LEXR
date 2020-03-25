@@ -1,8 +1,8 @@
 import pdb
 import re
 from lark import Lark, Transformer
-symmetric_operators = ["&", "|"]
-binary_operators = ["&", "|", "U","->"]
+symmetric_operators = ["&", '|']
+binary_operators = ["&", '|', "U","->"]
 unary_operators = ["X", "F", "G", "!"]
 class SimpleTree:
     def __init__(self, label = "dummy"):
@@ -208,7 +208,7 @@ class Formula(SimpleTree):
                 _binary_expression: binary_operator "(" formula "," formula ")"
                 _unary_expression: unary_operator "(" formula ")"
                 variable: /x[0-9]*/
-                !binary_operator: "&" | "|" | "->" | "U"
+                !binary_operator: "&" | '|' | "->" | "U"
                 !unary_operator: "F" | "G" | "!" | "X"
                 
                 %import common.SIGNED_NUMBER
@@ -282,7 +282,7 @@ class TreeToFormula(Transformer):
             return Formula([str(varName[0]), None, None])
         def constant(self, arg):
             if str(arg[0]) == "true":
-                connector = "|"
+                connector = '|'
             elif str(arg[0]) == "false":
                 connector = "&"
             return Formula([connector, Formula(["x0", None, None]), Formula(["!", Formula(["x0", None, None] ), None])])

@@ -136,8 +136,8 @@ class AtomBuilder:
                 atomBuildingTraces = ExperimentTraces(tracesToAccept= positiveTraces, tracesToReject = negativeTraces)
                 formula = None
                 for d in range(1, maxDepth+1):
-                    fg = config.encoder(d, atomBuildingTraces)
-                    fg.encodeFormula()
+                    fg = config.encoder(atomBuildingTraces)
+                    fg.encodeFormula(d)
                     
                     if fg.solver.check() == sat:
                         logging.info("depth %d: sat"%d)
@@ -148,7 +148,9 @@ class AtomBuilder:
                         break
                     elif fg.solver.check() == unsat:
                         logging.info("depth %d: unsat"% d)
-                
+                    
+                    fg.solver.pop()
+
                 self.atomTraceEvaluation[formula] = {}
                 for exampleTrace in self.positiveExamples+self.negativeExamples:
                     self.atomTraceEvaluation[formula][exampleTrace] = exampleTrace.evaluateFormulaOnTrace(formula)

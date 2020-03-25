@@ -5,8 +5,8 @@ except:
     from traces2LTL.utils.SimpleTree import SimpleTree
 
 def test_basic():
-    root = SimpleTree(label="|")
-    root.addChildren("|", "x2")
+    root = SimpleTree(label='|')
+    root.addChildren('|', "x2")
     left = root.left
     left.addChildren("x0", "x1")
     

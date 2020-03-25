@@ -191,7 +191,7 @@ class ExperimentTraces:
 
     def _flieTraceToTrace(self, tracesString):
         try:
-            (initPart, lasso) = tracesString.split("|")
+            (initPart, lasso) = tracesString.split('|')
         except:
             raise Exception("every trace has to have initial part and a lasso part")
         initPart = initPart.split(";")
@@ -204,7 +204,7 @@ class ExperimentTraces:
 
         for tr in data:
             try:
-                (initPart, lasso) = tr.split("|")
+                (initPart, lasso) = tr.split('|')
             except:
                 raise Exception("every trace has to have initial part and a lasso part")
             initPart = initPart.split(";")
