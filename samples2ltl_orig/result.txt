@@ -1,0 +1,5 @@
+repeatation of '01'
+(! (((X x0) -> x0) | (X (X ((X x0) -> x0)))))
+
+
+do not contain '000'

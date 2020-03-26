@@ -1,12 +1,14 @@
 import pdb
 from z3 import *
 import argparse
-from smtEncoding.dagSATEncoding import DagSATEncoding
+from samples2ltl_orig.smtEncoding.dagSATEncoding import DagSATEncoding
 import os
-from solverRuns import run_solver, run_dt_solver
-from utils.Traces import Trace, ExperimentTraces
+from samples2ltl_orig.solverRuns import run_solver, run_dt_solver
+from samples2ltl_orig.utils.Traces import Trace, ExperimentTraces
 from multiprocessing import Process, Queue
 import logging
+from samples2ltl_orig.utils.SimpleTree import SimpleTree
+
 
 def helper(m, d, vars):
     tt = { k : m[vars[k]] for k in vars if k[0] == d }
@@ -19,7 +21,7 @@ def main():
     
     
     parser = argparse.ArgumentParser()
-    parser.add_argument("--traces", dest="tracesFileName", default="traces/dummy.trace")
+    parser.add_argument("--traces", dest="tracesFileName", default="samples2ltl_orig/traces/dummy.trace")
     parser.add_argument("--max_depth", dest="maxDepth", default='8')
     parser.add_argument("--start_depth", dest="startDepth", default='1')
     parser.add_argument("--max_num_formulas", dest="numFormulas", default='1')
@@ -50,8 +52,11 @@ def main():
     iterationStep = int(args.iterationStep)
     traces.readTracesFromFile(args.tracesFileName)
     finalDepth = int(args.maxDepth)
-    traces = ExperimentTraces()
-    traces.readTracesFromFile(tracesFileName)
+    # traces = ExperimentTraces()
+    # traces.readTracesFromFile(tracesFileName)
+    
+    # print(traces)
+    
     solvingTimeout = int(args.timeout)
     #print(traces)
     timeout = int(args.timeout)
@@ -66,7 +71,10 @@ def main():
         logging.info("timePassed: {0}, numAtoms: {1}, numPrimitives: {2}".format(str(timePassed), str(numAtoms), str(numPrimitives)))
         
     
-
+    # consistency check
+    for formula in formulas:
+        print("consistency check: ",traces.isFormulaConsistent(formula))
+    
             
 
 if __name__ == "__main__":

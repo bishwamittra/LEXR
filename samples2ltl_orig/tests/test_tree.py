@@ -1,8 +1,10 @@
 import pdb
+import sys
+sys.path.append("..")
 try:
     from utils.SimpleTree import SimpleTree
 except:
-    from traces2LTL.utils.SimpleTree import SimpleTree
+    from samples2ltl_orig.utils.SimpleTree import SimpleTree
 
 def test_basic():
     root = SimpleTree(label="|")

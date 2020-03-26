@@ -1,35 +1,57 @@
 import pdb
-from utils.SimpleTree import SimpleTree, Formula
+from samples2ltl_orig.utils.SimpleTree import SimpleTree, Formula
 import io
 
 
+# def lineToTrace(line):
+#     lassoStart = None
+#     try:
+#         traceData, lassoStart = line.split('::')
+#     except:
+#         traceData = line
+#     traceVector = [[bool(int(varValue)) for varValue in varsInTimestep.split(',')] for varsInTimestep in
+#                    traceData.split(';')]
+#     trace = Trace(traceVector, lassoStart)
+#     return trace
+
 def lineToTrace(line):
-    lassoStart = None
-    try:
-        traceData, lassoStart = line.split('::')
-    except:
-        traceData = line
+    traceData = line
     traceVector = [[bool(int(varValue)) for varValue in varsInTimestep.split(',')] for varsInTimestep in
                    traceData.split(';')]
-    trace = Trace(traceVector, lassoStart)
+    trace = Trace(traceVector)
     return trace
 
 
+
 class Trace:
-    def __init__(self, traceVector, lassoStart=None, intendedEvaluation=None, literals=None):
+    # def __init__(self, traceVector, lassoStart=None, intendedEvaluation=None, literals=None):
+
+    #     self.lengthOfTrace = len(traceVector)
+    #     self.intendedEvaluation = intendedEvaluation
+    #     if lassoStart != None:
+    #         self.lassoStart = int(lassoStart)
+    #         if self.lassoStart >= self.lengthOfTrace:
+    #             pdb.set_trace()
+    #             raise Exception(
+    #                 "lasso start = %s is greater than any value in trace (trace length = %s) -- must be smaller" % (
+    #                 self.lassoStart, self.lengthOfTrace))
+    #     else:
+    #         self.lassoStart = 0
+    #     assert self.lengthOfTrace > 0 and self.lassoStart <= self.lengthOfTrace
+    #     self.numVariables = len(traceVector[0])
+    #     self.traceVector = traceVector
+    #     if literals == None:
+    #         # pdb.set_trace()
+    #         self.literals = ["x" + str(i) for i in range(self.numVariables)]
+    #     else:
+    #         self.literals = literals
+    
+    def __init__(self, traceVector, intendedEvaluation=None, literals=None):
 
         self.lengthOfTrace = len(traceVector)
         self.intendedEvaluation = intendedEvaluation
-        if lassoStart != None:
-            self.lassoStart = int(lassoStart)
-            if self.lassoStart >= self.lengthOfTrace:
-                pdb.set_trace()
-                raise Exception(
-                    "lasso start = %s is greater than any value in trace (trace length = %s) -- must be smaller" % (
-                    self.lassoStart, self.lengthOfTrace))
-        else:
-            self.lassoStart = 0
-        assert self.lengthOfTrace > 0 and self.lassoStart <= self.lengthOfTrace
+
+        assert self.lengthOfTrace > 0
         self.numVariables = len(traceVector[0])
         self.traceVector = traceVector
         if literals == None:
@@ -38,26 +60,44 @@ class Trace:
         else:
             self.literals = literals
 
+
+    # def __repr__(self):
+    #     return repr(self.traceVector) + "\n" + repr(self.lassoStart) + "\n\n"
+
     def __repr__(self):
-        return repr(self.traceVector) + "\n" + repr(self.lassoStart) + "\n\n"
+        return repr([{self.literals[i]: self.traceVector[t][i] for i in range(len(self.literals))} for t in range(self.lengthOfTrace)])
+
+
+    # def nextPos(self, currentPos):
+    #     if currentPos == self.lengthOfTrace - 1:
+    #         return self.lassoStart
+    #     else:
+    #         return currentPos + 1
 
     def nextPos(self, currentPos):
         if currentPos == self.lengthOfTrace - 1:
-            return self.lassoStart
+            raise ValueError
         else:
             return currentPos + 1
 
 
+
+
+    # def futurePos(self, currentPos):
+    #     futurePositions = []
+    #     alreadyGathered = set()
+    #     while currentPos not in alreadyGathered:
+    #         futurePositions.append(currentPos)
+    #         alreadyGathered.add(currentPos)
+    #         currentPos = self.nextPos(currentPos)
+    #     # always add a new one so that all the next-relations are captured
+    #     futurePositions.append(currentPos)
+    #     return futurePositions
+
     def futurePos(self, currentPos):
-        futurePositions = []
-        alreadyGathered = set()
-        while currentPos not in alreadyGathered:
-            futurePositions.append(currentPos)
-            alreadyGathered.add(currentPos)
-            currentPos = self.nextPos(currentPos)
-        # always add a new one so that all the next-relations are captured
-        futurePositions.append(currentPos)
-        return futurePositions
+        return list(range(currentPos,self.lengthOfTrace))
+
+
 
     def evaluateFormulaOnTrace(self, formula):
 
@@ -102,7 +142,13 @@ class Trace:
                                                                                                 self.nextPos(timestep))) \
                            )
             elif label == 'X':
-                return self.truthValue(formula.left, self.nextPos(timestep))
+                # return self.truthValue(formula.left, self.nextPos(timestep))
+                if timestep == self.lengthOfTrace - 1:
+                    return False
+                else:
+                    return self.truthValue(formula.left, self.nextPos(timestep))
+
+
 
 
 defaultOperators = ['G', 'F', '!', 'U', '&', '|', '->', 'X']
@@ -142,10 +188,12 @@ class ExperimentTraces:
         if f == None:
             return True
         for accTrace in self.acceptedTraces:
+            # print(accTrace)
             if accTrace.evaluateFormulaOnTrace(f) == False:
                 return False
 
         for rejTrace in self.rejectedTraces:
+            # print(rejTrace)
             if rejTrace.evaluateFormulaOnTrace(f) == True:
                 return False
         return True

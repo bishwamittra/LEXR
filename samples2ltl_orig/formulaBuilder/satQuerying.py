@@ -1,10 +1,10 @@
-from smtEncoding.dagSATEncoding import DagSATEncoding
+from samples2ltl_orig.smtEncoding.dagSATEncoding import DagSATEncoding
 from z3 import *
 import sys
 import pdb
 import traceback
 import logging
-from utils.SimpleTree import Formula
+from samples2ltl_orig.utils.SimpleTree import Formula
 
 def get_models(finalDepth, traces, startValue, step, encoder, maxNumModels=1):
     results = []

@@ -1,6 +1,7 @@
-from utils.Traces import Trace, ExperimentTraces
 import glob
-
+import sys
+sys.path.append("..")
+from utils.Traces import Trace, ExperimentTraces
 testTracesFolder ='traces/tests/'
 
 

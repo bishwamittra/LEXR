@@ -4,7 +4,7 @@ from IPython.display import display
 import functools
 from copy import deepcopy, copy
 import itertools
-import Lstar
+import lstar_extraction.Lstar
 from random import randint, shuffle
 import random
 from time import clock

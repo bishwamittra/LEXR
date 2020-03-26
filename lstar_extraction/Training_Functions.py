@@ -1,4 +1,4 @@
-from Helper_Functions import n_words_of_length
+from lstar_extraction.Helper_Functions import n_words_of_length
 
 def make_train_set_for_target(target,alphabet,lengths=None,max_train_samples_per_length=300,search_size_per_length=1000,provided_examples=None):
     train_set = {}
@@ -35,14 +35,34 @@ def mixed_curriculum_train(rnn,train_set,outer_loops=3,stop_threshold=0.001,lear
             rnn.train_group(training,length_epochs,show=False,loss_every=20,stop_threshold=stop_threshold,
                             learning_rate=learning_rate,batch_size=None,print_time=False)
         # all together but in batches
-        if rnn.finish_signal == rnn.train_group(train_set,random_batch_epochs,show=True,loss_every=20,
+        if rnn.finish_signal == rnn.train_group(train_set,random_batch_epochs,show=False,loss_every=20,
                                                 stop_threshold = stop_threshold,
                                                 learning_rate=learning_rate,
                                                 batch_size=random_batch_size,print_time=False):
             break
         # all together in one batch
-        if rnn.finish_signal == rnn.train_group(train_set,single_batch_epochs,show=True,loss_every=20,
+        if rnn.finish_signal == rnn.train_group(train_set,single_batch_epochs,show=False,loss_every=20,
                                                 stop_threshold = stop_threshold,
                                                 learning_rate=learning_rate,batch_size=None,print_time=False): 
             break
     print("classification loss on last batch was:",rnn.all_losses[-1])
+
+
+def make_test_set(alphabet, lengths=None, max_test_samples_per_length=10,search_size_per_length=10,provided_examples=None):
+    samples=[]
+    if None is provided_examples:
+        provided_examples = []
+    if None is lengths:
+        lengths = list(range(15))+[15,20,25,30] 
+
+
+    # Warning!! the following code done not make much sense 
+    for l in lengths:
+        samples += [w for w in provided_examples if len(w)==l]
+        samples += n_words_of_length(search_size_per_length,l,alphabet)
+
+    print("made test set of size:",len(samples))
+    # for example in samples:
+    #     print(len(example))
+
+    return samples

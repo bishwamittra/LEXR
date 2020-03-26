@@ -1,6 +1,6 @@
-from LSTM import LSTMNetwork
-from GRU import GRUNetwork
-from LinearTransform import LinearTransform
+from lstar_extraction.LSTM import LSTMNetwork
+from lstar_extraction.GRU import GRUNetwork
+from lstar_extraction.LinearTransform import LinearTransform
 import dynet as dy
 from time import clock
 import random
@@ -102,7 +102,7 @@ class RNNClassifier:
         plt.show()
 
     def train_group(self,word_dict,iterations,trainer_class=dy.AdamTrainer,learning_rate=None,loss_every=100,
-                    batch_size=20,show=True,print_time=True,stop_threshold=0):
+                    batch_size=20,show=False,print_time=True,stop_threshold=0):
         if iterations == 0:
             return
         start = clock()

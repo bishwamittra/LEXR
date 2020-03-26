@@ -1,6 +1,7 @@
 import glob
 import sys
 import pdb
+sys.path.append("..")
 from z3 import *
 
 from smtEncoding.treeSATEncoding import TreeSATEncoding

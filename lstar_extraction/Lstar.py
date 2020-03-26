@@ -1,5 +1,5 @@
-from ObservationTable import ObservationTable
-import DFA
+from lstar_extraction.ObservationTable import ObservationTable
+import lstar_extraction.DFA as DFA
 from time import clock
 
 def run_lstar(teacher,time_limit):

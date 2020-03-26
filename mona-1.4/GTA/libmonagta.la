@@ -17,7 +17,7 @@ old_library='libmonagta.a'
 inherited_linker_flags=' '
 
 # Libraries that this one depends upon.
-dependency_libs=' /Users/Bishwamittra/Desktop/mpi/mona-1.4/BDD/libmonabdd.la /Users/Bishwamittra/Desktop/mpi/mona-1.4/Mem/libmonamem.la'
+dependency_libs=' /Users/Bishwamittra/Desktop/explainableRNN/scripts/mona-1.4/BDD/libmonabdd.la /Users/Bishwamittra/Desktop/explainableRNN/scripts/mona-1.4/Mem/libmonamem.la'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''

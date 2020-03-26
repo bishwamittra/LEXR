@@ -1,5 +1,5 @@
 import dynet as dy
-from Helper_Functions import map_nested_dict
+from lstar_extraction.Helper_Functions import map_nested_dict
 
 class GRUCell: 
     def __init__(self,input_dim,output_dim,pc):
