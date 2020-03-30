@@ -1,9 +1,0 @@
-#!/bin/sh
-set -x
-rm -f config.cache
-mkdir -p m4
-aclocal
-autoheader
-libtoolize --copy --force
-automake --add-missing --copy
-autoconf

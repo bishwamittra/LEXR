@@ -29,6 +29,7 @@ class DotHandler:
             exit()
 
     def delete_intermediate_automaton(self):
+        # return True
         if os.path.isfile(self.dot_path):
             os.remove(self.dot_path)
             return True
@@ -45,3 +46,18 @@ class DotHandler:
                 raise IOError('[ERROR] - Something wrong occurred in the elimination of intermediate automaton.')
         except IOError:
             print('[ERROR] - Problem with the opening of the file %s!' %result_path)
+
+
+    def extractDFA(self):
+        nodes=self.new_digraph.get_nodes()
+        print("\nnodes:")
+        for node in nodes:
+            print(node.get_name(), node.attr_list, node)
+        print("\nedges:")
+        edges=self.new_digraph.get_edges()
+        for edge in edges:
+            print(edge.get_source(),  edge.get_destination(),edge.get_label())
+        
+        pass
+
+        

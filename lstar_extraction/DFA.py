@@ -22,6 +22,7 @@ class DFA:
         self.q0 = obs_table.minimum_matching_row("")
         self.F = [s for s in self.Q if obs_table.T[s]== 1]
         self._make_transition_function(obs_table)
+        
 
     def _make_transition_function(self,obs_table):
         self.delta = {}
@@ -36,6 +37,10 @@ class DFA:
         for a in word:
             q = self.delta[q][a]
         return q in self.F
+
+    def __repr__(self):
+        return '\n'.join(" - %s: %s" % (item, value) for (item, value) in vars(self).items() if "__" not in item)
+
 
     def draw_nicely(self,force=False,maximum=60): #todo: if two edges are identical except for letter, merge them and note both the letters
         if (not force) and len(self.Q) > maximum:

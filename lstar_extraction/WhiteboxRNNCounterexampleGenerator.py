@@ -105,6 +105,7 @@ class WhiteboxRNNCounterexampleGenerator:
                 and not self.partitioning.get_partition(split.conflicted_RState) == old_cluster
 
     def counterexample(self,dfa): 
+        print("definitely this is called")
         print("guided starting equivalence query for DFA of size " + str(len(dfa.Q)))
         dfa.draw_nicely(maximum=30)
         counterexample = self._cex_from_starting_dict(dfa)
@@ -121,6 +122,7 @@ class WhiteboxRNNCounterexampleGenerator:
                     return None, "lstar successful: unrolling seems equivalent to proposed automaton"
                 counterexample, split = self._process_top_pair() # always returns a cex, or a split, or neither - but never both
                 if not None is counterexample:
+                    print("Found counterexample, that is "+ ("accepted" if dfa.classify_word(counterexample)==True else "rejected")+" by the dfa")
                     return counterexample,counterexample_message(counterexample,self.whiteboxrnn)
                 elif split.has_info:
                     cluster_being_split = self.partitioning.get_partition(split.agreeing_RStates[0])
@@ -137,7 +139,7 @@ class WhiteboxRNNCounterexampleGenerator:
 def counterexample_message(counterexample,rnn):
     return ("returning counterexample of length " + str(len(counterexample)) + ":\t\t" + counterexample + 
         ", this counterexample is " + ("accepted" if rnn.classify_word(counterexample)==True else "rejected") + 
-        " by the given RNN.")
+        " by the given RNN." )
 
 class SplitInfo: #todo: move this to quantisations and just give the whole thing over to the relevant function there, instead of unpacking it to 3 parameters here
     def __init__(self,agreeing_RStates=None,conflicted_RState=None):

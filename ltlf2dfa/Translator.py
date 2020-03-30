@@ -84,6 +84,7 @@ class Translator:
 
     def translate(self):
         self.translated_formula = translate_bis(self.parsed_formula, self.formulaType, var='v_0')+";\n"
+        # print(self.translated_formula)
 
     def buildMonaProgram(self, flag_for_declare):
         if not self.alphabet and not self.translated_formula:
@@ -105,13 +106,13 @@ class Translator:
     def createMonafile(self, flag):
         program = self.buildMonaProgram(flag)
         try:
-            with open('./automa.mona', 'w+') as file:
+            with open('./ltlf2dfa/automa.mona', 'w+') as file:
                 file.write(program)
                 file.close()
         except IOError:
             print('Problem with the opening of the file!')
 
-    def invoke_mona(self, path='./inter-automa'):
+    def invoke_mona(self, path='./ltlf2dfa/automa'):
         if sys.platform == 'linux':
             package_dir = os.path.dirname(os.path.abspath(__file__))
             mona_path = pkg_resources.resource_filename('ltlf2dfa','mona')
@@ -129,7 +130,8 @@ class Translator:
                 exit()
         else:
             try:
-                subprocess.call('mona -u -gw ./automa.mona > ' + path + '.dot', shell=True)
+                subprocess.call('mona -w -n -q ./ltlf2dfa/automa.mona > ' + path + '.log', shell=True)
+                subprocess.call('mona -u -gw ./ltlf2dfa/automa.mona > inter-automa.dot', shell=True)
             except subprocess.CalledProcessError as e:
                 print(e)
                 exit()

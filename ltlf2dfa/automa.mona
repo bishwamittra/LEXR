@@ -1,3 +1,0 @@
-m2l-str;
-var2 A, B;
-( ex1 v_1: 0 <= v_1 & v_1 <= max($) & ( ex1 v_2: v_1 <= v_2 & v_2 <= max($) & v_2 in B & all1 v_3: v_1 <= v_3 & v_3 < v_2 => v_3 in A ) );
