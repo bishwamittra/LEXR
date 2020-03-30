@@ -21,18 +21,20 @@ def to_trace(example,length_alphabet, char_to_int):
 
 
 # make training set
-target = tomita_1
-alphabet = "01"
-train_set = make_train_set_for_target(target,alphabet)
+# target = tomita_1
+# alphabet = "01"
+# train_set = make_train_set_for_target(target,alphabet)
 
 
 # define the manual labelling of words
-# def target(w):
-#     if("a" in w):
-#         return True
-#     return False
-# alphabet = "abc"
-# train_set = make_train_set_for_target(target,alphabet)
+def target(w):
+    if("a" in w):
+        return True
+    return False
+alphabet = "ab"
+train_set = make_train_set_for_target(target,alphabet)
+
+
 
 # define rnn
 rnn = RNNClassifier(alphabet,num_layers=1,hidden_dim=10,RNNClass = LSTMNetwork)
@@ -56,8 +58,10 @@ for example in test_set:
     else:
         negative_example.append(example)
 
+positive_example=positive_example[:10]
+negative_example=negative_example[:10]
+
 # write positive and negative examples as a traces in a file
-alphabet="01"
 alphabet_length=len(alphabet)
 # define a mapping of chars to integers
 char_to_int = dict((c, i) for i, c in enumerate(alphabet))
@@ -87,7 +91,7 @@ starting_examples = [w for w in [pos,neg] if not None == w]
 
 rnn.renew()  
 
-dfa = extract(rnn,time_limit = 50,initial_split_depth = 10,starting_examples=starting_examples)
+# dfa = extract(rnn,time_limit = 50,initial_split_depth = 10,starting_examples=starting_examples)
 
 
 

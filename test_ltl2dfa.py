@@ -13,30 +13,34 @@ def parseFormula():
     print(parsed_formula)
 
 
-def translate_ltl2dfa():
-    formula = "F(aUb)"
+def translate_ltl2dfa(alphabet, formula=None):
+    if(formula is None):
+        formula = "F(a)"
     declare_flag = False  # True if you want to compute DECLARE assumption for the formula
-    translator = Translator(formula)
+    translator = Translator(formula,alphabet)
     translator.formula_parser()
     translator.translate()
     translator.createMonafile(declare_flag)  # it creates automa.mona file
     translator.invoke_mona()  # it returns an intermediate automa.dot file
 
+    # print("\nLearning DFA from LTL")
     dfa = DFA()
     dfa.read_from_log()
-    print(dfa)
-    print(dfa.classify_word('aaa'))
+    # print(dfa)
+    # print(dfa.classify_word('aaa'))
 
     dotHandler = DotHandler()
     dotHandler.modify_dot()
     dotHandler.output_dot() #it returns the final automa.dot file
 
-    # clean
+    # # clean
     # os.system("./clean.sh")
 
     # dotHandler.extractDFA()
 
+    return dfa
+
 
 if __name__ == "__main__":
     # parseFormula()
-    translate_ltl2dfa()
+    print(translate_ltl2dfa(alphabet=['a','b']))

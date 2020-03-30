@@ -6,11 +6,13 @@ import pkg_resources
 
 class Translator:
 
-    def __init__(self, formula):
+    def __init__(self, formula, alphabet):
         self.headerMona = "m2l-str;\n"
         self.alphabet = []
         self.formula_to_be_parsed = formula
         self.formulaType = self.search_mixed_formula()
+        self.alphabet=alphabet
+        # self.alphabet=[character.upper() for character in alphabet]
         self.parsed_formula = None
         self.translated_formula = None
 
@@ -61,9 +63,9 @@ class Translator:
     def compute_alphabet(self):
 
         symbols = re.findall('(?<![a-z])(?!true|false)[_a-z0-9]+', str(self.formula_to_be_parsed))
-        _symbols = self.rem_duplicates_order(symbols)
+        _symbols = self.rem_duplicates_order(symbols+self.alphabet)
         self.alphabet = [character.upper() for character in _symbols]
-
+        
     def compute_declare_assumption(self):
         pairs = list(it.combinations(self.alphabet, 2))
 

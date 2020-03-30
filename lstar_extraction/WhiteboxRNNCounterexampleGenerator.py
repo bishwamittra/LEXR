@@ -66,9 +66,18 @@ class WhiteboxRNNCounterexampleGenerator:
             for char in self.proposed_dfa.alphabet:
                 next_RState, pos = self.whiteboxrnn.get_next_RState(RState, char)
                 path = state_info.paths[0] + char
+
+                # convert char to appropriate format in proposed_dfa
+                transition_input=""
+                for symbol in self.proposed_dfa.alphabet:
+                    if(symbol==char):
+                        transition_input+='1'
+                    else:
+                        transition_input+='0'
+
                 # we only ever explore a state the first
                 # time we find it, so, with the first path in its list of reaching paths
-                next_dfa_state = self.proposed_dfa.delta[state_info.dfa_state][char]
+                next_dfa_state = self.proposed_dfa.delta[state_info.dfa_state][transition_input]
                 self.new_RStates.append(UnrollingInfo(next_dfa_state,path,next_RState,pos))
 
     def _process_top_pair(self):
@@ -105,9 +114,8 @@ class WhiteboxRNNCounterexampleGenerator:
                 and not self.partitioning.get_partition(split.conflicted_RState) == old_cluster
 
     def counterexample(self,dfa): 
-        print("definitely this is called")
         print("guided starting equivalence query for DFA of size " + str(len(dfa.Q)))
-        dfa.draw_nicely(maximum=30)
+        # dfa.draw_nicely(maximum=30)
         counterexample = self._cex_from_starting_dict(dfa)
         if not None is counterexample:
             return counterexample,counterexample_message(counterexample,self.whiteboxrnn)

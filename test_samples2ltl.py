@@ -17,11 +17,11 @@ def helper(m, d, vars):
 
 
  
-def main():
+def learnLTL(tracesFileName="samples2ltl_orig/traces/dummy.trace"):
     
     
     parser = argparse.ArgumentParser()
-    parser.add_argument("--traces", dest="tracesFileName", default="samples2ltl_orig/traces/dummy.trace")
+    # parser.add_argument("--traces", dest="tracesFileName", default="samples2ltl_orig/traces/dummy.trace")
     parser.add_argument("--max_depth", dest="maxDepth", default='8')
     parser.add_argument("--start_depth", dest="startDepth", default='1')
     parser.add_argument("--max_num_formulas", dest="numFormulas", default='1')
@@ -29,9 +29,11 @@ def main():
     parser.add_argument("--test_dt_method", dest="testDtMethod", default=False, action='store_true')
     parser.add_argument("--test_sat_method", dest="testSatMethod", default=False, action='store_true')
     parser.add_argument("--timeout", dest="timeout", default=600, help="timeout in seconds")
+    # parser.add_argument("--log", dest="loglevel", default="INFO")
     parser.add_argument("--log", dest="loglevel", default="INFO")
+    
     args,unknown = parser.parse_known_args()
-    tracesFileName = args.tracesFileName
+    # tracesFileName = args.tracesFileName
     
     
     """
@@ -41,8 +43,8 @@ def main():
      - each time point is a list of variable values (x1,..., xk) 
     """
     
-    numeric_level = args.loglevel.upper()
-    logging.basicConfig(level=numeric_level)
+    # numeric_level = args.loglevel.upper()
+    # logging.basicConfig(level=numeric_level)
 
     
     maxDepth = int(args.maxDepth)
@@ -50,7 +52,7 @@ def main():
     startDepth = int(args.startDepth)
     traces = ExperimentTraces()
     iterationStep = int(args.iterationStep)
-    traces.readTracesFromFile(args.tracesFileName)
+    traces.readTracesFromFile(tracesFileName)
     finalDepth = int(args.maxDepth)
     # traces = ExperimentTraces()
     # traces.readTracesFromFile(tracesFileName)
@@ -60,9 +62,15 @@ def main():
     solvingTimeout = int(args.timeout)
     #print(traces)
     timeout = int(args.timeout)
-    if args.testSatMethod == True:
-        [formulas, timePassed] = run_solver(finalDepth=maxDepth, traces=traces, maxNumOfFormulas = numFormulas, startValue=startDepth, step=iterationStep)
-        logging.info("formulas: "+str([f.prettyPrint(f) for f in formulas])+", timePassed: "+str(timePassed))
+
+
+    # print("\n\nLearning LTL: (start) ")
+    # if args.testSatMethod == True:
+    [formulas, timePassed] = run_solver(finalDepth=maxDepth, traces=traces, maxNumOfFormulas = numFormulas, startValue=startDepth, step=iterationStep)
+    logging.info("formulas: "+str([f.prettyPrint(f) for f in formulas])+", timePassed: "+str(timePassed))
+
+
+    # print("Learning LTL: (complete)\n")
         
     
     if args.testDtMethod == True:
@@ -73,10 +81,11 @@ def main():
     
     # consistency check
     for formula in formulas:
-        print("consistency check: ",traces.isFormulaConsistent(formula))
+        # print("consistency check: ",traces.isFormulaConsistent(formula))
+        assert traces.isFormulaConsistent(formula), "Error! formula not consistent with given traces"
     
-            
+    return formulas      
 
 if __name__ == "__main__":
-    main()
+    learnLTL
 

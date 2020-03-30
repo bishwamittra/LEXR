@@ -23,7 +23,7 @@ class DFA:
             elif(line.startswith("Accepting states: ")):
                 line = line.split("Accepting states: ", 1)[1][:-1].strip()
                 if(" " in line):
-                    print(line+".")
+                    # print(line+".")
                     self.F = list(map(int, line.split(" ")))
                 else:
                     self.F = [int(line)]
@@ -77,24 +77,34 @@ class DFA:
     #         del(self.delta[0])
     #     pass
 
+        
+
     def classify_word(self, word):
         # simulate a run and then look at the reached state. If the reached state is in the set of final states, then classify positive
         # else classify negative. 
 
         word=word.lower()
         q=self.q0
-        while(word):
-            
-            transition_input=""
-            for symbol in self.alphabet:
-                if(symbol==word[0]):
-                    transition_input+='1'
-                else:
-                    transition_input+='0'
-            word=word[1:]
-            
-            # make transition
+
+        # special case
+        if(len(word)==0):
+            transition_input=''.join("0" for _ in self.alphabet)
+
+            #make transition
             q=self.delta[q][transition_input]
+        else:
+            while(word):
+                
+                transition_input=""
+                for symbol in self.alphabet:
+                    if(symbol==word[0]):
+                        transition_input+='1'
+                    else:
+                        transition_input+='0'
+                word=word[1:]
+                
+                # make transition
+                q=self.delta[q][transition_input]
             
         if(q in self.F):
             return True
@@ -102,3 +112,43 @@ class DFA:
 
     def __repr__(self):
         return "DFA:->\n"+'\n'.join(" - %s: %s" % (item, value) for (item, value) in vars(self).items() if "__" not in item)
+
+
+    def minimal_diverging_suffix(self,state1,state2): 
+        '''
+        From the implementation of lstar_extraction
+        '''
+        #gets series of letters showing the two states are different,
+        # i.e., from which one state reaches accepting state and the other reaches rejecting state
+        # assumes of course that the states are in the automaton and actually not equivalent
+        res = None
+        # just use BFS til you reach an accepting state
+        # after experiments: attempting to use symmetric difference on copies with s1,s2 as the starting state, or even
+        # just make and minimise copies of this automaton starting from s1 and s2 before starting the BFS,
+        # is slower than this basic BFS, so don't
+        seen_states = set()
+        new_states = {("",(state1,state2))}
+        while len(new_states) > 0:
+            prefix,state_pair = new_states.pop()
+            s1,s2 = state_pair
+            if len([q for q in [s1,s2] if q in self.F])== 1: # intersection of self.F and [s1,s2] is exactly one state,
+                # meaning s1 and s2 are classified differently
+                res = prefix
+                break
+            seen_states.add(state_pair)
+            for char in self.alphabet:
+
+                # convert char to appropriate format in proposed_dfa
+                transition_input=""
+                for symbol in self.alphabet:
+                    if(symbol==char):
+                        transition_input+='1'
+                    else:
+                        transition_input+='0'
+
+
+                next_state_pair = (self.delta[s1][transition_input],self.delta[s2][transition_input])
+                next_tuple = (prefix+char,next_state_pair)
+                if not next_tuple in new_states and not next_state_pair in seen_states:
+                    new_states.add(next_tuple)
+        return res

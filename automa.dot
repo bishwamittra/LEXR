@@ -1,0 +1,20 @@
+digraph MONA_DFA {
+rankdir = LR;
+center = true;
+size = "7.5,10.5";
+edge [fontname = Courier];
+node [height = 0.5, width = 0.5];
+node [shape = doublecircle];
+3;
+node [shape = circle];
+1;
+2;
+node [shape = box];
+init [shape = plaintext, label = ""];
+1 -> 1 [label = "0\nX\nX"];
+1 -> 2 [label = "1\nX\nX"];
+2 -> 1 [label = "0\nX\nX"];
+2 -> 3 [label = "1\nX\nX"];
+3 -> 3 [label = "X\nX\nX"];
+init -> 1;
+}

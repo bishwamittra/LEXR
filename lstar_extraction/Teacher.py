@@ -9,6 +9,7 @@ class Teacher:
         self.recorded_words = {} # observation table uses this as its T (according to angluin paper terminology)
         self.discretiser = SVMDecisionTreeQuantisation(num_dims_initial_split)
         self.counterexample_generator = WhiteboxRNNCounterexampleGenerator(network,self.discretiser,starting_examples)
+        self.ltl_formulas =[]
         self.dfas = []
         self.counterexamples_with_times = []
         self.current_ce_count = 0
@@ -23,7 +24,8 @@ class Teacher:
     def classify_word(self, w):
         return self.network.classify_word(w)
 
-    def equivalence_query(self, dfa):
+    def equivalence_query(self, dfa,ltl):
+        self.ltl_formulas.append(ltl)
         self.dfas.append(dfa)
         start = clock()
         counterexample,message = self.counterexample_generator.counterexample(dfa)
