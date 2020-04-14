@@ -45,6 +45,6 @@ def tomita_9(word):
         return True
 
 def tomita_10(word):
-    return "aa" in word
+    return not "aa" in word
 
 

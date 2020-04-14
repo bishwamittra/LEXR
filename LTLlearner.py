@@ -85,7 +85,10 @@ def learnLTL(tracesFileName="dummy.trace", startDepth=1):
     # consistency check
     for formula in formulas:
         # print("consistency check: ",traces.isFormulaConsistent(formula))
-        assert traces.isFormulaConsistent(formula), "Error! formula not consistent with given traces"
+        if(not traces.isFormulaConsistent(formula)):
+            print("probably wrong formula:", formula.prettyPrint())
+            print(traces)
+            raise ArgumentError
     
     return formulas, formula_depth     
 

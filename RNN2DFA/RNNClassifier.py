@@ -137,3 +137,23 @@ class RNNClassifier:
             plt.show()
             self.show_all_losses()
         return self.finish_signal if loss_values[-1] < stop_threshold else self.keep_going
+
+
+
+    ################################################
+    ################################################
+    #
+    # Igor additions:
+    #
+    ################################################
+    ################################################
+
+    def is_word_letter_by_letter(self, letter):
+        self.current_state = self._next_state(self.current_state, letter)
+        return self._state_accept_probability(self.current_state).value() > 0.5
+
+    def is_word_in(self, word):
+        return self.classify_word(word)
+
+    def reset_current_to_init(self):
+        self.current_state = self.rnn.initial_state
