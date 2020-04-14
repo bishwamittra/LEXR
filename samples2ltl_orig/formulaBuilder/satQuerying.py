@@ -6,17 +6,21 @@ import traceback
 import logging
 from samples2ltl_orig.utils.SimpleTree import Formula
 
-def get_models(finalDepth, traces, startValue, step, encoder, maxNumModels=1):
+def get_models(finalDepth, traces, startValue, step, encoder, maxNumModels=1, verbose=True):
+
+    if(verbose):
+        print("start formula depth:", startValue)
+
     results = []
     i = startValue
-    fg = encoder(i, traces)
+    fg = encoder(i, traces, optimization=False)
     fg.encodeFormula()
     while len(results) < maxNumModels and i < finalDepth:
         solverRes = fg.solver.check()
         if not solverRes == sat:
             logging.debug("not sat for i = {}".format(i))
             i += step
-            fg = encoder(i, traces)
+            fg = encoder(i, traces, optimization=False)
             fg.encodeFormula()
         else:
             solverModel = fg.solver.model()
@@ -48,7 +52,8 @@ def get_models(finalDepth, traces, startValue, step, encoder, maxNumModels=1):
                     raise Z3Exception("arrays and uninterpreted sorts are not supported")
                 block.append(c != solverModel[d])
             fg.solver.add(Or(block))
-    return results
+    # print(i)
+    return results, i
 
 
         

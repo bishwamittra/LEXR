@@ -342,7 +342,10 @@ class ExperimentTraces:
         try:
             self.numVariables = self.acceptedTraces[0].numVariables
         except:
-            self.numVariables = self.rejectedTraces[0].numVariables
+            try:
+                self.numVariables = self.rejectedTraces[0].numVariables
+            except:
+                self.numVariables = 0
         for trace in self.acceptedTraces + self.rejectedTraces:
             if trace.numVariables != self.numVariables:
                 raise Exception("wrong number of variables")

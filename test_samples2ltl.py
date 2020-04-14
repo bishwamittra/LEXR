@@ -17,12 +17,12 @@ def helper(m, d, vars):
 
 
  
-def learnLTL(tracesFileName="samples2ltl_orig/traces/dummy.trace"):
+def learnLTL(tracesFileName="dummy.trace", startDepth=1):
     
     
     parser = argparse.ArgumentParser()
     # parser.add_argument("--traces", dest="tracesFileName", default="samples2ltl_orig/traces/dummy.trace")
-    parser.add_argument("--max_depth", dest="maxDepth", default='8')
+    parser.add_argument("--max_depth", dest="maxDepth", default='50')
     parser.add_argument("--start_depth", dest="startDepth", default='1')
     parser.add_argument("--max_num_formulas", dest="numFormulas", default='1')
     parser.add_argument("--iteration_step", dest="iterationStep", default='1')
@@ -49,7 +49,7 @@ def learnLTL(tracesFileName="samples2ltl_orig/traces/dummy.trace"):
     
     maxDepth = int(args.maxDepth)
     numFormulas = int(args.numFormulas)
-    startDepth = int(args.startDepth)
+    # startDepth = int(args.startDepth)
     traces = ExperimentTraces()
     iterationStep = int(args.iterationStep)
     traces.readTracesFromFile(tracesFileName)
@@ -66,7 +66,7 @@ def learnLTL(tracesFileName="samples2ltl_orig/traces/dummy.trace"):
 
     # print("\n\nLearning LTL: (start) ")
     # if args.testSatMethod == True:
-    [formulas, timePassed] = run_solver(finalDepth=maxDepth, traces=traces, maxNumOfFormulas = numFormulas, startValue=startDepth, step=iterationStep)
+    [formulas , formula_depth, timePassed] = run_solver(finalDepth=maxDepth, traces=traces, maxNumOfFormulas = numFormulas, startValue=startDepth, step=iterationStep)
     logging.info("formulas: "+str([f.prettyPrint(f) for f in formulas])+", timePassed: "+str(timePassed))
 
 
@@ -79,13 +79,16 @@ def learnLTL(tracesFileName="samples2ltl_orig/traces/dummy.trace"):
         logging.info("timePassed: {0}, numAtoms: {1}, numPrimitives: {2}".format(str(timePassed), str(numAtoms), str(numPrimitives)))
         
     
+    # print(formulas)
+    
+
     # consistency check
     for formula in formulas:
         # print("consistency check: ",traces.isFormulaConsistent(formula))
         assert traces.isFormulaConsistent(formula), "Error! formula not consistent with given traces"
     
-    return formulas      
+    return formulas, formula_depth     
 
 if __name__ == "__main__":
-    learnLTL
+    learnLTL()
 

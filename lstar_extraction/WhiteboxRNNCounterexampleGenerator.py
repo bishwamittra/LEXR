@@ -15,6 +15,7 @@ class WhiteboxRNNCounterexampleGenerator:
 
     def _get_counterexample_from(self,words):
         words = sorted(words,key=lambda x:len(x)) #prefer shortest possible counterexample
+        # print(words)
         for w in words:
             if not self.whiteboxrnn.classify_word(w) == self.proposed_dfa.classify_word(w):
                 return w
@@ -23,12 +24,13 @@ class WhiteboxRNNCounterexampleGenerator:
     def _counterexample_from_classification_conflict(self,state_info):
         res = self._get_counterexample_from(state_info.paths)
         if None is res:
-            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-            print("classification conflict didn't cause counterexample:")
-            print("check your partitioning is consistent and transition function ")
-            print("(from one continuous network state (R-State) to another) is correct ") 
-            raise NoCounterexampleFromClassificationConflict()
-        return res
+            # print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+            # print("classification conflict didn't cause counterexample:")
+            # print("check your partitioning is consistent and transition function ")
+            # print("(from one continuous network state (R-State) to another) is correct ") 
+            # raise NoCounterexampleFromClassificationConflict()
+            return res, False
+        return res, True
 
     def _counterexample_from_cluster_conflict(self,old_info,new_info):
         q1 =old_info.dfa_state
@@ -38,14 +40,16 @@ class WhiteboxRNNCounterexampleGenerator:
         return self._get_counterexample_from([p+suffix for p in prefixes])
 
     def _process_new_state_except_children(self,new_cluster,new_info):
+        # avoid exception
+        flag=True
+
         counterexample = None
         split = SplitInfo()
-
         old_info = self.cluster_information[new_cluster] if new_cluster in self.cluster_information else None
         full_info = old_info + new_info if not None is old_info else new_info
 
         if not new_info.accepting == (new_info.dfa_state in self.proposed_dfa.F):
-            counterexample = self._counterexample_from_classification_conflict(new_info)
+            counterexample, flag = self._counterexample_from_classification_conflict(new_info)
         elif not new_info.dfa_state == full_info.dfa_state:
             counterexample = self._counterexample_from_cluster_conflict(old_info,new_info)
             if None is counterexample:
@@ -54,7 +58,7 @@ class WhiteboxRNNCounterexampleGenerator:
         else: #no conflicts, store state and continue processing it later
             self.cluster_information[new_cluster] = full_info
 
-        return counterexample, split
+        return counterexample, split, flag
 
     def _add_children_states(self,cluster):
         state_info = self.cluster_information[cluster]
@@ -84,8 +88,11 @@ class WhiteboxRNNCounterexampleGenerator:
         new_info = self.new_RStates.pop(0)
         self.new_RStates_backup = new_info #might want to unpop if we refine the partitioning and want to restart from here
         new_cluster = self.partitioning.get_partition(new_info.RStates[0])
-        counterexample, split = self._process_new_state_except_children(new_cluster, new_info)
-        if (None is counterexample) and (not split.has_info): #i.e. no conflicts
+        # print("dont understand: new_cluster=",new_cluster)
+        counterexample, split, flag = self._process_new_state_except_children(new_cluster, new_info)
+
+
+        if (None is counterexample) and (not split.has_info) and flag: #i.e. no conflicts
             self._add_children_states(new_cluster)
         return counterexample, split
 
@@ -130,7 +137,7 @@ class WhiteboxRNNCounterexampleGenerator:
                     return None, "lstar successful: unrolling seems equivalent to proposed automaton"
                 counterexample, split = self._process_top_pair() # always returns a cex, or a split, or neither - but never both
                 if not None is counterexample:
-                    print("Found counterexample, that is "+ ("accepted" if dfa.classify_word(counterexample)==True else "rejected")+" by the dfa")
+                    print("Found counterexample: \'"+ counterexample + "\', that is "+ ("accepted" if dfa.classify_word(counterexample)==True else "rejected")+" by the dfa")
                     return counterexample,counterexample_message(counterexample,self.whiteboxrnn)
                 elif split.has_info:
                     cluster_being_split = self.partitioning.get_partition(split.agreeing_RStates[0])
@@ -156,6 +163,8 @@ class SplitInfo: #todo: move this to quantisations and just give the whole thing
         self.has_info = not (None is conflicted_RState)
 
 class UnrollingInfo:
+
+    
     def __init__(self,dfa_state,path,RState,accepting):
         self.explored = False
         self.dfa_state = dfa_state

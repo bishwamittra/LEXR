@@ -22,8 +22,8 @@ class Traces:
                 self.negative_example.append(example)
 
         # only consider a fraction of test samples
-        self.positive_example=self.positive_example[:2]
-        self.negative_example=self.negative_example[:2]
+        self.positive_example=self.positive_example[:1]
+        self.negative_example=self.negative_example[:1]
 
     # auxiliary function
     def _to_trace(self, example,length_alphabet, char_to_int):
@@ -48,7 +48,15 @@ class Traces:
 
         return trace
 
-    def write_in_file(self, location="dummy.trace"):
+    def write_in_file(self, location="dummy.trace", verbose=False):
+
+        if(verbose):
+            print("\n\npositive traces---> ")
+            print(self.positive_example)
+            print("\n\nnegative traces---> ")
+            print(self.negative_example)
+            print("\n\n")
+
         self.location=location
 
         # write positive and negative examples as a traces in a file
@@ -107,14 +115,18 @@ class Explainer:
         self.ltl=None
         self.traces=traces
         self.alphabet=alphabet
-        
+        self.current_formula_depth=1     
 
     def learn_ltlf_and_dfa(self):
-        learned_formulas = LTL_learner.learnLTL(self.traces)
+        learned_formulas, self.current_formula_depth = LTL_learner.learnLTL(self.traces,startDepth=self.current_formula_depth)
+
 
         formulas=self._convert_formula(learned_formulas)
 
-        self.ltl=formulas[0]
+        try:
+            self.ltl=formulas[0]
+        except:
+            self.ltl="false"
 
         self.dfa = DFA_learner.translate_ltl2dfa(alphabet=self.alphabet, formula=self.ltl)
 

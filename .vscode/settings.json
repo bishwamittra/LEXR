@@ -1,4 +1,4 @@
 {
     "python.pythonPath": "/Users/Bishwamittra/anaconda3/bin/python",
-    "python.linting.enabled": true
+    "git.ignoreLimitWarning": true
 }

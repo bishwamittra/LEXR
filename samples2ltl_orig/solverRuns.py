@@ -17,13 +17,13 @@ def run_solver(finalDepth, traces, maxNumOfFormulas = 1, startValue=1, step=1, q
 
     t = TicToc()
     t.tic()
-    results = get_models(finalDepth, traces, startValue, step, encoder, maxNumOfFormulas)
+    results, formula_depth = get_models(finalDepth, traces, startValue, step, encoder, maxNumOfFormulas)
     time_passed = t.tocvalue()
 
     if separate_process == True:
-        q.put([results, time_passed])
+        q.put([results, formula_depth, time_passed])
     else:
-        return [results, time_passed]
+        return [results, formula_depth, time_passed]
 
 
 

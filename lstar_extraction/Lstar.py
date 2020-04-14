@@ -38,7 +38,6 @@ def run_lstar(teacher,time_limit, alphabet, traces):
         
         '''
 
-        # print("counter examples:", counterexample)
         # print("prediction of counter-example: (dfa)", dfa.classify_word(counterexample))
         # print("prediction of counter-example: (rnn)", teacher.network.classify_word(counterexample))
         # print(traces)

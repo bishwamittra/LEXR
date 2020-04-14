@@ -26,7 +26,10 @@ class DFA:
                     # print(line+".")
                     self.F = list(map(int, line.split(" ")))
                 else:
-                    self.F = [int(line)]
+                    try:
+                        self.F = [int(line)]
+                    except:
+                        self.F=[]
             elif(line.startswith("Automaton has ")):
                 self.Q = [i for i in range(
                     int(line.split("Automaton has ", 1)[1].split(" ", 1)[0]))]
@@ -121,7 +124,7 @@ class DFA:
         #gets series of letters showing the two states are different,
         # i.e., from which one state reaches accepting state and the other reaches rejecting state
         # assumes of course that the states are in the automaton and actually not equivalent
-        res = None
+        res = ""
         # just use BFS til you reach an accepting state
         # after experiments: attempting to use symmetric difference on copies with s1,s2 as the starting state, or even
         # just make and minimise copies of this automaton starting from s1 and s2 before starting the BFS,
@@ -151,4 +154,5 @@ class DFA:
                 next_tuple = (prefix+char,next_state_pair)
                 if not next_tuple in new_states and not next_state_pair in seen_states:
                     new_states.add(next_tuple)
+        # print("called here:" , res)
         return res

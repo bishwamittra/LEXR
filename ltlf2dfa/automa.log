@@ -1,17 +1,19 @@
 
-DFA for formula with free variables: A B C 
+DFA for formula with free variables: R B L A 
 Initial state: 0
-Accepting states: 4 
-Rejecting states: 2 3 
+Accepting states: 2 
+Rejecting states: 3 4 
 Don't-care states: 0 1 
 
-Automaton has 5 states and 6 BDD-nodes
+Automaton has 5 states and 9 BDD-nodes
 Transitions:
-State 0: XXX -> state 1
-State 1: 0XX -> state 2
-State 1: 1XX -> state 3
-State 2: 0XX -> state 2
-State 2: 1XX -> state 3
-State 3: 0XX -> state 2
-State 3: 1XX -> state 4
-State 4: XXX -> state 4
+State 0: XXXX -> state 1
+State 1: 0000 -> state 2
+State 1: 0001 -> state 3
+State 1: 001X -> state 3
+State 1: 01XX -> state 3
+State 1: 1XXX -> state 3
+State 2: XXXX -> state 2
+State 3: X0XX -> state 4
+State 3: X1XX -> state 2
+State 4: XXXX -> state 4

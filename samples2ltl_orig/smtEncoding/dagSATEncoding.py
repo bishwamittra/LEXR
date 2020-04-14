@@ -11,7 +11,11 @@ class DagSATEncoding:
       - each trace is a list of recordings at time units (time point)
       - each time point is a list of variable values (x1,..., xk)
     """
-    def __init__(self, D, testTraces): 
+    def __init__(self, D, testTraces, optimization=True): 
+
+        # print(D)
+
+        self.optimization=optimization
         
         defaultOperators = ['G', 'F', '!', 'U', '&','|', '->', 'X']
         unary = ['G', 'F', '!', 'X']
@@ -93,9 +97,12 @@ class DagSATEncoding:
         self.operatorsSemantics()
         self.noDanglingVariables()
         
-        self.solver.assert_and_track(And( [ self.y[(self.formulaDepth - 1, traceIdx, 0)] for traceIdx in range(len(self.traces.acceptedTraces))] ), 'accepted traces should be accepting')
-        self.solver.assert_and_track(And( [ Not(self.y[(self.formulaDepth - 1, traceIdx, 0)]) for traceIdx in range(len(self.traces.acceptedTraces), len(self.traces.acceptedTraces+self.traces.rejectedTraces))] ),\
-                                     'rejecting traces should be rejected')
+        if(self.optimization==False):
+
+            self.solver.assert_and_track(And( [ self.y[(self.formulaDepth - 1, traceIdx, 0)] for traceIdx in range(len(self.traces.acceptedTraces))] ), 'accepted traces should be accepting')
+            self.solver.assert_and_track(And( [ Not(self.y[(self.formulaDepth - 1, traceIdx, 0)]) for traceIdx in range(len(self.traces.acceptedTraces), len(self.traces.acceptedTraces+self.traces.rejectedTraces))] ),\
+                                        'rejecting traces should be rejected')
+
         
         # with open("temp_"+str(self.formulaDepth)+".txt", mode='w') as f:
         #     f.write(self.solver.to_smt2())
