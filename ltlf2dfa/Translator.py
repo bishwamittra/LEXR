@@ -62,8 +62,8 @@ class Translator:
 
     def compute_alphabet(self):
 
-        symbols = re.findall('(?<![a-z])(?!true|false)[_a-z0-9]+', str(self.formula_to_be_parsed))
-        _symbols = self.rem_duplicates_order(symbols+self.alphabet)
+        # symbols = re.findall('(?<![a-z])(?!true|false)[_a-z0-9]+', str(self.formula_to_be_parsed))
+        _symbols = self.rem_duplicates_order(self.alphabet)
         self.alphabet = [character.upper() for character in _symbols]
         
     def compute_declare_assumption(self):

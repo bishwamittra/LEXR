@@ -117,6 +117,11 @@ class DFA:
         return "DFA:->\n"+'\n'.join(" - %s: %s" % (item, value) for (item, value) in vars(self).items() if "__" not in item)
 
 
+    """  
+    The following code is added in accordrance with lstar implementation
+    """
+
+
     def minimal_diverging_suffix(self,state1,state2): 
         '''
         From the implementation of lstar_extraction
@@ -156,3 +161,35 @@ class DFA:
                     new_states.add(next_tuple)
         # print("called here:" , res)
         return res
+
+
+    """  
+    The following code is added to add functionality inside pac learner
+    """    
+
+
+    def next_state_by_letter(self, s, l):
+        transition_input=""
+        for symbol in self.alphabet:
+            if(symbol==l):
+                transition_input+='1'
+            else:
+                transition_input+='0'
+        q = self.delta[s][transition_input]
+        return q
+
+
+    def is_word_letter_by_letter(self, letter, reset=False):
+        if reset:
+            self.current_state = self.q0
+
+        self.current_state = self.next_state_by_letter(self.current_state, letter)
+        return self.current_state in self.F
+
+
+    def is_word_in(self, w):
+        return self.classify_word(w)
+
+    def reset_current_to_init(self):
+        self.current_state = self.q0
+

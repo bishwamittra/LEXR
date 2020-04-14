@@ -1,5 +1,5 @@
 # from lstar_extraction.ObservationTable import ObservationTable
-from test_xRNN import Explainer
+from RNNexplainer import Explainer
 # import lstar_extraction.DFA as DFA
 from time import clock
 
