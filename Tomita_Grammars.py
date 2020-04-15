@@ -48,3 +48,15 @@ def tomita_10(word):
     return not "aa" in word
 
 
+def tomita_11(word):
+    if (word.find('a')!=-1 and word.find('b')!=-1):
+        if(word.find('a')<word.find('b')):
+            return True
+    return False
+
+
+def tomita_12(word):
+    return  "a" in word or "b" in word
+
+
+

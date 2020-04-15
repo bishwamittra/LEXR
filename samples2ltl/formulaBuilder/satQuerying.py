@@ -6,7 +6,7 @@ import traceback
 import logging
 from samples2ltl.utils.SimpleTree import Formula
 
-def get_models(finalDepth, traces, startValue, step, encoder, maxNumModels=1, verbose=True):
+def get_models(finalDepth, traces, startValue, step, encoder, maxNumModels=1, verbose=False):
 
     if(verbose):
         print("start formula depth:", startValue)
@@ -27,7 +27,12 @@ def get_models(finalDepth, traces, startValue, step, encoder, maxNumModels=1, ve
             formula = fg.reconstructWholeFormula(solverModel)
             logging.info("found formula {}".format(formula.prettyPrint()))
             #print("found formula {}".format(formula))
-            formula = Formula.normalize(formula)
+            
+            """ 
+            There seems to be inconsistencies  in formula.normalize
+            """
+            # formula = Formula.normalize(formula)
+            
             logging.info("normalized formula {}".format(formula))
             if formula not in results:
                 results.append(formula)

@@ -102,7 +102,8 @@ class DagSATEncoding:
             self.solver.assert_and_track(And( [ self.y[(self.formulaDepth - 1, traceIdx, 0)] for traceIdx in range(len(self.traces.acceptedTraces))] ), 'accepted traces should be accepting')
             self.solver.assert_and_track(And( [ Not(self.y[(self.formulaDepth - 1, traceIdx, 0)]) for traceIdx in range(len(self.traces.acceptedTraces), len(self.traces.acceptedTraces+self.traces.rejectedTraces))] ),\
                                         'rejecting traces should be rejected')
-
+            
+            # print("formula depth:", self.formulaDepth)
         
         # with open("temp_"+str(self.formulaDepth)+".txt", mode='w') as f:
         #     f.write(self.solver.to_smt2())

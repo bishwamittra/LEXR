@@ -7,7 +7,7 @@ from samples2ltl.solverRuns import run_solver, run_dt_solver
 from samples2ltl.utils.Traces import Trace, ExperimentTraces
 from multiprocessing import Process, Queue
 import logging
-from samples2ltl.utils.SimpleTree import SimpleTree
+from samples2ltl.utils.SimpleTree import SimpleTree, Formula
 
 
 def helper(m, d, vars):
@@ -54,10 +54,14 @@ def learnLTL(tracesFileName="dummy.trace", startDepth=1):
     iterationStep = int(args.iterationStep)
     traces.readTracesFromFile(tracesFileName)
     finalDepth = int(args.maxDepth)
-    # traces = ExperimentTraces()
-    # traces.readTracesFromFile(tracesFileName)
     
-    # print(traces)
+
+    # default formulas
+    if(len(traces.acceptedTraces)==0):
+        return [Formula(formulaArg='false')],1
+    elif(len(traces.rejectedTraces)==0):
+        return [Formula(formulaArg='true')],1
+    
     
     solvingTimeout = int(args.timeout)
     #print(traces)
@@ -79,7 +83,6 @@ def learnLTL(tracesFileName="dummy.trace", startDepth=1):
         logging.info("timePassed: {0}, numAtoms: {1}, numPrimitives: {2}".format(str(timePassed), str(numAtoms), str(numPrimitives)))
         
     
-    # print(formulas)
     
 
     # consistency check
@@ -90,6 +93,7 @@ def learnLTL(tracesFileName="dummy.trace", startDepth=1):
             print(traces)
             raise ArgumentError
     
+    print(formulas, formula_depth)
     return formulas, formula_depth     
 
 if __name__ == "__main__":

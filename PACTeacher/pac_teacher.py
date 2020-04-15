@@ -6,11 +6,12 @@ import math
 
 class PACTeacher():
 
-    def __init__(self, dfa, epsilon=0.05, delta=0.05, max_trace_length=20, max_formula_depth=20):
+    def __init__(self, dfa, epsilon=0.05, delta=0.05, max_trace_length=20, max_formula_depth=20, query_dfa=None):
         assert((epsilon <= 1) & (delta <= 1))
         # Teacher.__init__(self, specification_dfa)
         self.specification_dfa=dfa
         self.epsilon = epsilon
+        self.query_dfa=query_dfa
         self.delta = delta
         self._log_delta = np.log(delta)
         self._log_one_minus_epsilon = np.log(1-epsilon)
@@ -31,12 +32,30 @@ class PACTeacher():
         for i in range(number_of_rounds):
             dfa.reset_current_to_init()
             self.specification_dfa.reset_current_to_init()
+            if(self.query_dfa is not None):
+                self.query_dfa.reset_current_to_init()
             word = ""
             word_length=0
             for letter in random_word_by_letter(self.specification_dfa.alphabet):
                 word = word + letter
-                if dfa.is_word_letter_by_letter(letter) != self.specification_dfa.is_word_letter_by_letter(letter):
-                    return word
+                """ 
+                the following code fragment narrow downs the search space with the help of query dfa. 
+                """
+                if(self.query_dfa == None):
+                    if dfa.is_word_letter_by_letter(letter) != self.specification_dfa.is_word_letter_by_letter(letter):
+                        return word
+                else:
+                    dfa_verdict= dfa.is_word_letter_by_letter(letter)
+                    specification_verdict=self.specification_dfa.is_word_letter_by_letter(letter)
+                    query_verdict=self.query_dfa.is_word_letter_by_letter(letter)
+
+                    # when both specificaion and query has same verdict but the word is still a counterexample
+                    if(specification_verdict == query_verdict and dfa_verdict != specification_verdict):
+                        return word
+                    
+                    # when specification and query have disagreement, wherein the word is still a counterexample, then return it. 
+                    # if(dfa_verdict !=specification_verdict):
+                    #     return word
 
                 # impose bound on word-length
                 word_length+=1
@@ -57,6 +76,7 @@ class PACTeacher():
             if(learner.current_formula_depth>self.max_formula_depth):
                 print("Max formula depth achieved")
                 break
+            
             learner.learn_ltlf_and_dfa()
             counterexample = self.equivalence_query(learner.dfa)
             if counterexample is None:

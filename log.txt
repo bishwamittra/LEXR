@@ -1,0 +1,15 @@
+Learned formula: F(a|b)
+
+query: G(~a)
+    -- learned formula: F(b)
+
+query: G(c)
+    -- learned formula: a
+    -- learned formula: b (second run)
+
+query: F(b)
+    -- learned formula: (F b)
+
+query: G(c->F(a))
+    -- learned formula: (F (a | b))
+

@@ -61,7 +61,7 @@ def make_test_set(alphabet, lengths=None, max_test_samples_per_length=10,search_
         samples += [w for w in provided_examples if len(w)==l]
         samples += n_words_of_length(search_size_per_length,l,alphabet)
 
-    print("made test set of size:",len(samples))
+    # print("made test set of size:",len(samples))
     # for example in samples:
     #     print(len(example))
 

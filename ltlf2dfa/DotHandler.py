@@ -29,7 +29,7 @@ class DotHandler:
             exit()
 
     def delete_intermediate_automaton(self):
-        return True
+        # return True
         if os.path.isfile(self.dot_path):
             os.remove(self.dot_path)
             return True
