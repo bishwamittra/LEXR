@@ -1,15 +1,82 @@
-Learned formula: F(a|b)
+--------------------------------------------------------------------------------
 
-query: G(~a)
-    -- learned formula: F(b)
+Target F(a|b)
+
+query: None
+final ltl:  (F (b | a))
+
+query: F(a)
+final ltl:  (F a)
+
+query: F(c)
+final ltl:  (X (b -> b))
 
 query: G(c)
-    -- learned formula: a
-    -- learned formula: b (second run)
+final ltl:  false
+
+query: G(a|b)
+final ltl:  (b | a)
+
+
+query: c
+final ltl:  (X (b -> b)
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+Target: (a|b)Uc
+
+query: None
+final ltl:  (F c)
+
+query: F(c)
+final ltl:  (F c)
+
+query: F(a)
+final ltl:  (F c)
 
 query: F(b)
-    -- learned formula: (F b)
+final ltl:  (F c)
 
-query: G(c->F(a))
-    -- learned formula: (F (a | b))
+
+query: ~F(c)
+final ltl:  false
+
+query: cU(a|b)
+final ltl:  (F c)
+
+--------------------------------------------------------------------------------
+
+
+Target: G(a->X(b|c))
+
+query: None
+final ltl:  (G ((X (c | b)) | (c | b)))
+
+
+query: G(a->X(b|c))
+final ltl:  (G ((b | c) | (X (b | c))))
+
+query: (b|c)
+final ltl:  (G ((c | b) | (X (c | b))))
+
+query: X(b|c)
+final ltl:  ((X (~ a)) & (G ((~ a) | (X (~ a)))))
+
+query: F(X(b|c))
+final ltl:  ((~ a) U (X (~ a)))
+
+query: F(b|c)
+final ltl:  (F (c | (G b)))
+
+
+query: ~F(b|c)
+final ltl:  false
+
+
+
+
 

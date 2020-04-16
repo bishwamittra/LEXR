@@ -93,7 +93,7 @@ def learnLTL(tracesFileName="dummy.trace", startDepth=1):
             print(traces)
             raise ArgumentError
     
-    print(formulas, formula_depth)
+    # print(formulas, formula_depth)
     return formulas, formula_depth     
 
 if __name__ == "__main__":

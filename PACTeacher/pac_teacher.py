@@ -22,40 +22,53 @@ class PACTeacher():
     def equivalence_query(self, dfa):
         self._num_equivalence_asked = self._num_equivalence_asked + 1
 
+        # initial check
         if dfa.is_word_in("") != self.specification_dfa.is_word_in(""):
             return ""
 
+        
         # number_of_rounds = int((self._log_delta - self._num_equivalence_asked)/self._log_one_minus_epsilon)
-
-        # from the paper
         number_of_rounds = int(math.ceil((self._num_equivalence_asked*0.693147-self._log_delta)/self.epsilon))
+        
+        # do conformance testing on query first
+        if(self.query_dfa is not None):
+        
+            for i in range(number_of_rounds):
+            
+                dfa.reset_current_to_init()
+                self.query_dfa.reset_current_to_init()
+                word = ""
+                word_length=0
+                for letter in random_word_by_letter(self.specification_dfa.alphabet):
+                    word = word + letter
+                    if dfa.is_word_letter_by_letter(letter) != self.query_dfa.is_word_letter_by_letter(letter):
+                        return word
+                    # impose bound on word-length
+                    word_length+=1
+                    if(self.max_trace_length <= word_length):
+                        break
+
+
+
         for i in range(number_of_rounds):
+
             dfa.reset_current_to_init()
             self.specification_dfa.reset_current_to_init()
-            if(self.query_dfa is not None):
-                self.query_dfa.reset_current_to_init()
             word = ""
             word_length=0
             for letter in random_word_by_letter(self.specification_dfa.alphabet):
                 word = word + letter
-                """ 
-                the following code fragment narrow downs the search space with the help of query dfa. 
-                """
-                if(self.query_dfa == None):
+
+                if(self.query_dfa is not None):
+                    # check with network
                     if dfa.is_word_letter_by_letter(letter) != self.specification_dfa.is_word_letter_by_letter(letter):
                         return word
                 else:
-                    dfa_verdict= dfa.is_word_letter_by_letter(letter)
-                    specification_verdict=self.specification_dfa.is_word_letter_by_letter(letter)
-                    query_verdict=self.query_dfa.is_word_letter_by_letter(letter)
+                    # If the code reaches here then L(LTL) \subset L(query). 
+                    # Now do conformance testing of query on network
 
-                    # when both specificaion and query has same verdict but the word is still a counterexample
-                    if(specification_verdict == query_verdict and dfa_verdict != specification_verdict):
+                    if self.query_dfa.is_word_letter_by_letter(letter) != self.specification_dfa.is_word_letter_by_letter(letter):
                         return word
-                    
-                    # when specification and query have disagreement, wherein the word is still a counterexample, then return it. 
-                    # if(dfa_verdict !=specification_verdict):
-                    #     return word
 
                 # impose bound on word-length
                 word_length+=1

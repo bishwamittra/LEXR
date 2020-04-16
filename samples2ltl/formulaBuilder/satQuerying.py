@@ -6,7 +6,7 @@ import traceback
 import logging
 from samples2ltl.utils.SimpleTree import Formula
 
-def get_models(finalDepth, traces, startValue, step, encoder, maxNumModels=1, verbose=False):
+def get_models(finalDepth, traces, startValue, step, encoder, maxNumModels=1, verbose=True):
 
     if(verbose):
         print("start formula depth:", startValue)

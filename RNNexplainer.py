@@ -53,7 +53,7 @@ class Traces:
 
         return trace
 
-    def write_in_file(self, location="dummy.trace", verbose=False):
+    def write_in_file(self, location="dummy.trace", verbose=True):
 
         if(verbose):
             print("\n\npositive traces---> ")
