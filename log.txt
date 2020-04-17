@@ -1,82 +1,120 @@
---------------------------------------------------------------------------------
 
-Target F(a|b)
-
-query: None
-final ltl:  (F (b | a))
-
-query: F(a)
-final ltl:  (F a)
-
-query: F(c)
-final ltl:  (X (b -> b))
-
-query: G(c)
-final ltl:  false
-
-query: G(a|b)
-final ltl:  (b | a)
+.........................................................................
+Target: F(a|b)
 
 
 query: c
-final ltl:  (X (b -> b)
+final LTL: (c & (F (~ c)))
 
 
 
+query: G(c)
+final LTL: false
 
---------------------------------------------------------------------------------
 
 
-Target: (a|b)Uc
+query: (a|b)
+final LTL: (a | b)
 
-query: None
-final ltl:  (F c)
+
+
+query: F(a|b)
+final LTL: (F (a | b))
+
+
+
+query: true
+final LTL: (F (b | a))
+
+
+
+query: false
+final LTL: false
+
+
+
+query: G(a)
+final LTL: (G a)
+
+
+
+query: G(a|b)
+final LTL: (G (b | a))
+
+
+
+query: G(a|b|c)
+final LTL: (F (a | b))
+
+
+
+query: G(a|c)
+final LTL: ((~ (F b)) U ((~ (F b)) & a))
+
+
+
+query: a->X(c)
+final LTL: (((c | (X c)) -> (G c)) -> b)
+
+.........................................................................
+Target: F(aUb)
+
+
+query: true
+final LTL: (F b)
+
+
+
+query: a
+final LTL: ((F b) & a)
+
+
+
+query: b
+final LTL: b
+
+
+
+query: G(b)
+final LTL: (G b)
+
+
+
+query: G(a)
+final LTL: false
+
+
+
+query: c
+final LTL: (c & (F b))
+
+
 
 query: F(c)
-final ltl:  (F c)
-
-query: F(a)
-final ltl:  (F c)
-
-query: F(b)
-final ltl:  (F c)
-
-
-query: ~F(c)
-final ltl:  false
-
-query: cU(a|b)
-final ltl:  (F c)
-
---------------------------------------------------------------------------------
-
-
-Target: G(a->X(b|c))
-
-query: None
-final ltl:  (G ((X (c | b)) | (c | b)))
-
-
-query: G(a->X(b|c))
-final ltl:  (G ((b | c) | (X (b | c))))
-
-query: (b|c)
-final ltl:  (G ((c | b) | (X (c | b))))
-
-query: X(b|c)
-final ltl:  ((X (~ a)) & (G ((~ a) | (X (~ a)))))
-
-query: F(X(b|c))
-final ltl:  ((~ a) U (X (~ a)))
-
-query: F(b|c)
-final ltl:  (F (c | (G b)))
-
-
-query: ~F(b|c)
-final ltl:  false
+final LTL: ((F b) & (F c))
 
 
 
+query: G(c)
+final LTL: false
 
+
+
+query: b->X(a)
+final LTL: ((F b) & (b -> (X a)))
+
+
+
+query: F(b->X(a))
+final LTL: ((~ (G b)) & ((~ (G b)) U b))
+
+
+
+query: F(bUa)
+final LTL: ((F b) & (F a))
+
+
+
+query: false
+final LTL: false
 

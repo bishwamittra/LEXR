@@ -157,3 +157,4 @@ class RNNClassifier:
 
     def reset_current_to_init(self):
         self.current_state = self.rnn.initial_state
+        return self.current_state

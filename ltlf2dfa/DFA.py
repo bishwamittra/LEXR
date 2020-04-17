@@ -192,4 +192,5 @@ class DFA:
 
     def reset_current_to_init(self):
         self.current_state = self.q0
+        return self.current_state
 
