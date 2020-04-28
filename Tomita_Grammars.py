@@ -58,5 +58,9 @@ def tomita_11(word):
 def tomita_12(word):
     return  "a" in word or "b" in word
 
+email=re.compile("(p|q|r)+a(p|q|r)+dp$")
+def tomita_email(word):
+    return email.match(word)
+
 
 

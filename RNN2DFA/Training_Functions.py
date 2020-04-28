@@ -35,13 +35,13 @@ def mixed_curriculum_train(rnn,train_set,outer_loops=3,stop_threshold=0.001,lear
             rnn.train_group(training,length_epochs,show=False,loss_every=20,stop_threshold=stop_threshold,
                             learning_rate=learning_rate,batch_size=None,print_time=False)
         # all together but in batches
-        if rnn.finish_signal == rnn.train_group(train_set,random_batch_epochs,show=True,loss_every=20,
+        if rnn.finish_signal == rnn.train_group(train_set,random_batch_epochs,show=False,loss_every=20,
                                                 stop_threshold = stop_threshold,
                                                 learning_rate=learning_rate,
                                                 batch_size=random_batch_size,print_time=False):
             break
         # all together in one batch
-        if rnn.finish_signal == rnn.train_group(train_set,single_batch_epochs,show=True,loss_every=20,
+        if rnn.finish_signal == rnn.train_group(train_set,single_batch_epochs,show=False,loss_every=20,
                                                 stop_threshold = stop_threshold,
                                                 learning_rate=learning_rate,batch_size=None,print_time=False): 
             break

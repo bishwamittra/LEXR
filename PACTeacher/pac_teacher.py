@@ -144,7 +144,7 @@ class PACTeacher():
 
         for i in range(10):
 
-            print(i)
+            # print(i)
             if(learner.current_formula_depth>self.max_formula_depth):
                 print("Max formula depth achieved")
                 break
