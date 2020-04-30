@@ -1,7 +1,0 @@
-digraph {
-	1 [label=start color=black shape=hexagon]
-	2 [label=1 color=green]
-	1 -> 2 [label="a,b"]
-	1 -> 1 [label=c]
-	2 -> 2 [label="a-c"]
-}

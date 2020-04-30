@@ -138,8 +138,7 @@ class Explainer:
             display(Image(pydot_graph.create_png()))
         
 
-        os.system("./clean.sh")
-    
+        
 
     def _convert_formula(self, learned_formulas):
         # convert propositional variables in LTLf to human readable alphabet

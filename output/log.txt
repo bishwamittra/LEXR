@@ -1,0 +1,74 @@
+.........................................................................
+Target: G(~a )
+
+
+query: a
+final LTL: false
+
+rnn score against target on test set:                             920(100.0)
+extracted LTL score against rnn on test set (with query):         920(100.0)
+extracted LTL score against target on rnn's test set (with query):920(100.0)
+
+
+query: ~a
+final LTL: (~ (F a))
+
+rnn score against target on test set:                             920(100.0)
+extracted LTL score against rnn on test set (with query):         920(100.0)
+extracted LTL score against target on rnn's test set (with query):920(100.0)
+
+
+query: F(a)
+final LTL: false
+
+rnn score against target on test set:                             920(100.0)
+extracted LTL score against rnn on test set (with query):         920(100.0)
+extracted LTL score against target on rnn's test set (with query):920(100.0)
+
+
+query: F(~a)
+final LTL: (G (~ a))
+
+rnn score against target on test set:                             920(100.0)
+extracted LTL score against rnn on test set (with query):         920(100.0)
+extracted LTL score against target on rnn's test set (with query):920(100.0)
+
+
+query: F(b)
+final LTL: ((G (b | c)) U ((G (b | c)) & b))
+
+rnn score against target on test set:                             920(100.0)
+extracted LTL score against rnn on test set (with query):         920(100.0)
+extracted LTL score against target on rnn's test set (with query):920(100.0)
+
+
+query: F(b|c)
+final LTL: (G (c | b))
+
+rnn score against target on test set:                             920(100.0)
+extracted LTL score against rnn on test set (with query):         920(100.0)
+extracted LTL score against target on rnn's test set (with query):920(100.0)
+
+
+query: G(b|c)
+final LTL: (G (c | b))
+
+rnn score against target on test set:                             920(100.0)
+extracted LTL score against rnn on test set (with query):         920(100.0)
+extracted LTL score against target on rnn's test set (with query):920(100.0)
+
+
+query: X(G(~a))
+final LTL: ((X (~ a)) & (G (~ a)))
+
+rnn score against target on test set:                             920(100.0)
+extracted LTL score against rnn on test set (with query):         920(100.0)
+extracted LTL score against target on rnn's test set (with query):920(100.0)
+
+
+query: X(G(a))
+final LTL: false
+
+rnn score against target on test set:                             920(100.0)
+extracted LTL score against rnn on test set (with query):         920(100.0)
+extracted LTL score against target on rnn's test set (with query):920(100.0)

@@ -194,3 +194,6 @@ class DFA:
         self.current_state = self.q0
         return self.current_state
 
+
+    
+

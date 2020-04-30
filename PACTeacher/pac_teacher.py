@@ -3,6 +3,7 @@ from PACTeacher.random_words import random_word_by_letter, bfs_random
 # from PACTeacher.teacher import Teacher
 import numpy as np
 import math
+from time import clock
 
 class PACTeacher():
 
@@ -137,12 +138,15 @@ class PACTeacher():
     def membership_query(self, w):
         return self.specification_dfa.is_word_in(w)
 
-    def teach(self, learner, traces):
+    def teach(self, learner, traces , timeout = 50):
         # we really do not need to pass the teacher in the following line. 
         # learner.teacher = self
+        start_time=clock()
 
+        for i in range(20):
 
-        for i in range(10):
+            if(clock() - start_time > timeout):
+                break
 
             # print(i)
             if(learner.current_formula_depth>self.max_formula_depth):
@@ -171,7 +175,7 @@ class PACTeacher():
                     print("new counterexample:", counterexample, " should be rejected by implementation")
                     traces.add_negative_example(counterexample)
 
-            print("\n\n\n")
+            print(i," iteration complete\n\n\n")
 
         return False
             

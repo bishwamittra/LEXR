@@ -1,6 +1,9 @@
-rm *.dot
+rm *.dot*
 rm *.mona
-rm -rf ltlf2dfa/__pycache__
-rm -rf img
+rm -rf */img/
+rm dummy.trace
 rm ltlf2dfa/automa.*
-# rm dummy.trace
+rm -rf __pycache__/
+rm -rf */__pycache__/
+rm -rf */*/__pycache__/
+rm -rf */*/*/__pycache__/

@@ -1,11 +1,12 @@
 from lstar_extraction.Helper_Functions import n_words_of_length
 
-def make_train_set_for_target(target,alphabet,lengths=None,max_train_samples_per_length=300,search_size_per_length=1000,provided_examples=None):
+def make_train_set_for_target(target,alphabet,lengths=None,max_train_samples_per_length=10000,search_size_per_length=30000,provided_examples=None):
     train_set = {}
     if None is provided_examples:
         provided_examples = []
     if None is lengths:
-        lengths = list(range(15))+[15,20,25,30] 
+        lengths = list(range(30))+[15,20,25,30] 
+        # print(lengths)
     for l in lengths:
         samples = [w for w in provided_examples if len(w)==l]
         samples += n_words_of_length(search_size_per_length,l,alphabet)
@@ -14,8 +15,8 @@ def make_train_set_for_target(target,alphabet,lengths=None,max_train_samples_per
         pos = pos[:int(max_train_samples_per_length/2)]
         neg = neg[:int(max_train_samples_per_length/2)]
         minority = min(len(pos),len(neg))
-        pos = pos[:minority+20]
-        neg = neg[:minority+20]
+        pos = pos[:minority+5]
+        neg = neg[:minority+5]
         train_set.update({w:True for w in pos})
         train_set.update({w:False for w in neg})
 
