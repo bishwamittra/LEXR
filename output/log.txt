@@ -72,3 +72,87 @@ final LTL: false
 rnn score against target on test set:                             920(100.0)
 extracted LTL score against rnn on test set (with query):         920(100.0)
 extracted LTL score against target on rnn's test set (with query):920(100.0)
+
+
+query: false
+final LTL: false
+
+
+
+query: ~F(b|d)
+final LTL: (~ (d | (c | ((G a) | b)))) [incomplete]
+
+.........................................................................
+Target: G(~a )
+
+
+query: a
+final LTL: false
+
+rnn score against target on test set:                             896(100.0)
+extracted LTL score against rnn on test set (with query):         896(100.0)
+extracted LTL score against target on rnn's test set (with query):896(100.0)
+
+
+query: ~a
+final LTL: (~ (F a))
+
+rnn score against target on test set:                             896(100.0)
+extracted LTL score against rnn on test set (with query):         896(100.0)
+extracted LTL score against target on rnn's test set (with query):896(100.0)
+
+
+query: F(a)
+final LTL: false
+
+rnn score against target on test set:                             896(100.0)
+extracted LTL score against rnn on test set (with query):         896(100.0)
+extracted LTL score against target on rnn's test set (with query):896(100.0)
+
+
+query: F(~a)
+final LTL: (~ (F a))
+
+rnn score against target on test set:                             896(100.0)
+extracted LTL score against rnn on test set (with query):         896(100.0)
+extracted LTL score against target on rnn's test set (with query):896(100.0)
+
+
+query: F(b)
+final LTL: ((G (c | (c U b))) & (c U b))
+
+rnn score against target on test set:                             896(100.0)
+extracted LTL score against rnn on test set (with query):         896(100.0)
+extracted LTL score against target on rnn's test set (with query):896(100.0)
+
+
+query: F(b|c)
+final LTL: (G (b | c))
+
+rnn score against target on test set:                             896(100.0)
+extracted LTL score against rnn on test set (with query):         896(100.0)
+extracted LTL score against target on rnn's test set (with query):896(100.0)
+
+
+query: G(b|c)
+final LTL: (G (c | b))
+
+rnn score against target on test set:                             896(100.0)
+extracted LTL score against rnn on test set (with query):         896(100.0)
+extracted LTL score against target on rnn's test set (with query):896(100.0)
+
+
+query: X(G(~a))
+final LTL: ((X (~ (F a))) & (~ (F a)))
+
+rnn score against target on test set:                             896(100.0)
+extracted LTL score against rnn on test set (with query):         896(100.0)
+extracted LTL score against target on rnn's test set (with query):896(100.0)
+
+
+query: X(G(a))
+final LTL: false
+
+rnn score against target on test set:                             896(100.0)
+extracted LTL score against rnn on test set (with query):         896(100.0)
+extracted LTL score against target on rnn's test set (with query):896(100.0)
