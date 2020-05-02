@@ -3,7 +3,32 @@ from PACTeacher.random_words import random_word_by_letter, bfs_random
 # from PACTeacher.teacher import Teacher
 import numpy as np
 import math
-from time import clock
+import time
+import signal
+from contextlib import contextmanager
+from multiprocessing import Process, Queue
+
+# @contextmanager
+# def timeout(time):
+#     # Register a function to raise a TimeoutError on the signal.
+#     signal.signal(signal.SIGALRM, raise_timeout)
+#     # Schedule the signal to be sent after ``time``.
+#     signal.alarm(time)
+
+#     try:
+#         yield
+#     except TimeoutError:
+#         pass
+#     finally:
+#         # Unregister the signal so it won't be triggered
+#         # if the timeout is not reached.
+#         signal.signal(signal.SIGALRM, signal.SIG_IGN)
+
+
+# def raise_timeout(signum, frame):
+#     raise TimeoutError
+
+
 
 class PACTeacher():
 
@@ -19,8 +44,9 @@ class PACTeacher():
         self._num_equivalence_asked = 0
         self.max_trace_length=max_trace_length
         self.max_formula_depth=max_formula_depth
+        self._last_counterexample_positive=False
 
-    def equivalence_query_dfs(self, dfa):
+    def equivalence_query_dfs(self, dfa, verbose=False):
         self._num_equivalence_asked = self._num_equivalence_asked + 1
 
         if(self.query_dfa is None):
@@ -30,6 +56,8 @@ class PACTeacher():
             if dfa.is_word_in("") != (self.query_dfa.is_word_in("") and self.specification_dfa.is_word_in("")):
                 return ""
 
+        positive_counterexamples=[]
+        negative_counterexamples=[]
         # number_of_rounds = int((self._log_delta - self._num_equivalence_asked)/self._log_one_minus_epsilon)
 
         # from the paper
@@ -55,14 +83,49 @@ class PACTeacher():
                     query_verdict=self.query_dfa.is_word_letter_by_letter(letter)
 
                     if(dfa_verdict != (specification_verdict and query_verdict)):
-                        return word
+                        """  
+                        The following code tries to balance between positive and negative counterexamples.
+                        """
+                        if(not dfa_verdict): # if current verdict is negative, the word must be a positive counterexample
+                            positive_counterexamples.append(word)
+                        else:
+                            negative_counterexamples.append(word)
+                        
+                        break
+                        # return word
                     
                     
                 # impose bound on word-length
                 word_length+=1
                 if(self.max_trace_length <= word_length):
                     break
+            
+        """ 
+        try to return the minimal-size counterexample with alteration
+        """
+        negative_counterexamples = sorted(negative_counterexamples, key=lambda x:len(x))
+        positive_counterexamples = sorted(positive_counterexamples, key=lambda x:len(x))
 
+        
+        if(self._last_counterexample_positive):
+            
+
+            if(len(negative_counterexamples)!=0):
+                self._last_counterexample_positive = False
+                return negative_counterexamples[0]
+            elif(len(positive_counterexamples)!=0):
+                if(verbose):
+                    print("No negative counterexample found")
+                return positive_counterexamples[0]
+        else:
+            
+            if(len(positive_counterexamples)!=0):
+                self._last_counterexample_positive = True
+                return positive_counterexamples[0]
+            elif(len(negative_counterexamples)!=0):
+                if(verbose):
+                    print("No positive counterexample found")
+                return negative_counterexamples[0]
         return None
         
     """  
@@ -138,46 +201,68 @@ class PACTeacher():
     def membership_query(self, w):
         return self.specification_dfa.is_word_in(w)
 
-    def teach(self, learner, traces , timeout = 50):
-        # we really do not need to pass the teacher in the following line. 
-        # learner.teacher = self
-        start_time=clock()
+    def teach(self, learner, traces, timeout = 20, verbose=True):
+        # with timeout(time):
 
-        for i in range(20):
+            start_time=time.time()
 
-            if(clock() - start_time > timeout):
-                break
+            for i in range(100):
 
-            # print(i)
-            if(learner.current_formula_depth>self.max_formula_depth):
-                print("Max formula depth achieved")
-                break
+                
+                if(learner.current_formula_depth>self.max_formula_depth):
+                    if(verbose):
+                        print("Max formula depth achieved")
+                    return learner, False
+                """  
+                For LTL learning, initialize  a process
+                """
+                q = Queue()
+                p = Process(target = learner.learn_ltlf_and_dfa, args = (q,))
+                p.start()
+                p.join(timeout=max(0.5, timeout-(time.time()-start_time)))
+                p.terminate()
+                while p.exitcode == None:
+                    time.sleep(1)
+                if p.exitcode == 0:
+                    
+                    [learner] = q.get()
+                
+                    # learner.learn_ltlf_and_dfa()
+                    counterexample = self.equivalence_query_dfs(learner.dfa, verbose=verbose)
+                    if counterexample is None:
+                        return learner,  True
+
+                    if(self.query_dfa is None):
+                        if(self.specification_dfa.classify_word(counterexample)):
+                            if(verbose):
             
-            learner.learn_ltlf_and_dfa()
-            counterexample = self.equivalence_query_dfs(learner.dfa)
-            if counterexample is None:
-                return True
-                break
-            # learner.new_counterexample(counter)
-
-            if(self.query_dfa is None):
-                if(self.specification_dfa.classify_word(counterexample)):
-                    print("new counterexample:", counterexample, " should be accepted by implementation")
-                    traces.add_positive_example(counterexample)
+                                print("new counterexample:", counterexample, " should be accepted by implementation")
+                            traces.add_positive_example(counterexample)
+                        else:
+                            if(verbose):
+            
+                                print("new counterexample:", counterexample, " should be rejected by implementation")
+                            traces.add_negative_example(counterexample)
+                    else:
+                        if(self.specification_dfa.classify_word(counterexample) and self.query_dfa.classify_word(counterexample)):
+                            if(verbose):
+            
+                                print("new counterexample:", counterexample, " should be accepted by implementation")
+                            traces.add_positive_example(counterexample)
+                        else:
+                            if(verbose):
+            
+                                print("new counterexample:", counterexample, " should be rejected by implementation")
+                            traces.add_negative_example(counterexample)
                 else:
-                    print("new counterexample:", counterexample, " should be rejected by implementation")
-                    traces.add_negative_example(counterexample)
-            else:
-                if(self.specification_dfa.classify_word(counterexample) and self.query_dfa.classify_word(counterexample)):
-                    print("new counterexample:", counterexample, " should be accepted by implementation")
-                    traces.add_positive_example(counterexample)
-                else:
-                    print("new counterexample:", counterexample, " should be rejected by implementation")
-                    traces.add_negative_example(counterexample)
+                    return learner, False            
 
-            print(i," iteration complete\n\n\n")
 
-        return False
+                print(i," iteration complete\n\n\n")
+                
+            
+            return learner, False
+
             
 
             # break

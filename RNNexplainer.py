@@ -116,7 +116,7 @@ class Explainer:
         self.alphabet=alphabet
         self.current_formula_depth=1     
 
-    def learn_ltlf_and_dfa(self, show_dfa=False):
+    def learn_ltlf_and_dfa(self, queue, show_dfa=False):
         learned_formulas, self.current_formula_depth = LTL_learner.learnLTL(self.traces,startDepth=self.current_formula_depth)
 
 
@@ -136,6 +136,9 @@ class Explainer:
             print(self.dfa)
             pydot_graph = pydotplus.graph_from_dot_file("automa.dot")
             display(Image(pydot_graph.create_png()))
+        
+        queue.put([self])
+
         
 
         

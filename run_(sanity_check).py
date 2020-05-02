@@ -12,11 +12,12 @@ import Tomita_Grammars
 from lstar_extraction.Training_Functions import make_test_set
 from RNNexplainer import Explainer
 import pandas as pd
+import time
+import LTL2DFA as ltlf2dfa
 
 
 
-
-
+timeout=400
 
 
 benchmarks={
@@ -90,57 +91,53 @@ for target_formula in benchmarks:
     print(generator_dfa)
 
 
-    # alphabet = "abcd"
     train_set = make_train_set_for_target(generator_dfa.classify_word,alphabet)
-    print(train_set)
-
+    
+    
     # define rnn
     rnn = RNNClassifier(alphabet,num_layers=1,hidden_dim=10,RNNClass = LSTMNetwork)
-
-
 
 
     # train the model
     mixed_curriculum_train(rnn,train_set,stop_threshold = 0.0005)
     rnn.renew()  
-
-    
-    """  
-    Igor's code:
-    The model itself is implemented as a DFA. 
-    """
-
-
     dfa_from_rnn=rnn 
+    # statistics
+
+    def percent(num,digits=2):
+        tens = pow(10,digits)
+        return int(100*num*tens)/tens
+
+    test_set = train_set 
+    print("testing on train set, i.e. test set is train set")
+    # we're printing stats on the train set for now, but you can define other test sets by using
+    # make_train_set_for_target
+
+    n = len(test_set)
+    print("test set size:", n)
+    pos = len([w for w in test_set if generator_dfa.classify_word(w)])
+    print("of which positive:",pos,"("+str(percent(pos/n))+")")
+    rnn_target = len([w for w in test_set if dfa_from_rnn.classify_word(w)==generator_dfa.classify_word(w)])
+    print("rnn score against target on test set:                             ",rnn_target,"("+str(percent(rnn_target/n))+")")
+ 
 
 
     # use a query LTL formula
-    import LTL2DFA as ltlf2dfa
-
+    
     for query_formula in benchmarks[target_formula]:
 
+        # use a query LTL formula
         query_dfa=ltlf2dfa.translate_ltl2dfa(alphabet=[character for character in alphabet],formula=query_formula)
-        # print(query_dfa)
-        # query_dfa=No
 
+        """  
+        Create initial samples
+        """
 
-        # make test_set supported by query dfa
-        sample_test_set=make_train_set_for_target(query_dfa.classify_word, alphabet)
-
-        # only consider sample that are true
         test_set=[]
-        for key in sample_test_set:
-            if(sample_test_set[key]):
-                test_set.append(key)
-        # print(test_set[:30])
-
-        from PACTeacher.pac_teacher import PACTeacher as Teacher 
-
-        # query_dfa=None
-
         if(query_dfa is None):
             query_formula=None
             test_set=make_test_set(alphabet)
+            raise SystemError
 
 
         from RNNexplainer import Traces
@@ -149,12 +146,18 @@ for target_formula in benchmarks:
         traces.write_in_file()
 
 
+
+
+        from PACTeacher.pac_teacher import PACTeacher as Teacher 
         explainer=Explainer(alphabet=[character for character in alphabet])
-        teacher = Teacher(dfa_from_rnn,epsilon=.001, delta=.001, max_trace_length=10, max_formula_depth=10, query_dfa=query_dfa)
-        from time import clock
-        start_time=clock()
-        flag=teacher.teach(explainer,traces)
-        end_time=clock()
+        teacher = Teacher(dfa_from_rnn,epsilon=.05, delta=.05, max_trace_length=20, max_formula_depth=10, query_dfa=query_dfa)
+
+
+
+        start_time=time.time()
+        from multiprocessing import Process, Queue
+        explainer, flag= teacher.teach(explainer, traces, timeout = timeout)
+        end_time=time.time()
 
 
         print("\n\nepsilon=", teacher.epsilon, "delta=", teacher.delta, "max_trace_length=", teacher.max_trace_length)
@@ -170,44 +173,26 @@ for target_formula in benchmarks:
         fout.write("\n\n")
 
         print("\nTime taken:", end_time-start_time)
-
         fout.close()
 
 
-        # statistics
-
-        def percent(num,digits=2):
-            tens = pow(10,digits)
-            return int(100*num*tens)/tens
-
         test_set = train_set 
-        print("testing on train set, i.e. test set is train set")
-        # we're printing stats on the train set for now, but you can define other test sets by using
-        # make_train_set_for_target
-
-        n = len(test_set)
-        print("test set size:", n)
-        pos = len([w for w in test_set if generator_dfa.classify_word(w)])
-        print("of which positive:",pos,"("+str(percent(pos/n))+")")
-        rnn_target = len([w for w in test_set if rnn.classify_word(w)==generator_dfa.classify_word(w)])
-        print("rnn score against target on test set:                             ",rnn_target,"("+str(percent(rnn_target/n))+")")
-
         fout=open("output/log.txt", "a")
-        fout.write("rnn score against target on test set:                             "+str(rnn_target)+"("+str(percent(rnn_target/n))+")")
-        fout.write("\n")
+        # fout.write("rnn score against target on test set:                             "+str(rnn_target)+"("+str(percent(rnn_target/n))+")")
+        # fout.write("\n")
 
-        performance_ltl = len([w for w in test_set if rnn.classify_word(w)==explainer.dfa.classify_word(w)])
+        performance_ltl = len([w for w in test_set if dfa_from_rnn.classify_word(w)==explainer.dfa.classify_word(w)])
         print("extracted LTL score against rnn on test set:                      ",performance_ltl,"("+str(percent(performance_ltl/n))+")")
         performance_ltl_with_target = len([w for w in test_set if explainer.dfa.classify_word(w)==generator_dfa.classify_word(w)])
         print("extracted LTL score against target on rnn's test set:             ",performance_ltl_with_target,"("+str(percent(performance_ltl_with_target/n))+")")
 
-        performance_ltl = len([w for w in test_set if (rnn.classify_word(w)and query_dfa.classify_word(w)) ==explainer.dfa.classify_word(w)])
+        performance_ltl = len([w for w in test_set if (dfa_from_rnn.classify_word(w)and query_dfa.classify_word(w)) ==explainer.dfa.classify_word(w)])
         print("extracted LTL score against rnn on test set (with query):         ",performance_ltl,"("+str(percent(performance_ltl/n))+")")
-        fout.write("extracted LTL score against rnn on test set (with query):         "+str(performance_ltl)+"("+str(percent(performance_ltl/n))+")\n")
+        # fout.write("extracted LTL score against rnn on test set (with query):         "+str(performance_ltl)+"("+str(percent(performance_ltl/n))+")\n")
         performance_ltl_with_target = len([w for w in test_set if explainer.dfa.classify_word(w)== (generator_dfa.classify_word(w) and query_dfa.classify_word(w))])
         print("extracted LTL score against target on rnn's test set (with query):",performance_ltl_with_target,"("+str(percent(performance_ltl_with_target/n))+")")
 
-        fout.write("extracted LTL score against target on rnn's test set (with query):"+str(performance_ltl_with_target)+"("+str(percent(performance_ltl_with_target/n))+")\n")
+        # fout.write("extracted LTL score against target on rnn's test set (with query):"+str(performance_ltl_with_target)+"("+str(percent(performance_ltl_with_target/n))+")\n")
         fout.close()
 
 
@@ -236,18 +221,3 @@ for target_formula in benchmarks:
         )
         print(result.to_string(index=False))
         result.to_csv('output/result.csv', header=False, index=False, mode='a')
-
-
-        # read result
-        df=pd.read_csv("output/result.csv",header=None)
-        df.columns=['target', 
-                    'query', 
-                    'explanation', 
-                    'status', 
-                    'rnn score', 
-                    'explanation score', 
-                    'explanation score on ground truth',
-                    'extraction time'
-                    ]
-        print(df.to_string(index=False))
-

@@ -28,7 +28,7 @@ def learnLTL(tracesFileName="dummy.trace", startDepth=1):
     parser.add_argument("--iteration_step", dest="iterationStep", default='1')
     parser.add_argument("--test_dt_method", dest="testDtMethod", default=False, action='store_true')
     parser.add_argument("--test_sat_method", dest="testSatMethod", default=False, action='store_true')
-    parser.add_argument("--timeout", dest="timeout", default=50, help="timeout in seconds")
+    parser.add_argument("--timeout", dest="timeout", default=10, help="timeout in seconds")
     # parser.add_argument("--log", dest="loglevel", default="INFO")
     parser.add_argument("--log", dest="loglevel", default="INFO")
     

@@ -10,8 +10,8 @@
 #PBS -P 11000744
 
 
-#PBS -l walltime=0001:00:00
-#PBS -l select=01:ncpus=24:mpiprocs=24:mem=96G
+#PBS -l walltime=0002:00:00
+#PBS -l select=01:ncpus=3:mpiprocs=1:ompthreads=1:mem=12G
 
 
 
@@ -21,4 +21,4 @@
 cd ${PBS_O_WORKDIR}
 # bash default.sh
 # mpirun bash todo.sh
-python run_\(sanity_check\).py
+python abp_test.py
