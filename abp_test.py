@@ -5,7 +5,7 @@ from RNN2DFA.LSTM import LSTMNetwork
 from RNN2DFA.RNNClassifier import RNNClassifier
 from RNN2DFA.Training_Functions import mixed_curriculum_train
 import Tomita_Grammars 
-from lstar_extraction.Training_Functions import make_test_set,make_train_set_for_target
+from RNN2DFA.Training_Functions import make_test_set,make_train_set_for_target
 from RNNexplainer import Explainer
 import pandas as pd
 import LTL2DFA as ltlf2dfa
@@ -52,12 +52,12 @@ query_formulas=[
 
 
 
-# make training set
+# make training sets
 train_set = make_train_set_for_target(generator_dfa.classify_word,alphabet)
 
 
 # define rnn
-rnn = RNNClassifier(alphabet,num_layers=1,hidden_dim=10,RNNClass = LSTMNetwork)
+rnn = RNNClassifier(alphabet,num_layers=5,hidden_dim=10,RNNClass = LSTMNetwork)
 
 
 # train the model
@@ -77,15 +77,23 @@ print("testing on train set, i.e. test set is train set")
 
 n = len(test_set)
 print("test set size:", n)
-pos = len([w for w in test_set if generator_dfa.classify_word(w)])
-print("of which positive:",pos,"("+str(percent(pos/n))+")")
-rnn_target = len([w for w in test_set if dfa_from_rnn.classify_word(w)==generator_dfa.classify_word(w)])
+pos = 0
+rnn_target = 0
+for w in test_set:
+    if generator_dfa.classify_word(w):
+        pos+=1
+
+    if dfa_from_rnn.classify_word(w)==generator_dfa.classify_word(w):
+        rnn_target+=1
 print("rnn score against target on test set:                             ",rnn_target,"("+str(percent(rnn_target/n))+")")
 
 
 
 for query_formula in query_formulas:
 
+    print("query:", query_formula)
+    
+    
     # use a query LTL formula
     query_dfa=ltlf2dfa.translate_ltl2dfa(alphabet=[character for character in alphabet],formula=query_formula)
 
@@ -138,22 +146,29 @@ for query_formula in query_formulas:
 
     test_set = train_set 
     fout=open("output/log.txt", "a")
-    # fout.write("rnn score against target on test set:                             "+str(rnn_target)+"("+str(percent(rnn_target/n))+")")
-    # fout.write("\n")
+    fout.close()
 
-    performance_ltl = len([w for w in test_set if dfa_from_rnn.classify_word(w)==explainer.dfa.classify_word(w)])
-    print("extracted LTL score against rnn on test set:                      ",performance_ltl,"("+str(percent(performance_ltl/n))+")")
-    performance_ltl_with_target = len([w for w in test_set if explainer.dfa.classify_word(w)==generator_dfa.classify_word(w)])
-    print("extracted LTL score against target on rnn's test set:             ",performance_ltl_with_target,"("+str(percent(performance_ltl_with_target/n))+")")
+    performance_ltl_wo_query = performance_ltl_with_target_wo_query = performance_ltl = performance_ltl_with_target = 0
 
-    performance_ltl = len([w for w in test_set if (dfa_from_rnn.classify_word(w)and query_dfa.classify_word(w)) ==explainer.dfa.classify_word(w)])
+
+    for w in test_set:
+        if dfa_from_rnn.classify_word(w)==explainer.dfa.classify_word(w):
+            performance_ltl_wo_query+=1
+        if explainer.dfa.classify_word(w)==generator_dfa.classify_word(w):
+            performance_ltl_with_target_wo_query +=1
+        if (dfa_from_rnn.classify_word(w)and query_dfa.classify_word(w)) ==explainer.dfa.classify_word(w):
+            performance_ltl+=1
+        if explainer.dfa.classify_word(w)== (generator_dfa.classify_word(w) and query_dfa.classify_word(w)):
+            performance_ltl_with_target +=1
+
+    print("extracted LTL score against rnn on test set:                      ",performance_ltl_wo_query,"("+str(percent(performance_ltl_wo_query/n))+")")
+
+    print("extracted LTL score against target on rnn's test set:             ",performance_ltl_with_target_wo_query,"("+str(percent(performance_ltl_with_target_wo_query/n))+")")
+
     print("extracted LTL score against rnn on test set (with query):         ",performance_ltl,"("+str(percent(performance_ltl/n))+")")
-    # fout.write("extracted LTL score against rnn on test set (with query):         "+str(performance_ltl)+"("+str(percent(performance_ltl/n))+")\n")
-    performance_ltl_with_target = len([w for w in test_set if explainer.dfa.classify_word(w)== (generator_dfa.classify_word(w) and query_dfa.classify_word(w))])
+
     print("extracted LTL score against target on rnn's test set (with query):",performance_ltl_with_target,"("+str(percent(performance_ltl_with_target/n))+")")
 
-    # fout.write("extracted LTL score against target on rnn's test set (with query):"+str(performance_ltl_with_target)+"("+str(percent(performance_ltl_with_target/n))+")\n")
-    fout.close()
 
 
     # report in a pandas file

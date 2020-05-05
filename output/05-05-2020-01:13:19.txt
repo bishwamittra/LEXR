@@ -1,0 +1,402 @@
+made train set of size: 7812 , of which positive examples: 3732
+The dy.parameter(...) call is now DEPRECATED.
+        There is no longer need to explicitly add parameters to the computation graph.
+        Any used parameter will be added automatically.
+classification loss on last batch was: 0.00033185494374470936
+testing on train set, i.e. test set is train set
+test set size: 9393
+of which positive: 5313 (56.56)
+rnn score against target on test set:                              9391 (99.97)
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+learned LTL formula: true
+Learning took:  0.13890290260314941  s
+EQ test took  0.0004112720489501953  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+learned LTL formula: false
+Learning took:  0.12319111824035645  s
+EQ test took  0.15397071838378906  s
+
+
+epsilon= 0.05 delta= 0.05 max_trace_length= 20
+query: false
+final ltl:  false
+
+Time taken: 0.418931245803833
+extracted LTL score against rnn on test set:                       4078 (43.41)
+extracted LTL score against target on rnn's test set:              4080 (43.43)
+extracted LTL score against rnn on test set (with query):          9393 (100.0)
+extracted LTL score against target on rnn's test set (with query): 9393 (100.0)
+target  query explanation status  rnn score  explanation score  explanation score on ground truth  extraction time
+email match  false       false   True      99.97              100.0                              100.0         0.418931
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+learned LTL formula: true
+Learning took:  0.21553945541381836  s
+No positive counterexample found
+EQ test took  0.008026838302612305  s
+new counterexample: n  should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['n']
+
+
+
+0  iteration complete
+
+
+
+learned LTL formula: false
+Learning took:  0.22423124313354492  s
+EQ test took  0.00046515464782714844  s
+new counterexample:   should be accepted by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['n']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+learned LTL formula: (~ n)
+Learning took:  0.2802712917327881  s
+No positive counterexample found
+EQ test took  0.025272607803344727  s
+new counterexample: a  should be rejected by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['n', 'a']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 2
+learned LTL formula: (~ (a | n))
+Learning took:  0.44480133056640625  s
+EQ test took  0.06454253196716309  s
+new counterexample: apnnqppprrprard  should be accepted by implementation
+
+
+positive traces---> 
+['', 'apnnqppprrprard']
+
+
+negative traces---> 
+['n', 'a']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 4
+learned LTL formula: (a U (~ (a | n)))
+Learning took:  2.132972240447998  s
+EQ test took  0.05508875846862793  s
+new counterexample: m  should be rejected by implementation
+
+
+positive traces---> 
+['', 'apnnqppprrprard']
+
+
+negative traces---> 
+['n', 'a', 'm']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 5
+learned LTL formula: (~ (((G a) | m) | n))
+Learning took:  8.36760926246643  s
+No positive counterexample found
+EQ test took  0.07080626487731934  s
+new counterexample: r  should be rejected by implementation
+
+
+positive traces---> 
+['', 'apnnqppprrprard']
+
+
+negative traces---> 
+['n', 'a', 'm', 'r']
+
+
+
+5  iteration complete
+
+
+
+start formula depth: 7
+learned LTL formula: (((n | r) | (a | m)) U (~ ((n | r) | (a | m))))
+Learning took:  104.85729312896729  s
+No positive counterexample found
+EQ test took  0.03541898727416992  s
+new counterexample: d  should be rejected by implementation
+
+
+positive traces---> 
+['', 'apnnqppprrprard']
+
+
+negative traces---> 
+['n', 'a', 'm', 'r', 'd']
+
+
+
+6  iteration complete
+
+
+
+
+
+epsilon= 0.05 delta= 0.05 max_trace_length= 20
+query: true
+final ltl:  (((n | r) | (a | m)) U (~ ((n | r) | (a | m))))
+incomplete formula
+
+Time taken: 401.1363081932068
+extracted LTL score against rnn on test set:                       5381 (57.28)
+extracted LTL score against target on rnn's test set:              5379 (57.26)
+extracted LTL score against rnn on test set (with query):          5381 (57.28)
+extracted LTL score against target on rnn's test set (with query): 5379 (57.26)
+target query                                      explanation status  rnn score  explanation score  explanation score on ground truth  extraction time
+email match  true  (((n | r) | (a | m)) U (~ ((n | r) | (a | m))))  False      99.97              57.28                              57.26       401.136308
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+learned LTL formula: true
+Learning took:  0.3008112907409668  s
+EQ test took  0.0003364086151123047  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+learned LTL formula: false
+Learning took:  0.30558133125305176  s
+EQ test took  0.16238093376159668  s
+
+
+epsilon= 0.05 delta= 0.05 max_trace_length= 20
+query: (m|n)
+final ltl:  false
+
+Time taken: 0.7708418369293213
+extracted LTL score against rnn on test set:                       4078 (43.41)
+extracted LTL score against target on rnn's test set:              4080 (43.43)
+extracted LTL score against rnn on test set (with query):          9393 (100.0)
+extracted LTL score against target on rnn's test set (with query): 9393 (100.0)
+target  query explanation status  rnn score  explanation score  explanation score on ground truth  extraction time
+email match  (m|n)       false   True      99.97              100.0                              100.0         0.770842
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+learned LTL formula: true
+Learning took:  0.38654184341430664  s
+No positive counterexample found
+EQ test took  0.007562398910522461  s
+new counterexample: n  should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['n']
+
+
+
+0  iteration complete
+
+
+
+learned LTL formula: false
+Learning took:  0.3904993534088135  s
+EQ test took  0.0004699230194091797  s
+new counterexample:   should be accepted by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['n']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+learned LTL formula: (~ n)
+Learning took:  0.44870781898498535  s
+No positive counterexample found
+EQ test took  0.03546547889709473  s
+new counterexample: p  should be rejected by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['n', 'p']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 2
+learned LTL formula: (~ (p | n))
+Learning took:  0.6071295738220215  s
+No positive counterexample found
+EQ test took  0.04671335220336914  s
+new counterexample: d  should be rejected by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['n', 'p', 'd']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 4
+learned LTL formula: (~ ((d | p) | n))
+Learning took:  1.2581946849822998  s
+No positive counterexample found
+EQ test took  0.11102724075317383  s
+new counterexample: a  should be rejected by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['n', 'p', 'd', 'a']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 6
+learned LTL formula: (~ ((d | a) | (p | n)))
+Learning took:  7.949512004852295  s
+No positive counterexample found
+EQ test took  0.13823843002319336  s
+new counterexample: q  should be rejected by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['n', 'p', 'd', 'a', 'q']
+
+
+
+5  iteration complete
+
+
+

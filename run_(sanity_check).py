@@ -9,7 +9,7 @@ from RNN2DFA.LSTM import LSTMNetwork
 from RNN2DFA.RNNClassifier import RNNClassifier
 from RNN2DFA.Training_Functions import mixed_curriculum_train,make_train_set_for_target
 import Tomita_Grammars 
-from lstar_extraction.Training_Functions import make_test_set
+from RNN2DFA.Training_Functions import make_test_set
 from RNNexplainer import Explainer
 import pandas as pd
 import time
