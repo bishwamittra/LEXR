@@ -5,15 +5,16 @@ import string
 from RNN2DFA.Training_Functions import make_train_set_for_target
 
 bp_other_letters = string.ascii_lowercase  #probably avoid putting '$' in here because that's my dummy letter somewhere in the network (todo: something more general)
-alphabet_bp = "()"+bp_other_letters
+# alphabet_bp = "()"+bp_other_letters
+alphabet_bp = "()" 
+bp_other_letters="abcd"
 
-
-def make_similar(w, alphabet):
+def _make_similar(w, alphabet):
     new = list(w)
     indexes = list(range(len(new)))
     # switch characters
     num_switches = random.choice(range(3))
-    shuffle(indexes)
+    random.shuffle(indexes)
     indexes_to_switch = indexes[:num_switches]
     for i in indexes_to_switch:
         new[i] = random.choice(alphabet)
@@ -36,7 +37,7 @@ def make_similar(w, alphabet):
         num_changes +=1
     return ''.join(new)
 
-def balanced_parantheses(w):
+def _balanced_parentheses(w):
     open_counter = 0
     while len(w)>0:
         c = w[0]
@@ -49,7 +50,7 @@ def balanced_parantheses(w):
                 return False
     return open_counter == 0
 
-def random_balanced_word(start_closing):
+def _random_balanced_word(start_closing):
     count = 0
     word = ""
     while len(word)<start_closing:
@@ -72,7 +73,7 @@ def random_balanced_word(start_closing):
         word+=next_letter
     return word
         
-def n_balanced_words_around_lengths(n,short,longg):
+def _n_balanced_words_around_lengths(n,short,longg):
     words = set()
     while len(words)<n:
         for l in range(short,longg):
@@ -90,4 +91,9 @@ def get_balanced_parantheses_train_set(n,short,longg,lengths=None,max_train_samp
     return make_train_set_for_target(balanced_parantheses,alphabet_bp,lengths=lengths,\
         max_train_samples_per_length=max_train_samples_per_length,\
         search_size_per_length=search_size_per_length,\
-        provided_examples=all_words):
+        provided_examples=all_words)
+
+
+
+
+

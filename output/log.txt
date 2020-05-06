@@ -5,83 +5,8 @@ final LTL: false
 
 
 
-query: false
-final LTL: false
-
-
-
 query: true
-final LTL: ((F (c | (a | b))) -> (a & (X (c | (a | b))))) [incomplete]
-
-
-
-query: F(a&X(c))
-final LTL: (((~ (c U a)) U a) & (F ((~ (c U a)) & c))) [incomplete]
-
-
-
-query: (F(a&X(c))) | (F(b&X(d)))
-final LTL: ((b -> a) & (F ((X (b -> a)) & a))) [incomplete]
-
-
-
-query: F(a&X(b))
-final LTL: false
-
-
-
-query: F(b&X(a))
-final LTL: (X ((~ b) U (X ((b U (~ b)) & b)))) [incomplete]
-
-
-
-query: F(c&X(d))
-final LTL: false
-
-
-
-query: F(d&X(c))
-final LTL: (X (X (d | (F (X a))))) [incomplete]
-
-
-
-query: ~F(a & X(a))
-final LTL: ((~ c) & (G ((a | b) -> (a U c)))) [incomplete]
-
-
-
-query: ~F(b & X(b))
-final LTL: ((((G a) | c) | b) -> (X (X ((G a) | c)))) [incomplete]
-
-
-
-query: ~F(c & X(c))
-final LTL: ((((X (a | c)) U (a | c)) | b) -> (a & (X (a | c)))) [incomplete]
-
-
-
-query: ~F(d & X(d))
-final LTL: ((c | (d | (b | a))) -> (X c)) [incomplete]
-
-
-
-query: ~F( a U c )
-final LTL: ((F ((b | a) | c)) -> (X (X a))) [incomplete]
-
-
-
-query: ~F( b U d )
-final LTL: ((((a | c) | d) | b) -> (X (a | c))) [incomplete]
-
-
-
-query: false
-final LTL: false
-
-
-
-query: true
-final LTL: (((n | r) | (a | m)) U (~ ((n | r) | (a | m)))) [incomplete]
+final LTL: (~ ((X (X d)) U ((F (X (X d))) -> d))) [incomplete]
 
 
 
@@ -90,23 +15,68 @@ final LTL: false
 
 
 
+query: ~F(a)
+final LTL: false
+
+
+
+query: ~F(d)
+final LTL: false
+
+
+
+query: F(a & X(m|n))
+final LTL: false
+
+
+
+query: F((m|n) & X(d))
+final LTL: false
+
+
+
+query: G(m|n)
+final LTL: false
+
+
+
+query: F(m|n)->((p|q|r)U(m|n))
+final LTL: ((X (X (X (~ a)))) & (~ a)) [incomplete]
+
+
+
+query: ~(F(m|n)->((p|q|r)U(m|n)))
+final LTL: false
+
+
+
+query: (F(m|n))&((p|q|r)U(m|n))
+final LTL: (X (X (X (F d)))) [incomplete]
+
+
+
+query: (F(m|n))&(F(a & X(m|n)))
+final LTL: false
+
+
+
 query: false
 final LTL: false
 
 
 
 query: true
-final LTL: (~ (d U (c | (G (b | a))))) [incomplete]
+final LTL: (((G (b | a)) | c) -> (X (X a))) [incomplete]
 
 
 
 query: F(a&X(c))
-final LTL: (((X (X (a -> (G a)))) U (a -> (G a))) -> (X (X (X (a -> (G a)))))) [incomplete]
+final LTL: (d U (a & (X (~ (d | (X d)))))) [incomplete]
 
 
 
 query: (F(a&X(c))) | (F(b&X(d)))
-final LTL: (((b U c) | (G (c -> (X b)))) -> (X b)) [incomplete]
+final LTL: (((a U c) -> c) -> (X (X ((a U c) -> c)))) [incomplete]
 
 
 
@@ -121,27 +91,27 @@ final LTL: false
 
 
 query: F(c&X(d))
-final LTL: false
+final LTL: (d U (a & ((a U c) U d))) [incomplete]
 
 
 
 query: F(d&X(c))
-final LTL: false
+final LTL: (((X (X (X d))) -> (X (X d))) & (F (X (X (X d))))) [incomplete]
 
 
 
 query: ~F(a & X(a))
-final LTL: (b U ((a -> (F (c | b))) & ((F (c | b)) -> a))) [incomplete]
+final LTL: (~ (c | (G (a | b)))) [incomplete]
 
 
 
 query: ~F(b & X(b))
-final LTL: (~ (d U (c | (G (b | a))))) [incomplete]
+final LTL: ((b | (a | c)) -> (X ((X (a | c)) | c))) [incomplete]
 
 
 
 query: ~F(c & X(c))
-final LTL: (((F (b | c)) | (F a)) -> ((F a) & (F (b | c)))) [incomplete]
+final LTL: (((a | (F c)) | (G b)) -> ((F c) & a)) [incomplete]
 
 
 
@@ -151,39 +121,17 @@ final LTL: ((c | (d | (b | a))) -> (X c)) [incomplete]
 
 
 query: ~F( a U c )
-final LTL: (G (F (~ (b | (a | c))))) [incomplete]
+final LTL: (b U ((F (b | (a | c))) -> (X a))) [incomplete]
 
 
 
 query: ~F( b U d )
-final LTL: (~ (c | (G (a | (d | b))))) [incomplete]
+final LTL: (((b | d) | (a | c)) -> (X (a | c))) [incomplete]
 
 
 
 query: (F(a) & F(b)) -> F(c) 
-final LTL: (((F (b | a)) -> (F c)) & (~ c)) [incomplete]
-
-
-
-query: false
-final LTL: false
-
-.........................................................................
-Target: F(a & X(b))
-
-
-query: true
-final LTL: (F ((a U b) & a))
-
-
-
-query: true
-final LTL: (F ((a U b) & a))
-
-
-
-query: true
-final LTL: (F (a & (X b)))
+final LTL: (((b | (d | c)) | a) -> (X (d | c))) [incomplete]
 
 
 
@@ -192,6 +140,36 @@ final LTL: false
 
 
 
-query: false
-final LTL: false
+query: ~F(l|r)
+final LTL: (G (~ (l | r)))
+
+
+
+query: F(l&X(~l))
+final LTL: (((X (X (~ l))) U (~ l)) U (l & (X (~ l)))) [incomplete]
+
+
+
+query: G(l->(l & X(r)))
+final LTL: (~ ((l -> ((l -> (X r)) -> r)) U ((l -> (X r)) -> r))) [incomplete]
+
+
+
+query: true
+final LTL: ((F (l | r)) -> ((F r) U ((F r) & l))) [incomplete]
+
+
+
+query: (F(l) & F(r))
+final LTL: ((~ l) U (l & ((X (~ l)) U r))) [incomplete]
+
+
+
+query: F(l U (~l))
+final LTL: ((F (l | r)) -> ((l | r) & (X (~ l)))) [incomplete]
+
+
+
+query: G(~l)
+final LTL: (~ (F (l | r)))
 

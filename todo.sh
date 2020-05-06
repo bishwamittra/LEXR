@@ -6,7 +6,8 @@ numthreads=$((OMPI_COMM_WORLD_SIZE))
 mythread=$((OMPI_COMM_WORLD_RANK))
 
 # tlimit="2000"
-# memlimit="8000000"
+memlimit="16000000"
+ulimit -v $memlimit
 
 
-python -m memory_profiler email_match_test.py > output/$(date +"%d-%m-%Y-%T".txt)
+python test.py > output/$(date +"%d-%m-%Y-%T".txt)

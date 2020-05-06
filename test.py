@@ -12,54 +12,30 @@ import LTL2DFA as ltlf2dfa
 import time
 
 
-from specific_examples import Email
-email = Email()
-generator_dfa = email  # to make everything work
-target_formula = email.target_formula
-alphabet = email.alphabet
-
-
-""" 
-email symbol description
-----
-
-numerical symbols: m, n
-letters: p, q, r
-a [@] 
-d [dot]
-
----
-Regex: (letters)(letters+numerical)+@(letters)d
-"""
+import specific_examples
+generator_dfa = specific_examples.Balanced_Parentheses()
+target_formula = generator_dfa.target_formula
+alphabet = generator_dfa.alphabet
+query_formulas=generator_dfa.query_formulas
 
 
 timeout = 400
 
 
-query_formulas = [
-    "false",  # rejects everything
-    "true",  # accepts everything
-    "(m|n)",  # email starts with numeric symbols
-    "~F(a)",  # there is no '@'
-    "~F(d)",  # there is no '.'
-    "F(a & X(m|n))",  # @ is followed by numerical symbols
-    "F((m|n) & X(d))",  # numerical symbols are followed by '.'
-    "G(m|n)",  # only numeric
-    # if there is a numeric symbol, then letters are true until the numeric symbol appears
-    "F(m|n)->((p|q|r)U(m|n))",
-    "~(F(m|n)->((p|q|r)U(m|n)))"  # opposite to the earlier query
-
-]
 
 
 # make training sets
-train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet,
-                                      max_train_samples_per_length=100000,
-                                      search_size_per_length=300000)
+if(target_formula != "balanced parentheses"):
+    train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet,
+                                      max_train_samples_per_length=10000,
+                                      search_size_per_length=30000)
+else:
+    train_set = generator_dfa.get_balanced_parantheses_train_set(15000, 2, 20)
+    print(train_set)
 
 # generate more examples that match the regular expression
 if(target_formula == "email match"):
-    matching_strings = email.generate_matching_strings(n=2000, max_length=20)
+    matching_strings = generator_dfa.generate_matching_strings(n=2000, max_length=20)
     for string in matching_strings:
         train_set[string] = True
 
@@ -81,16 +57,15 @@ def percent(num, digits=2):
     return int(100*num*tens)/tens
 
 
-test_set = train_set
 print("testing on train set, i.e. test set is train set")
 # we're printing stats on the train set for now, but you can define other test sets by using
 # make_train_set_for_target
 
-n = len(test_set)
+n = len(train_set)
 print("test set size:", n)
 pos = 0
 rnn_target = 0
-for w in test_set:
+for w in train_set:
     if generator_dfa.classify_word(w):
         pos += 1
 
@@ -112,15 +87,9 @@ for query_formula in query_formulas:
     Create initial samples
     """
 
-    test_set = []
-    if(query_dfa is None):
-        query_formula = None
-        test_set = make_test_set(alphabet)
-        raise SystemError
-
     from RNNexplainer import Traces
     traces = Traces(rnn, alphabet)
-    traces.label_from_network(test_set)
+    traces.label_from_network([])
     traces.write_in_file()
 
     from PACTeacher.pac_teacher import PACTeacher as Teacher
@@ -147,32 +116,35 @@ for query_formula in query_formulas:
 
     print("\nTime taken:", end_time-start_time)
     fout.close()
-    test_set = train_set
     fout = open("output/log.txt", "a")
 
     performance_ltl_wo_query = performance_ltl_with_target_wo_query = performance_ltl = performance_ltl_with_target = 0
 
-    for w in test_set:
-        if dfa_from_rnn.classify_word(w) == explainer.dfa.classify_word(w):
-            performance_ltl_wo_query += 1
-        if explainer.dfa.classify_word(w) == generator_dfa.classify_word(w):
-            performance_ltl_with_target_wo_query += 1
-        if (dfa_from_rnn.classify_word(w)and query_dfa.classify_word(w)) == explainer.dfa.classify_word(w):
-            performance_ltl += 1
-        if explainer.dfa.classify_word(w) == (generator_dfa.classify_word(w) and query_dfa.classify_word(w)):
-            performance_ltl_with_target += 1
+    # for w in train_set:
+    #     verdict_rnn = dfa_from_rnn.classify_word(w)
+    #     verdict_target = generator_dfa.classify_word(w)
+    #     verdict_query = query_dfa.classify_word(w)
+    #     verdict_ltl = explainer.dfa.classify_word(w)
+    #     if verdict_rnn == verdict_ltl:
+    #         performance_ltl_wo_query += 1
+    #     if verdict_ltl == verdict_target:
+    #         performance_ltl_with_target_wo_query += 1
+    #     if (verdict_rnn and verdict_query) == verdict_ltl:
+    #         performance_ltl += 1
+    #     if verdict_ltl == (verdict_target and verdict_query):
+    #         performance_ltl_with_target += 1
 
-    print("extracted LTL score against rnn on test set:                      ",
-          performance_ltl_wo_query, "("+str(percent(performance_ltl_wo_query/n))+")")
+    # print("extracted LTL score against rnn on test set:                      ",
+    #       performance_ltl_wo_query, "("+str(percent(performance_ltl_wo_query/n))+")")
 
-    print("extracted LTL score against target on rnn's test set:             ",
-          performance_ltl_with_target_wo_query, "("+str(percent(performance_ltl_with_target_wo_query/n))+")")
+    # print("extracted LTL score against target on rnn's test set:             ",
+    #       performance_ltl_with_target_wo_query, "("+str(percent(performance_ltl_with_target_wo_query/n))+")")
 
-    print("extracted LTL score against rnn on test set (with query):         ",
-          performance_ltl, "("+str(percent(performance_ltl/n))+")")
+    # print("extracted LTL score against rnn on test set (with query):         ",
+    #       performance_ltl, "("+str(percent(performance_ltl/n))+")")
 
-    print("extracted LTL score against target on rnn's test set (with query):",
-          performance_ltl_with_target, "("+str(percent(performance_ltl_with_target/n))+")")
+    # print("extracted LTL score against target on rnn's test set (with query):",
+    #       performance_ltl_with_target, "("+str(percent(performance_ltl_with_target/n))+")")
 
     fout.close()
 

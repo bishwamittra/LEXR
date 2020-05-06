@@ -1,21 +1,35 @@
-alternating bit protocol,false,false,True,100.0,100.0,100.0,0.2774851322174072
-alternating bit protocol,true,(~ (d U (c | (G (b | a))))),False,100.0,51.04,51.04,401.10952258110046
-alternating bit protocol,F(a&X(c)),(((X (X (a -> (G a)))) U (a -> (G a))) -> (X (X (X (a -> (G a)))))),False,100.0,40.41,40.41,401.1126980781555
-alternating bit protocol,(F(a&X(c))) | (F(b&X(d))),(((b U c) | (G (c -> (X b)))) -> (X b)),False,100.0,45.89,45.89,401.114896774292
-alternating bit protocol,F(a&X(b)),false,True,100.0,100.0,100.0,0.36964941024780273
-alternating bit protocol,F(b&X(a)),false,True,100.0,100.0,100.0,0.39014196395874023
-alternating bit protocol,F(c&X(d)),false,True,100.0,100.0,100.0,0.4193098545074463
-alternating bit protocol,F(d&X(c)),false,True,100.0,100.0,100.0,0.4250013828277588
-alternating bit protocol,~F(a & X(a)),(b U ((a -> (F (c | b))) & ((F (c | b)) -> a))),False,100.0,62.31,62.31,401.0248839855194
-alternating bit protocol,~F(b & X(b)),(~ (d U (c | (G (b | a))))),False,100.0,46.21,46.21,401.12606739997864
-alternating bit protocol,~F(c & X(c)),(((F (b | c)) | (F a)) -> ((F a) & (F (b | c)))),False,100.0,24.47,24.47,401.1290454864502
-alternating bit protocol,~F(d & X(d)),((c | (d | (b | a))) -> (X c)),False,100.0,70.37,70.37,401.1292426586151
-alternating bit protocol,~F( a U c ),(G (F (~ (b | (a | c))))),False,100.0,71.49,71.49,401.1315920352936
-alternating bit protocol,~F( b U d ),(~ (c | (G (a | (d | b))))),False,100.0,33.33,33.33,401.133691072464
-alternating bit protocol,(F(a) & F(b)) -> F(c) ,(((F (b | a)) -> (F c)) & (~ c)),False,100.0,52.17,52.17,401.1342234611511
-email match,false,false,True,100.0,100.0,100.0,0.4279139041900635
-F(a & X(b)),true,(F ((a U b) & a)),True,100.0,100.0,100.0,6.640846252441406
-F(a & X(b)),true,(F ((a U b) & a)),True,100.0,100.0,100.0,4.722938299179077
-F(a & X(b)),true,(F (a & (X b))),True,100.0,100.0,100.0,9.446722984313965
-email match,false,false,True,100.0,100.0,100.0,0.24877500534057617
-alternating bit protocol,false,false,True,100.0,100.0,100.0,0.1405959129333496
+email match,false,false,True,100.0,0.0,0.0,1.0411369800567627
+email match,true,(~ ((X (X d)) U ((F (X (X d))) -> d))),False,100.0,0.0,0.0,401.04671812057495
+email match,(m|n),false,True,100.0,0.0,0.0,1.1004974842071533
+email match,~F(a),false,True,100.0,0.0,0.0,1.231891393661499
+email match,~F(d),false,True,100.0,0.0,0.0,1.216352939605713
+email match,F(a & X(m|n)),false,True,100.0,0.0,0.0,1.1289126873016357
+email match,F((m|n) & X(d)),false,True,100.0,0.0,0.0,1.089949607849121
+email match,G(m|n),false,True,100.0,0.0,0.0,1.1556048393249512
+email match,F(m|n)->((p|q|r)U(m|n)),((X (X (X (~ a)))) & (~ a)),False,100.0,0.0,0.0,401.09865045547485
+email match,~(F(m|n)->((p|q|r)U(m|n))),false,True,100.0,0.0,0.0,1.495030164718628
+email match,(F(m|n))&((p|q|r)U(m|n)),(X (X (X (F d)))),False,100.0,0.0,0.0,401.0755615234375
+email match,(F(m|n))&(F(a & X(m|n))),false,True,100.0,0.0,0.0,1.5731499195098877
+alternating bit protocol,false,false,True,100.0,0.0,0.0,0.29102563858032227
+alternating bit protocol,true,(((G (b | a)) | c) -> (X (X a))),False,100.0,0.0,0.0,401.11136984825134
+alternating bit protocol,F(a&X(c)),(d U (a & (X (~ (d | (X d)))))),False,100.0,0.0,0.0,401.11423087120056
+alternating bit protocol,(F(a&X(c))) | (F(b&X(d))),(((a U c) -> c) -> (X (X ((a U c) -> c)))),False,100.0,0.0,0.0,401.11629009246826
+alternating bit protocol,F(a&X(b)),false,True,100.0,0.0,0.0,0.33113574981689453
+alternating bit protocol,F(b&X(a)),false,True,100.0,0.0,0.0,0.33681535720825195
+alternating bit protocol,F(c&X(d)),(d U (a & ((a U c) U d))),False,100.0,0.0,0.0,401.12171149253845
+alternating bit protocol,F(d&X(c)),(((X (X (X d))) -> (X (X d))) & (F (X (X (X d))))),False,100.0,0.0,0.0,401.1253547668457
+alternating bit protocol,~F(a & X(a)),(~ (c | (G (a | b)))),False,100.0,0.0,0.0,401.1266827583313
+alternating bit protocol,~F(b & X(b)),((b | (a | c)) -> (X ((X (a | c)) | c))),False,100.0,0.0,0.0,401.1259751319885
+alternating bit protocol,~F(c & X(c)),(((a | (F c)) | (G b)) -> ((F c) & a)),False,100.0,0.0,0.0,401.12686944007874
+alternating bit protocol,~F(d & X(d)),((c | (d | (b | a))) -> (X c)),False,100.0,0.0,0.0,401.1262016296387
+alternating bit protocol,~F( a U c ),(b U ((F (b | (a | c))) -> (X a))),False,100.0,0.0,0.0,401.12735247612
+alternating bit protocol,~F( b U d ),(((b | d) | (a | c)) -> (X (a | c))),False,100.0,0.0,0.0,401.12841033935547
+alternating bit protocol,(F(a) & F(b)) -> F(c) ,(((b | (d | c)) | a) -> (X (d | c))),False,100.0,0.0,0.0,401.12812304496765
+balanced parentheses,false,false,True,100.0,0.0,0.0,0.353987455368042
+balanced parentheses,~F(l|r),(G (~ (l | r))),True,100.0,0.0,0.0,2.4045891761779785
+balanced parentheses,F(l&X(~l)),(((X (X (~ l))) U (~ l)) U (l & (X (~ l)))),False,100.0,0.0,0.0,401.11698293685913
+balanced parentheses,G(l->(l & X(r))),(~ ((l -> ((l -> (X r)) -> r)) U ((l -> (X r)) -> r))),False,100.0,0.0,0.0,401.1193137168884
+balanced parentheses,true,((F (l | r)) -> ((F r) U ((F r) & l))),False,100.0,0.0,0.0,401.11979842185974
+balanced parentheses,(F(l) & F(r)),((~ l) U (l & ((X (~ l)) U r))),False,100.0,0.0,0.0,401.12154936790466
+balanced parentheses,F(l U (~l)),((F (l | r)) -> ((l | r) & (X (~ l)))),False,100.0,0.0,0.0,401.12229108810425
+balanced parentheses,G(~l),(~ (F (l | r))),True,100.0,0.0,0.0,2.649110794067383
