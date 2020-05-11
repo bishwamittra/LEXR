@@ -1,0 +1,3161 @@
+made train set of size: 466 , of which positive examples: 59
+The dy.parameter(...) call is now DEPRECATED.
+        There is no longer need to explicitly add parameters to the computation graph.
+        Any used parameter will be added automatically.
+current average loss is:  0.020469059960557496
+current average loss is:  0.003869204864284828
+current average loss is:  0.0009126419416481161
+current average loss is:  0.0005755455836728274
+classification loss on last batch was: 0.0004996859018256798
+testing on train set, i.e. test set is train set
+test set size: 450
+rnn score against target on test set:                              450 (100.0)
+query: false
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.06783676147460938  s
+EQ test took  0.0003910064697265625  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.05879664421081543  s
+EQ test took  0.19655847549438477  s
+
+
+epsilon= 0.05 delta= 0.05 max_trace_length= 50
+query: false
+final ltl:  false
+
+Time taken: 0.32591724395751953
+extracted LTL score against rnn on test set:                       98 (21.77)
+extracted LTL score against target on rnn's test set:              98 (21.77)
+extracted LTL score against rnn on test set (with query):          450 (100.0)
+extracted LTL score against target on rnn's test set (with query): 450 (100.0)
+target  query explanation status  rnn score  explanation score  explanation score on ground truth  extraction time revised delta revised epsilon counterexamples train size test size
+email match  false       false   True      100.0              100.0                              100.0         0.325917          None            None              []       1797       450
+query: true
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.06097126007080078  s
+No positive counterexample found
+EQ test took  0.004811286926269531  s
+new counterexample: r  should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['r']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.061833858489990234  s
+EQ test took  0.00042748451232910156  s
+new counterexample:   should be accepted by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['r']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+increasing formula depth to  2
+Before normalization: (! x6)
+Learning formula with depth 1
+learned LTL formula: (~ r)
+Learning took:  0.1286616325378418  s
+EQ test took  0.010418891906738281  s
+new counterexample: rnrd  should be accepted by implementation
+
+
+positive traces---> 
+['', 'rnrd']
+
+
+negative traces---> 
+['r']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 2
+increasing formula depth to  3
+Before normalization: (x6 U (! x6))
+Learning formula with depth 2
+learned LTL formula: (r U (~ r))
+Learning took:  0.24358105659484863  s
+EQ test took  0.0072095394134521484  s
+new counterexample: m  should be rejected by implementation
+
+
+positive traces---> 
+['', 'rnrd']
+
+
+negative traces---> 
+['r', 'm']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 3
+increasing formula depth to  4
+increasing formula depth to  5
+Before normalization: (F (! (x6 | x2)))
+Learning formula with depth 3
+learned LTL formula: (F (~ (m | r)))
+Learning took:  0.7528083324432373  s
+No positive counterexample found
+EQ test took  0.009541749954223633  s
+new counterexample: d  should be rejected by implementation
+
+
+positive traces---> 
+['', 'rnrd']
+
+
+negative traces---> 
+['r', 'm', 'd']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 5
+increasing formula depth to  6
+increasing formula depth to  7
+Before normalization: (! (x2 | (G (x1 | x6))))
+Learning formula with depth 4
+learned LTL formula: (~ (m | (G (d | r))))
+Learning took:  2.6549222469329834  s
+EQ test took  0.03173494338989258  s
+new counterexample: mnrqapnqqpnmppnrqaaard  should be accepted by implementation
+
+
+positive traces---> 
+['', 'rnrd', 'mnrqapnqqpnmppnrqaaard']
+
+
+negative traces---> 
+['r', 'm', 'd']
+
+
+
+5  iteration complete
+
+
+
+start formula depth: 7
+Before normalization: (! ((G (x6 | x2)) | x1))
+Learning formula with depth 4
+learned LTL formula: (~ (d | (G (m | r))))
+Learning took:  9.36487865447998  s
+EQ test took  0.06068849563598633  s
+new counterexample: n  should be rejected by implementation
+
+
+positive traces---> 
+['', 'rnrd', 'mnrqapnqqpnmppnrqaaard']
+
+
+negative traces---> 
+['r', 'm', 'd', 'n']
+
+
+
+6  iteration complete
+
+
+
+start formula depth: 7
+increasing formula depth to  8
+increasing formula depth to  9
+Before normalization: (((x6 | x1) | (x2 | x3)) -> (X x3))
+Learning formula with depth 3
+learned LTL formula: (((d | r) | (m | n)) -> (X n))
+Learning took:  172.0801341533661  s
+EQ test took  0.02046370506286621  s
+new counterexample: raqd  should be accepted by implementation
+
+
+positive traces---> 
+['', 'rnrd', 'mnrqapnqqpnmppnrqaaard', 'raqd']
+
+
+negative traces---> 
+['r', 'm', 'd', 'n']
+
+
+
+7  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: (! (x1 | ((G (x6 | x2)) | x3)))
+Learning formula with depth 5
+learned LTL formula: (~ (d | (n | (G (m | r)))))
+Learning took:  55.50144553184509  s
+EQ test took  0.02317667007446289  s
+new counterexample: a  should be rejected by implementation
+
+
+positive traces---> 
+['', 'rnrd', 'mnrqapnqqpnmppnrqaaard', 'raqd']
+
+
+negative traces---> 
+['r', 'm', 'd', 'n', 'a']
+
+
+
+8  iteration complete
+
+
+
+
+
+epsilon= 0.05 delta= 0.05 max_trace_length= 50
+query: true
+final ltl:  (~ (d | (n | (G (m | r)))))
+incomplete formula
+Number of samples: 185
+Number of counterexamples returned: 77
+9.68182711246033e+50 1.1647707181298212
+
+Time taken: 401.1110095977783
+extracted LTL score against rnn on test set:                       368 (81.77)
+extracted LTL score against target on rnn's test set:              368 (81.77)
+extracted LTL score against rnn on test set (with query):          368 (81.77)
+extracted LTL score against target on rnn's test set (with query): 368 (81.77)
+target query                  explanation status  rnn score  explanation score  explanation score on ground truth  extraction time  revised delta  revised epsilon                                    counterexamples train size test size
+email match  true  (~ (d | (n | (G (m | r)))))  False      100.0              81.77                              81.77        401.11101   9.681827e+50         1.164771  [r, , rnrd, m, d, mnrqapnqqpnmppnrqaaard, n, r...       1797       450
+query: (m|n)
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.06632828712463379  s
+EQ test took  0.00029850006103515625  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.0651397705078125  s
+EQ test took  0.19532155990600586  s
+new counterexample: manqd  should be accepted by implementation
+
+
+positive traces---> 
+['manqd']
+
+
+negative traces---> 
+['']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+Before normalization: x2
+Learning formula with depth 0
+learned LTL formula: m
+Learning took:  0.0946047306060791  s
+EQ test took  0.20406866073608398  s
+new counterexample: m  should be rejected by implementation
+
+
+positive traces---> 
+['manqd']
+
+
+negative traces---> 
+['', 'm']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 1
+increasing formula depth to  2
+Before normalization: (F x0)
+Learning formula with depth 1
+learned LTL formula: (F a)
+Learning took:  0.14365148544311523  s
+No positive counterexample found
+EQ test took  0.03522014617919922  s
+new counterexample: a  should be rejected by implementation
+
+
+positive traces---> 
+['manqd']
+
+
+negative traces---> 
+['', 'm', 'a']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 2
+Before normalization: (F x1)
+Learning formula with depth 1
+learned LTL formula: (F d)
+Learning took:  0.14250636100769043  s
+No positive counterexample found
+EQ test took  0.04387617111206055  s
+new counterexample: d  should be rejected by implementation
+
+
+positive traces---> 
+['manqd']
+
+
+negative traces---> 
+['', 'm', 'a', 'd']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 2
+Before normalization: (X x0)
+Learning formula with depth 1
+learned LTL formula: (X a)
+Learning took:  0.15528368949890137  s
+EQ test took  0.1451091766357422  s
+new counterexample: nnmrqmpmnpnnmpd  should be accepted by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd']
+
+
+negative traces---> 
+['', 'm', 'a', 'd']
+
+
+
+5  iteration complete
+
+
+
+start formula depth: 2
+Before normalization: (F x5)
+Learning formula with depth 1
+learned LTL formula: (F q)
+Learning took:  0.21541333198547363  s
+EQ test took  0.028667926788330078  s
+new counterexample: q  should be rejected by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd']
+
+
+negative traces---> 
+['', 'm', 'a', 'd', 'q']
+
+
+
+6  iteration complete
+
+
+
+start formula depth: 2
+Before normalization: (F x3)
+Learning formula with depth 1
+learned LTL formula: (F n)
+Learning took:  0.2321155071258545  s
+No positive counterexample found
+EQ test took  0.052840232849121094  s
+new counterexample: n  should be rejected by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd']
+
+
+negative traces---> 
+['', 'm', 'a', 'd', 'q', 'n']
+
+
+
+7  iteration complete
+
+
+
+start formula depth: 2
+increasing formula depth to  3
+Before normalization: (X (! x2))
+Learning formula with depth 2
+learned LTL formula: (X (~ m))
+Learning took:  0.6047282218933105  s
+EQ test took  0.039865970611572266  s
+new counterexample: nmamarqd  should be accepted by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd', 'nmamarqd']
+
+
+negative traces---> 
+['', 'm', 'a', 'd', 'q', 'n']
+
+
+
+8  iteration complete
+
+
+
+start formula depth: 3
+Before normalization: (F (X x1))
+Learning formula with depth 2
+learned LTL formula: (F (X d))
+Learning took:  0.5680985450744629  s
+EQ test took  0.09909486770629883  s
+new counterexample: dd  should be rejected by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd', 'nmamarqd']
+
+
+negative traces---> 
+['', 'm', 'a', 'd', 'q', 'n', 'dd']
+
+
+
+9  iteration complete
+
+
+
+start formula depth: 3
+Before normalization: (X (F x5))
+Learning formula with depth 2
+learned LTL formula: (X (F q))
+Learning took:  0.5983061790466309  s
+EQ test took  0.06257939338684082  s
+new counterexample: nnmard  should be accepted by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd', 'nmamarqd', 'nnmard']
+
+
+negative traces---> 
+['', 'm', 'a', 'd', 'q', 'n', 'dd']
+
+
+
+10  iteration complete
+
+
+
+start formula depth: 3
+Before normalization: (X (! x1))
+Learning formula with depth 2
+learned LTL formula: (X (~ d))
+Learning took:  0.6642086505889893  s
+EQ test took  0.09340810775756836  s
+new counterexample: an  should be rejected by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd', 'nmamarqd', 'nnmard']
+
+
+negative traces---> 
+['', 'm', 'a', 'd', 'q', 'n', 'dd', 'an']
+
+
+
+11  iteration complete
+
+
+
+start formula depth: 3
+increasing formula depth to  4
+Before normalization: ((! x1) & (F x1))
+Learning formula with depth 2
+learned LTL formula: ((F d) & (~ d))
+Learning took:  1.8887553215026855  s
+No positive counterexample found
+EQ test took  0.12184500694274902  s
+new counterexample: nd  should be rejected by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd', 'nmamarqd', 'nnmard']
+
+
+negative traces---> 
+['', 'm', 'a', 'd', 'q', 'n', 'dd', 'an', 'nd']
+
+
+
+12  iteration complete
+
+
+
+start formula depth: 4
+Before normalization: (X (X (! x1)))
+Learning formula with depth 3
+learned LTL formula: (X (X (~ d)))
+Learning took:  1.430828332901001  s
+No positive counterexample found
+EQ test took  0.12328958511352539  s
+new counterexample: qnp  should be rejected by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd', 'nmamarqd', 'nnmard']
+
+
+negative traces---> 
+['', 'm', 'a', 'd', 'q', 'n', 'dd', 'an', 'nd', 'qnp']
+
+
+
+13  iteration complete
+
+
+
+start formula depth: 4
+Before normalization: (X (F (X x1)))
+Learning formula with depth 3
+learned LTL formula: (X (F (X d)))
+Learning took:  1.6773643493652344  s
+No positive counterexample found
+EQ test took  0.16414213180541992  s
+new counterexample: ard  should be rejected by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd', 'nmamarqd', 'nnmard']
+
+
+negative traces---> 
+['', 'm', 'a', 'd', 'q', 'n', 'dd', 'an', 'nd', 'qnp', 'ard']
+
+
+
+14  iteration complete
+
+
+
+start formula depth: 4
+increasing formula depth to  5
+Before normalization: (((x2 -> x2) U x2) & (X (x2 -> x2)))
+Learning formula with depth 2
+learned LTL formula: ((X true) & (F m))
+Learning took:  4.654609680175781  s
+EQ test took  0.06806516647338867  s
+new counterexample: nnnrd  should be accepted by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd', 'nmamarqd', 'nnmard', 'nnnrd']
+
+
+negative traces---> 
+['', 'm', 'a', 'd', 'q', 'n', 'dd', 'an', 'nd', 'qnp', 'ard']
+
+
+
+15  iteration complete
+
+
+
+start formula depth: 5
+Before normalization: (X (X (X (! x4))))
+Learning formula with depth 4
+learned LTL formula: (X (X (X (~ p))))
+Learning took:  3.0581719875335693  s
+EQ test took  0.10274267196655273  s
+new counterexample: aqda  should be rejected by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd', 'nmamarqd', 'nnmard', 'nnnrd']
+
+
+negative traces---> 
+['', 'm', 'a', 'd', 'q', 'n', 'dd', 'an', 'nd', 'qnp', 'ard', 'aqda']
+
+
+
+16  iteration complete
+
+
+
+start formula depth: 5
+Before normalization: (X (F (X (X x1))))
+Learning formula with depth 4
+learned LTL formula: (X (F (X (X d))))
+Learning took:  5.2109386920928955  s
+No positive counterexample found
+EQ test took  0.14749813079833984  s
+new counterexample: mqqd  should be rejected by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd', 'nmamarqd', 'nnmard', 'nnnrd']
+
+
+negative traces---> 
+['', 'm', 'a', 'd', 'q', 'n', 'dd', 'an', 'nd', 'qnp', 'ard', 'aqda', 'mqqd']
+
+
+
+17  iteration complete
+
+
+
+start formula depth: 5
+increasing formula depth to  6
+Before normalization: ((! x0) U (x6 | (X x0)))
+Learning formula with depth 3
+learned LTL formula: ((~ a) U (r | (X a)))
+Learning took:  20.44982099533081  s
+EQ test took  0.05297255516052246  s
+new counterexample: nnmqd  should be accepted by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd', 'nmamarqd', 'nnmard', 'nnnrd', 'nnmqd']
+
+
+negative traces---> 
+['', 'm', 'a', 'd', 'q', 'n', 'dd', 'an', 'nd', 'qnp', 'ard', 'aqda', 'mqqd']
+
+
+
+18  iteration complete
+
+
+
+start formula depth: 6
+Before normalization: ((x2 | (X x3)) U (X (x2 | (X x3))))
+Learning formula with depth 4
+learned LTL formula: ((m | (X n)) U (X (m | (X n))))
+Learning took:  13.966913223266602  s
+EQ test took  0.4451584815979004  s
+new counterexample: qm  should be rejected by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd', 'nmamarqd', 'nnmard', 'nnnrd', 'nnmqd']
+
+
+negative traces---> 
+['', 'm', 'a', 'd', 'q', 'n', 'dd', 'an', 'nd', 'qnp', 'ard', 'aqda', 'mqqd', 'qm']
+
+
+
+19  iteration complete
+
+
+
+start formula depth: 6
+Before normalization: (X (X (X (X (x3 -> x3)))))
+Learning formula with depth 4
+learned LTL formula: (X (X (X (X true))))
+Learning took:  6.042252063751221  s
+No positive counterexample found
+EQ test took  0.08368730545043945  s
+new counterexample: qnrdd  should be rejected by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd', 'nmamarqd', 'nnmard', 'nnnrd', 'nnmqd']
+
+
+negative traces---> 
+['', 'm', 'a', 'd', 'q', 'n', 'dd', 'an', 'nd', 'qnp', 'ard', 'aqda', 'mqqd', 'qm', 'qnrdd']
+
+
+
+20  iteration complete
+
+
+
+start formula depth: 6
+Before normalization: (X (X (x3 | (F x2))))
+Learning formula with depth 4
+learned LTL formula: (X (X (n | (F m))))
+Learning took:  64.36614632606506  s
+No positive counterexample found
+EQ test took  0.13113880157470703  s
+new counterexample: nam  should be rejected by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd', 'nmamarqd', 'nnmard', 'nnnrd', 'nnmqd']
+
+
+negative traces---> 
+['', 'm', 'a', 'd', 'q', 'n', 'dd', 'an', 'nd', 'qnp', 'ard', 'aqda', 'mqqd', 'qm', 'qnrdd', 'nam']
+
+
+
+21  iteration complete
+
+
+
+start formula depth: 6
+Before normalization: ((x2 U (X (x2 | x3))) & (x2 | x3))
+Learning formula with depth 4
+learned LTL formula: ((m | n) & (m U (X (m | n))))
+Learning took:  15.484736442565918  s
+EQ test took  0.3485431671142578  s
+new counterexample: nrnnrnqranpd  should be accepted by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd', 'nmamarqd', 'nnmard', 'nnnrd', 'nnmqd', 'nrnnrnqranpd']
+
+
+negative traces---> 
+['', 'm', 'a', 'd', 'q', 'n', 'dd', 'an', 'nd', 'qnp', 'ard', 'aqda', 'mqqd', 'qm', 'qnrdd', 'nam']
+
+
+
+22  iteration complete
+
+
+
+start formula depth: 6
+Before normalization: (X ((X (! x1)) & (X (X (! x1)))))
+Learning formula with depth 5
+learned LTL formula: (X ((X (~ d)) & (X (X (~ d)))))
+Learning took:  124.35491967201233  s
+EQ test took  0.29140663146972656  s
+new counterexample: rrrp  should be rejected by implementation
+
+
+positive traces---> 
+['manqd', 'nnmrqmpmnpnnmpd', 'nmamarqd', 'nnmard', 'nnnrd', 'nnmqd', 'nrnnrnqranpd']
+
+
+negative traces---> 
+['', 'm', 'a', 'd', 'q', 'n', 'dd', 'an', 'nd', 'qnp', 'ard', 'aqda', 'mqqd', 'qm', 'qnrdd', 'nam', 'rrrp']
+
+
+
+23  iteration complete
+
+
+
+
+
+epsilon= 0.05 delta= 0.05 max_trace_length= 50
+query: (m|n)
+final ltl:  (X ((X (~ d)) & (X (X (~ d)))))
+incomplete formula
+Number of samples: 393
+Number of counterexamples returned: 286
+1.8319173678208385e+96 2.1495258351524837
+
+Time taken: 401.1136271953583
+extracted LTL score against rnn on test set:                       375 (83.33)
+extracted LTL score against target on rnn's test set:              375 (83.33)
+extracted LTL score against rnn on test set (with query):          31 (6.88)
+extracted LTL score against target on rnn's test set (with query): 31 (6.88)
+target  query                      explanation status  rnn score  explanation score  explanation score on ground truth  extraction time  revised delta  revised epsilon                                    counterexamples train size test size
+email match  (m|n)  (X ((X (~ d)) & (X (X (~ d)))))  False      100.0               6.88                               6.88       401.113627   1.831917e+96         2.149526  [, manqd, m, a, d, nnmrqmpmnpnnmpd, q, n, nmam...       1797       450
+query: ~F(a)
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.08455681800842285  s
+No positive counterexample found
+EQ test took  0.004498958587646484  s
+new counterexample: d  should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['d']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.08655667304992676  s
+EQ test took  0.0004315376281738281  s
+new counterexample:   should be accepted by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['d']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+increasing formula depth to  2
+Before normalization: (! x1)
+Learning formula with depth 1
+learned LTL formula: (~ d)
+Learning took:  0.14471030235290527  s
+No positive counterexample found
+EQ test took  0.03723573684692383  s
+new counterexample: q  should be rejected by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['d', 'q']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 2
+increasing formula depth to  3
+increasing formula depth to  4
+Before normalization: (! (x5 | x1))
+Learning formula with depth 2
+learned LTL formula: (~ (d | q))
+Learning took:  0.3181796073913574  s
+EQ test took  0.029015779495239258  s
+new counterexample: qrppnprd  should be accepted by implementation
+
+
+positive traces---> 
+['', 'qrppnprd']
+
+
+negative traces---> 
+['d', 'q']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 4
+increasing formula depth to  5
+Before normalization: (x5 U (! (x1 | x5)))
+Learning formula with depth 3
+learned LTL formula: (q U (~ (d | q)))
+Learning took:  0.97845458984375  s
+EQ test took  0.05467867851257324  s
+new counterexample: n  should be rejected by implementation
+
+
+positive traces---> 
+['', 'qrppnprd']
+
+
+negative traces---> 
+['d', 'q', 'n']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 5
+increasing formula depth to  6
+increasing formula depth to  7
+Before normalization: (! (((G x5) | x1) | x3))
+Learning formula with depth 4
+learned LTL formula: (~ (n | (d | (G q))))
+Learning took:  4.821506977081299  s
+EQ test took  0.08893990516662598  s
+new counterexample: nmnmrqd  should be accepted by implementation
+
+
+positive traces---> 
+['', 'qrppnprd', 'nmnmrqd']
+
+
+negative traces---> 
+['d', 'q', 'n']
+
+
+
+5  iteration complete
+
+
+
+start formula depth: 7
+Before normalization: ((x5 | x3) U (! ((x5 | x3) | x1)))
+Learning formula with depth 4
+learned LTL formula: ((n | q) U (~ (d | (n | q))))
+Learning took:  2.8116323947906494  s
+EQ test took  0.08052349090576172  s
+new counterexample: m  should be rejected by implementation
+
+
+positive traces---> 
+['', 'qrppnprd', 'nmnmrqd']
+
+
+negative traces---> 
+['d', 'q', 'n', 'm']
+
+
+
+6  iteration complete
+
+
+
+start formula depth: 7
+increasing formula depth to  8
+increasing formula depth to  9
+Before normalization: (! ((G (x5 | x3)) | (x2 | x1)))
+Learning formula with depth 4
+learned LTL formula: (~ ((d | m) | (G (n | q))))
+Learning took:  95.36103463172913  s
+No positive counterexample found
+EQ test took  0.2078690528869629  s
+new counterexample: p  should be rejected by implementation
+
+
+positive traces---> 
+['', 'qrppnprd', 'nmnmrqd']
+
+
+negative traces---> 
+['d', 'q', 'n', 'm', 'p']
+
+
+
+7  iteration complete
+
+
+
+
+
+epsilon= 0.05 delta= 0.05 max_trace_length= 50
+query: ~F(a)
+final ltl:  (~ ((d | m) | (G (n | q))))
+incomplete formula
+Number of samples: 171
+Number of counterexamples returned: 113
+1.3020133299061229e+45 1.8926891937938475
+
+Time taken: 401.1142530441284
+extracted LTL score against rnn on test set:                       383 (85.11)
+extracted LTL score against target on rnn's test set:              383 (85.11)
+extracted LTL score against rnn on test set (with query):          31 (6.88)
+extracted LTL score against target on rnn's test set (with query): 31 (6.88)
+target  query                  explanation status  rnn score  explanation score  explanation score on ground truth  extraction time  revised delta  revised epsilon                       counterexamples train size test size
+email match  ~F(a)  (~ ((d | m) | (G (n | q))))  False      100.0               6.88                               6.88       401.114253   1.302013e+45         1.892689  [d, , q, qrppnprd, n, nmnmrqd, m, p]       1797       450
+query: ~F(d)
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.09235286712646484  s
+No positive counterexample found
+EQ test took  0.005229473114013672  s
+new counterexample: n  should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['n']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.09546780586242676  s
+EQ test took  0.0004570484161376953  s
+new counterexample:   should be accepted by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['n']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+increasing formula depth to  2
+Before normalization: (! x3)
+Learning formula with depth 1
+learned LTL formula: (~ n)
+Learning took:  0.15554118156433105  s
+No positive counterexample found
+EQ test took  0.03662538528442383  s
+new counterexample: d  should be rejected by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['n', 'd']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 2
+increasing formula depth to  3
+increasing formula depth to  4
+Before normalization: (! (x3 | x1))
+Learning formula with depth 2
+learned LTL formula: (~ (d | n))
+Learning took:  0.3312516212463379  s
+No positive counterexample found
+EQ test took  0.07509756088256836  s
+new counterexample: m  should be rejected by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['n', 'd', 'm']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 4
+increasing formula depth to  5
+increasing formula depth to  6
+Before normalization: (! ((x3 | x2) | x1))
+Learning formula with depth 3
+learned LTL formula: (~ (d | (m | n)))
+Learning took:  0.9738729000091553  s
+No positive counterexample found
+EQ test took  0.13321542739868164  s
+new counterexample: a  should be rejected by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['n', 'd', 'm', 'a']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 6
+increasing formula depth to  7
+increasing formula depth to  8
+Before normalization: (! ((x0 | (x1 | x3)) | x2))
+Learning formula with depth 4
+learned LTL formula: (~ (m | (a | (d | n))))
+Learning took:  9.910977125167847  s
+No positive counterexample found
+EQ test took  0.1827869415283203  s
+new counterexample: q  should be rejected by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['n', 'd', 'm', 'a', 'q']
+
+
+
+5  iteration complete
+
+
+
+
+
+epsilon= 0.05 delta= 0.05 max_trace_length= 50
+query: ~F(d)
+final ltl:  (~ (m | (a | (d | n))))
+incomplete formula
+Number of samples: 144
+Number of counterexamples returned: 64
+1.1194209432053884e+40 1.2401493441241163
+
+Time taken: 401.1152527332306
+extracted LTL score against rnn on test set:                       404 (89.77)
+extracted LTL score against target on rnn's test set:              404 (89.77)
+extracted LTL score against rnn on test set (with query):          52 (11.55)
+extracted LTL score against target on rnn's test set (with query): 52 (11.55)
+target  query              explanation status  rnn score  explanation score  explanation score on ground truth  extraction time  revised delta  revised epsilon    counterexamples train size test size
+email match  ~F(d)  (~ (m | (a | (d | n))))  False      100.0              11.55                              11.55       401.115253   1.119421e+40         1.240149  [n, , d, m, a, q]       1797       450
+query: F(a & X(m|n))
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.09630227088928223  s
+EQ test took  0.00034499168395996094  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.09443807601928711  s
+EQ test took  0.1754302978515625  s
+new counterexample: anrrd  should be accepted by implementation
+
+
+positive traces---> 
+['anrrd']
+
+
+negative traces---> 
+['']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+Before normalization: x0
+Learning formula with depth 0
+learned LTL formula: a
+Learning took:  0.12329649925231934  s
+EQ test took  0.1740264892578125  s
+new counterexample: a  should be rejected by implementation
+
+
+positive traces---> 
+['anrrd']
+
+
+negative traces---> 
+['', 'a']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 1
+increasing formula depth to  2
+Before normalization: (F x1)
+Learning formula with depth 1
+learned LTL formula: (F d)
+Learning took:  0.17670035362243652  s
+No positive counterexample found
+EQ test took  0.041040897369384766  s
+new counterexample: d  should be rejected by implementation
+
+
+positive traces---> 
+['anrrd']
+
+
+negative traces---> 
+['', 'a', 'd']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 2
+Before normalization: (X x3)
+Learning formula with depth 1
+learned LTL formula: (X n)
+Learning took:  0.1733548641204834  s
+EQ test took  0.0458683967590332  s
+new counterexample: nanpd  should be accepted by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd']
+
+
+negative traces---> 
+['', 'a', 'd']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 2
+Before normalization: (F x3)
+Learning formula with depth 1
+learned LTL formula: (F n)
+Learning took:  0.18913602828979492  s
+EQ test took  0.01386260986328125  s
+new counterexample: n  should be rejected by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd']
+
+
+negative traces---> 
+['', 'a', 'd', 'n']
+
+
+
+5  iteration complete
+
+
+
+start formula depth: 2
+increasing formula depth to  3
+Before normalization: (x3 U (X x3))
+Learning formula with depth 2
+learned LTL formula: (n U (X n))
+Learning took:  0.383744478225708  s
+EQ test took  0.046415090560913086  s
+new counterexample: amnmqd  should be accepted by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd', 'amnmqd']
+
+
+negative traces---> 
+['', 'a', 'd', 'n']
+
+
+
+6  iteration complete
+
+
+
+start formula depth: 3
+Before normalization: (F (X x1))
+Learning formula with depth 2
+learned LTL formula: (F (X d))
+Learning took:  0.3680419921875  s
+EQ test took  0.05948233604431152  s
+new counterexample: md  should be rejected by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd', 'amnmqd']
+
+
+negative traces---> 
+['', 'a', 'd', 'n', 'md']
+
+
+
+7  iteration complete
+
+
+
+start formula depth: 3
+Before normalization: (F (X x3))
+Learning formula with depth 2
+learned LTL formula: (F (X n))
+Learning took:  0.3938305377960205  s
+EQ test took  0.0379948616027832  s
+new counterexample: ramqd  should be accepted by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd', 'amnmqd', 'ramqd']
+
+
+negative traces---> 
+['', 'a', 'd', 'n', 'md']
+
+
+
+8  iteration complete
+
+
+
+start formula depth: 3
+Before normalization: (X (! x1))
+Learning formula with depth 2
+learned LTL formula: (X (~ d))
+Learning took:  0.4358549118041992  s
+EQ test took  0.09768962860107422  s
+new counterexample: da  should be rejected by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd', 'amnmqd', 'ramqd']
+
+
+negative traces---> 
+['', 'a', 'd', 'n', 'md', 'da']
+
+
+
+9  iteration complete
+
+
+
+start formula depth: 3
+increasing formula depth to  4
+Before normalization: ((X (! x1)) & (! x1))
+Learning formula with depth 3
+learned LTL formula: ((~ d) & (X (~ d)))
+Learning took:  1.1496975421905518  s
+No positive counterexample found
+EQ test took  0.13276052474975586  s
+new counterexample: nm  should be rejected by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd', 'amnmqd', 'ramqd']
+
+
+negative traces---> 
+['', 'a', 'd', 'n', 'md', 'da', 'nm']
+
+
+
+10  iteration complete
+
+
+
+start formula depth: 4
+Before normalization: (X (X (! x4)))
+Learning formula with depth 3
+learned LTL formula: (X (X (~ p)))
+Learning took:  0.8791770935058594  s
+EQ test took  0.057123661041259766  s
+new counterexample: rrpanppmnmmpqd  should be accepted by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd', 'amnmqd', 'ramqd', 'rrpanppmnmmpqd']
+
+
+negative traces---> 
+['', 'a', 'd', 'n', 'md', 'da', 'nm']
+
+
+
+11  iteration complete
+
+
+
+start formula depth: 4
+Before normalization: (X (X (x3 -> x3)))
+Learning formula with depth 2
+learned LTL formula: (X (X true))
+Learning took:  1.3433136940002441  s
+EQ test took  0.036103010177612305  s
+new counterexample: qmq  should be rejected by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd', 'amnmqd', 'ramqd', 'rrpanppmnmmpqd']
+
+
+negative traces---> 
+['', 'a', 'd', 'n', 'md', 'da', 'nm', 'qmq']
+
+
+
+12  iteration complete
+
+
+
+start formula depth: 4
+Before normalization: (X (X (! x5)))
+Learning formula with depth 3
+learned LTL formula: (X (X (~ q)))
+Learning took:  1.4071917533874512  s
+EQ test took  0.06923890113830566  s
+new counterexample: anqpd  should be accepted by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd', 'amnmqd', 'ramqd', 'rrpanppmnmmpqd', 'anqpd']
+
+
+negative traces---> 
+['', 'a', 'd', 'n', 'md', 'da', 'nm', 'qmq']
+
+
+
+13  iteration complete
+
+
+
+start formula depth: 4
+Before normalization: (X (F (X x1)))
+Learning formula with depth 3
+learned LTL formula: (X (F (X d)))
+Learning took:  1.6165075302124023  s
+EQ test took  0.11857032775878906  s
+new counterexample: ard  should be rejected by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd', 'amnmqd', 'ramqd', 'rrpanppmnmmpqd', 'anqpd']
+
+
+negative traces---> 
+['', 'a', 'd', 'n', 'md', 'da', 'nm', 'qmq', 'ard']
+
+
+
+14  iteration complete
+
+
+
+start formula depth: 4
+increasing formula depth to  5
+Before normalization: (F (X (X (X x1))))
+Learning formula with depth 4
+learned LTL formula: (F (X (X (X d))))
+Learning took:  5.1598124504089355  s
+No positive counterexample found
+EQ test took  0.12209010124206543  s
+new counterexample: pmdd  should be rejected by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd', 'amnmqd', 'ramqd', 'rrpanppmnmmpqd', 'anqpd']
+
+
+negative traces---> 
+['', 'a', 'd', 'n', 'md', 'da', 'nm', 'qmq', 'ard', 'pmdd']
+
+
+
+15  iteration complete
+
+
+
+start formula depth: 5
+Before normalization: ((X (F x3)) | x6)
+Learning formula with depth 3
+learned LTL formula: (r | (X (F n)))
+Learning took:  3.492302656173706  s
+EQ test took  0.12470579147338867  s
+new counterexample: pamqqd  should be accepted by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd', 'amnmqd', 'ramqd', 'rrpanppmnmmpqd', 'anqpd', 'pamqqd']
+
+
+negative traces---> 
+['', 'a', 'd', 'n', 'md', 'da', 'nm', 'qmq', 'ard', 'pmdd']
+
+
+
+16  iteration complete
+
+
+
+start formula depth: 5
+Before normalization: (X (X (X (! x1))))
+Learning formula with depth 4
+learned LTL formula: (X (X (X (~ d))))
+Learning took:  7.378115892410278  s
+EQ test took  0.15185976028442383  s
+new counterexample: qpaq  should be rejected by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd', 'amnmqd', 'ramqd', 'rrpanppmnmmpqd', 'anqpd', 'pamqqd']
+
+
+negative traces---> 
+['', 'a', 'd', 'n', 'md', 'da', 'nm', 'qmq', 'ard', 'pmdd', 'qpaq']
+
+
+
+17  iteration complete
+
+
+
+start formula depth: 5
+increasing formula depth to  6
+Before normalization: (X ((X x2) | (F x3)))
+Learning formula with depth 3
+learned LTL formula: (X ((X m) | (F n)))
+Learning took:  21.73374652862549  s
+EQ test took  0.07108616828918457  s
+new counterexample: pprramrd  should be accepted by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd', 'amnmqd', 'ramqd', 'rrpanppmnmmpqd', 'anqpd', 'pamqqd', 'pprramrd']
+
+
+negative traces---> 
+['', 'a', 'd', 'n', 'md', 'da', 'nm', 'qmq', 'ard', 'pmdd', 'qpaq']
+
+
+
+18  iteration complete
+
+
+
+start formula depth: 6
+Before normalization: ((! (X (X x1))) & (F (X (X x1))))
+Learning formula with depth 4
+learned LTL formula: ((F (X (X d))) & (~ (X (X d))))
+Learning took:  22.434431552886963  s
+EQ test took  0.3286418914794922  s
+new counterexample: dard  should be rejected by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd', 'amnmqd', 'ramqd', 'rrpanppmnmmpqd', 'anqpd', 'pamqqd', 'pprramrd']
+
+
+negative traces---> 
+['', 'a', 'd', 'n', 'md', 'da', 'nm', 'qmq', 'ard', 'pmdd', 'qpaq', 'dard']
+
+
+
+19  iteration complete
+
+
+
+start formula depth: 6
+Before normalization: (F (X ((X x2) | x3)))
+Learning formula with depth 4
+learned LTL formula: (F (X (n | (X m))))
+Learning took:  22.893417835235596  s
+No positive counterexample found
+EQ test took  0.0810232162475586  s
+new counterexample: an  should be rejected by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd', 'amnmqd', 'ramqd', 'rrpanppmnmmpqd', 'anqpd', 'pamqqd', 'pprramrd']
+
+
+negative traces---> 
+['', 'a', 'd', 'n', 'md', 'da', 'nm', 'qmq', 'ard', 'pmdd', 'qpaq', 'dard', 'an']
+
+
+
+20  iteration complete
+
+
+
+start formula depth: 6
+Before normalization: (X (X (X (X (! x6)))))
+Learning formula with depth 5
+learned LTL formula: (X (X (X (X (~ r)))))
+Learning took:  23.31289267539978  s
+EQ test took  0.09459376335144043  s
+new counterexample: aanmrqd  should be accepted by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd', 'amnmqd', 'ramqd', 'rrpanppmnmmpqd', 'anqpd', 'pamqqd', 'pprramrd', 'aanmrqd']
+
+
+negative traces---> 
+['', 'a', 'd', 'n', 'md', 'da', 'nm', 'qmq', 'ard', 'pmdd', 'qpaq', 'dard', 'an']
+
+
+
+21  iteration complete
+
+
+
+start formula depth: 6
+Before normalization: (X (X (X (X (F x1)))))
+Learning formula with depth 5
+learned LTL formula: (X (X (X (X (F d)))))
+Learning took:  149.85828828811646  s
+EQ test took  0.19495534896850586  s
+new counterexample: qdnnd  should be rejected by implementation
+
+
+positive traces---> 
+['anrrd', 'nanpd', 'amnmqd', 'ramqd', 'rrpanppmnmmpqd', 'anqpd', 'pamqqd', 'pprramrd', 'aanmrqd']
+
+
+negative traces---> 
+['', 'a', 'd', 'n', 'md', 'da', 'nm', 'qmq', 'ard', 'pmdd', 'qpaq', 'dard', 'an', 'qdnnd']
+
+
+
+22  iteration complete
+
+
+
+
+
+epsilon= 0.05 delta= 0.05 max_trace_length= 50
+query: F(a & X(m|n))
+final ltl:  (X (X (X (X (F d)))))
+incomplete formula
+Number of samples: 379
+Number of counterexamples returned: 379
+1.0 None
+
+Time taken: 401.1161136627197
+extracted LTL score against rnn on test set:                       397 (88.22)
+extracted LTL score against target on rnn's test set:              397 (88.22)
+extracted LTL score against rnn on test set (with query):          53 (11.77)
+extracted LTL score against target on rnn's test set (with query): 53 (11.77)
+target          query            explanation status  rnn score  explanation score  explanation score on ground truth  extraction time  revised delta revised epsilon                                    counterexamples train size test size
+email match  F(a & X(m|n))  (X (X (X (X (F d)))))  False      100.0              11.77                              11.77       401.116114            1.0            None  [, anrrd, a, d, nanpd, n, amnmqd, md, ramqd, d...       1797       450
+query: F((m|n) & X(d))
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.1077578067779541  s
+EQ test took  0.0003256797790527344  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.10330843925476074  s
+EQ test took  0.19155287742614746  s
+
+
+epsilon= 0.05 delta= 0.05 max_trace_length= 50
+query: F((m|n) & X(d))
+final ltl:  false
+
+Time taken: 0.40485668182373047
+extracted LTL score against rnn on test set:                       98 (21.77)
+extracted LTL score against target on rnn's test set:              98 (21.77)
+extracted LTL score against rnn on test set (with query):          450 (100.0)
+extracted LTL score against target on rnn's test set (with query): 450 (100.0)
+target            query explanation status  rnn score  explanation score  explanation score on ground truth  extraction time revised delta revised epsilon counterexamples train size test size
+email match  F((m|n) & X(d))       false   True      100.0              100.0                              100.0         0.404857          None            None              []       1797       450
+query: G(m|n)
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.10599231719970703  s
+EQ test took  0.000331878662109375  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.10802268981933594  s
+EQ test took  0.19586849212646484  s
+
+
+epsilon= 0.05 delta= 0.05 max_trace_length= 50
+query: G(m|n)
+final ltl:  false
+
+Time taken: 0.4118645191192627
+extracted LTL score against rnn on test set:                       98 (21.77)
+extracted LTL score against target on rnn's test set:              98 (21.77)
+extracted LTL score against rnn on test set (with query):          450 (100.0)
+extracted LTL score against target on rnn's test set (with query): 450 (100.0)
+target   query explanation status  rnn score  explanation score  explanation score on ground truth  extraction time revised delta revised epsilon counterexamples train size test size
+email match  G(m|n)       false   True      100.0              100.0                              100.0         0.411865          None            None              []       1797       450
+query: F(m|n)->((p|q|r)U(m|n))
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.10790562629699707  s
+No positive counterexample found
+EQ test took  0.004254817962646484  s
+new counterexample: a  should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['a']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.10737800598144531  s
+EQ test took  0.0004413127899169922  s
+new counterexample:   should be accepted by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['a']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+increasing formula depth to  2
+Before normalization: (! x0)
+Learning formula with depth 1
+learned LTL formula: (~ a)
+Learning took:  0.16451597213745117  s
+No positive counterexample found
+EQ test took  0.04267692565917969  s
+new counterexample: d  should be rejected by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['a', 'd']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 2
+increasing formula depth to  3
+increasing formula depth to  4
+Before normalization: (! (x1 | x0))
+Learning formula with depth 2
+learned LTL formula: (~ (a | d))
+Learning took:  0.34056615829467773  s
+EQ test took  0.030005216598510742  s
+new counterexample: aamnqpd  should be accepted by implementation
+
+
+positive traces---> 
+['', 'aamnqpd']
+
+
+negative traces---> 
+['a', 'd']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 4
+increasing formula depth to  5
+Before normalization: (! ((G x0) | x1))
+Learning formula with depth 3
+learned LTL formula: (~ (d | (G a)))
+Learning took:  0.8951840400695801  s
+EQ test took  0.06591653823852539  s
+new counterexample: q  should be rejected by implementation
+
+
+positive traces---> 
+['', 'aamnqpd']
+
+
+negative traces---> 
+['a', 'd', 'q']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 5
+increasing formula depth to  6
+increasing formula depth to  7
+Before normalization: ((x5 | (x0 | x1)) -> (X x0))
+Learning formula with depth 3
+learned LTL formula: ((q | (a | d)) -> (X a))
+Learning took:  3.6220791339874268  s
+EQ test took  0.026758193969726562  s
+new counterexample: qqpd  should be accepted by implementation
+
+
+positive traces---> 
+['', 'aamnqpd', 'qqpd']
+
+
+negative traces---> 
+['a', 'd', 'q']
+
+
+
+5  iteration complete
+
+
+
+start formula depth: 7
+Before normalization: (F (! ((x5 | x1) | x0)))
+Learning formula with depth 4
+learned LTL formula: (F (~ (a | (d | q))))
+Learning took:  2.1703619956970215  s
+EQ test took  0.014741659164428711  s
+new counterexample: r  should be rejected by implementation
+
+
+positive traces---> 
+['', 'aamnqpd', 'qqpd']
+
+
+negative traces---> 
+['a', 'd', 'q', 'r']
+
+
+
+6  iteration complete
+
+
+
+start formula depth: 7
+increasing formula depth to  8
+increasing formula depth to  9
+Before normalization: ((x6 | (x1 | (x0 | x5))) -> (X (x0 | x5)))
+Learning formula with depth 4
+learned LTL formula: ((r | (d | (a | q))) -> (X (a | q)))
+Learning took:  108.69124841690063  s
+EQ test took  0.028258562088012695  s
+new counterexample: rmpd  should be accepted by implementation
+
+
+positive traces---> 
+['', 'aamnqpd', 'qqpd', 'rmpd']
+
+
+negative traces---> 
+['a', 'd', 'q', 'r']
+
+
+
+7  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: (! (G (x0 | ((x5 | x1) | x6))))
+Learning formula with depth 5
+learned LTL formula: (~ (G (a | (r | (d | q)))))
+Learning took:  13.185990571975708  s
+EQ test took  0.011225700378417969  s
+new counterexample: p  should be rejected by implementation
+
+
+positive traces---> 
+['', 'aamnqpd', 'qqpd', 'rmpd']
+
+
+negative traces---> 
+['a', 'd', 'q', 'r', 'p']
+
+
+
+8  iteration complete
+
+
+
+
+
+epsilon= 0.05 delta= 0.05 max_trace_length= 50
+query: F(m|n)->((p|q|r)U(m|n))
+final ltl:  (~ (G (a | (r | (d | q)))))
+incomplete formula
+Number of samples: 185
+Number of counterexamples returned: 81
+3.809098622482832e+51 1.2208169672632065
+
+Time taken: 401.1180682182312
+extracted LTL score against rnn on test set:                       346 (76.88)
+extracted LTL score against target on rnn's test set:              346 (76.88)
+extracted LTL score against rnn on test set (with query):          346 (76.88)
+extracted LTL score against target on rnn's test set (with query): 346 (76.88)
+target                    query                  explanation status  rnn score  explanation score  explanation score on ground truth  extraction time  revised delta  revised epsilon                         counterexamples train size test size
+email match  F(m|n)->((p|q|r)U(m|n))  (~ (G (a | (r | (d | q)))))  False      100.0              76.88                              76.88       401.118068   3.809099e+51         1.220817  [a, , d, aamnqpd, q, qqpd, r, rmpd, p]       1797       450
+query: ~(F(m|n)->((p|q|r)U(m|n)))
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.11444640159606934  s
+EQ test took  0.00033211708068847656  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.11453747749328613  s
+EQ test took  0.20575499534606934  s
+
+
+epsilon= 0.05 delta= 0.05 max_trace_length= 50
+query: ~(F(m|n)->((p|q|r)U(m|n)))
+final ltl:  false
+
+Time taken: 0.4367835521697998
+extracted LTL score against rnn on test set:                       98 (21.77)
+extracted LTL score against target on rnn's test set:              98 (21.77)
+extracted LTL score against rnn on test set (with query):          450 (100.0)
+extracted LTL score against target on rnn's test set (with query): 450 (100.0)
+target                       query explanation status  rnn score  explanation score  explanation score on ground truth  extraction time revised delta revised epsilon counterexamples train size test size
+email match  ~(F(m|n)->((p|q|r)U(m|n)))       false   True      100.0              100.0                              100.0         0.436784          None            None              []       1797       450
+query: (F(m|n))&((p|q|r)U(m|n))
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.11712908744812012  s
+EQ test took  0.00035643577575683594  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.11830520629882812  s
+EQ test took  0.2621488571166992  s
+new counterexample: pnpd  should be accepted by implementation
+
+
+positive traces---> 
+['pnpd']
+
+
+negative traces---> 
+['']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+Before normalization: x4
+Learning formula with depth 0
+learned LTL formula: p
+Learning took:  0.13987112045288086  s
+EQ test took  0.12345409393310547  s
+new counterexample: p  should be rejected by implementation
+
+
+positive traces---> 
+['pnpd']
+
+
+negative traces---> 
+['', 'p']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 1
+increasing formula depth to  2
+Before normalization: (F x3)
+Learning formula with depth 1
+learned LTL formula: (F n)
+Learning took:  0.18993425369262695  s
+EQ test took  0.032366275787353516  s
+new counterexample: rmqpmqd  should be accepted by implementation
+
+
+positive traces---> 
+['pnpd', 'rmqpmqd']
+
+
+negative traces---> 
+['', 'p']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 2
+Before normalization: (F x1)
+Learning formula with depth 1
+learned LTL formula: (F d)
+Learning took:  0.2041330337524414  s
+EQ test took  0.049567461013793945  s
+new counterexample: d  should be rejected by implementation
+
+
+positive traces---> 
+['pnpd', 'rmqpmqd']
+
+
+negative traces---> 
+['', 'p', 'd']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 2
+increasing formula depth to  3
+Before normalization: (F (X x1))
+Learning formula with depth 2
+learned LTL formula: (F (X d))
+Learning took:  0.37036967277526855  s
+No positive counterexample found
+EQ test took  0.04600644111633301  s
+new counterexample: pd  should be rejected by implementation
+
+
+positive traces---> 
+['pnpd', 'rmqpmqd']
+
+
+negative traces---> 
+['', 'p', 'd', 'pd']
+
+
+
+5  iteration complete
+
+
+
+start formula depth: 3
+Before normalization: (F (X x4))
+Learning formula with depth 2
+learned LTL formula: (F (X p))
+Learning took:  0.34671735763549805  s
+EQ test took  0.04952120780944824  s
+new counterexample: rqmqrmqd  should be accepted by implementation
+
+
+positive traces---> 
+['pnpd', 'rmqpmqd', 'rqmqrmqd']
+
+
+negative traces---> 
+['', 'p', 'd', 'pd']
+
+
+
+6  iteration complete
+
+
+
+start formula depth: 3
+Before normalization: (X (! x1))
+Learning formula with depth 2
+learned LTL formula: (X (~ d))
+Learning took:  0.42973899841308594  s
+EQ test took  0.07189130783081055  s
+new counterexample: dq  should be rejected by implementation
+
+
+positive traces---> 
+['pnpd', 'rmqpmqd', 'rqmqrmqd']
+
+
+negative traces---> 
+['', 'p', 'd', 'pd', 'dq']
+
+
+
+7  iteration complete
+
+
+
+start formula depth: 3
+increasing formula depth to  4
+Before normalization: (x6 | (F x3))
+Learning formula with depth 2
+learned LTL formula: (r | (F n))
+Learning took:  1.0464932918548584  s
+EQ test took  0.024861812591552734  s
+new counterexample: pqmpd  should be accepted by implementation
+
+
+positive traces---> 
+['pnpd', 'rmqpmqd', 'rqmqrmqd', 'pqmpd']
+
+
+negative traces---> 
+['', 'p', 'd', 'pd', 'dq']
+
+
+
+8  iteration complete
+
+
+
+start formula depth: 4
+Before normalization: ((! x1) & (X (! x1)))
+Learning formula with depth 3
+learned LTL formula: ((~ d) & (X (~ d)))
+Learning took:  0.9264731407165527  s
+EQ test took  0.1302790641784668  s
+new counterexample: mp  should be rejected by implementation
+
+
+positive traces---> 
+['pnpd', 'rmqpmqd', 'rqmqrmqd', 'pqmpd']
+
+
+negative traces---> 
+['', 'p', 'd', 'pd', 'dq', 'mp']
+
+
+
+9  iteration complete
+
+
+
+start formula depth: 4
+Before normalization: (X (X (F x1)))
+Learning formula with depth 3
+learned LTL formula: (X (X (F d)))
+Learning took:  0.9698772430419922  s
+No positive counterexample found
+EQ test took  0.07784152030944824  s
+new counterexample: rmd  should be rejected by implementation
+
+
+positive traces---> 
+['pnpd', 'rmqpmqd', 'rqmqrmqd', 'pqmpd']
+
+
+negative traces---> 
+['', 'p', 'd', 'pd', 'dq', 'mp', 'rmd']
+
+
+
+10  iteration complete
+
+
+
+start formula depth: 4
+Before normalization: (X (X (! x1)))
+Learning formula with depth 3
+learned LTL formula: (X (X (~ d)))
+Learning took:  1.0742509365081787  s
+No positive counterexample found
+EQ test took  0.08703470230102539  s
+new counterexample: qmm  should be rejected by implementation
+
+
+positive traces---> 
+['pnpd', 'rmqpmqd', 'rqmqrmqd', 'pqmpd']
+
+
+negative traces---> 
+['', 'p', 'd', 'pd', 'dq', 'mp', 'rmd', 'qmm']
+
+
+
+11  iteration complete
+
+
+
+start formula depth: 4
+increasing formula depth to  5
+Before normalization: (X (F (X (X x1))))
+Learning formula with depth 4
+learned LTL formula: (X (F (X (X d))))
+Learning took:  4.3961756229400635  s
+No positive counterexample found
+EQ test took  0.10679960250854492  s
+new counterexample: adad  should be rejected by implementation
+
+
+positive traces---> 
+['pnpd', 'rmqpmqd', 'rqmqrmqd', 'pqmpd']
+
+
+negative traces---> 
+['', 'p', 'd', 'pd', 'dq', 'mp', 'rmd', 'qmm', 'adad']
+
+
+
+12  iteration complete
+
+
+
+start formula depth: 5
+increasing formula depth to  6
+Before normalization: (X (x5 U (X (x5 | x4))))
+Learning formula with depth 4
+learned LTL formula: (X (q U (X (p | q))))
+Learning took:  24.866665363311768  s
+EQ test took  0.06086397171020508  s
+new counterexample: rqmrd  should be accepted by implementation
+
+
+positive traces---> 
+['pnpd', 'rmqpmqd', 'rqmqrmqd', 'pqmpd', 'rqmrd']
+
+
+negative traces---> 
+['', 'p', 'd', 'pd', 'dq', 'mp', 'rmd', 'qmm', 'adad']
+
+
+
+13  iteration complete
+
+
+
+start formula depth: 6
+Before normalization: (X (X (F (x4 | x6))))
+Learning formula with depth 4
+learned LTL formula: (X (X (F (p | r))))
+Learning took:  3.5511844158172607  s
+EQ test took  0.03695178031921387  s
+new counterexample: map  should be rejected by implementation
+
+
+positive traces---> 
+['pnpd', 'rmqpmqd', 'rqmqrmqd', 'pqmpd', 'rqmrd']
+
+
+negative traces---> 
+['', 'p', 'd', 'pd', 'dq', 'mp', 'rmd', 'qmm', 'adad', 'map']
+
+
+
+14  iteration complete
+
+
+
+start formula depth: 6
+Before normalization: ((F (X (x6 | x4))) & (x6 | x4))
+Learning formula with depth 4
+learned LTL formula: ((p | r) & (F (X (p | r))))
+Learning took:  22.960225582122803  s
+EQ test took  0.10254073143005371  s
+new counterexample: qnqd  should be accepted by implementation
+
+
+positive traces---> 
+['pnpd', 'rmqpmqd', 'rqmqrmqd', 'pqmpd', 'rqmrd', 'qnqd']
+
+
+negative traces---> 
+['', 'p', 'd', 'pd', 'dq', 'mp', 'rmd', 'qmm', 'adad', 'map']
+
+
+
+15  iteration complete
+
+
+
+start formula depth: 6
+Before normalization: ((X (X (X (! x0)))) & (X (X (! x0))))
+Learning formula with depth 5
+learned LTL formula: ((X (X (~ a))) & (X (X (X (~ a)))))
+Learning took:  70.12356233596802  s
+EQ test took  0.05203127861022949  s
+new counterexample: ampp  should be rejected by implementation
+
+
+positive traces---> 
+['pnpd', 'rmqpmqd', 'rqmqrmqd', 'pqmpd', 'rqmrd', 'qnqd']
+
+
+negative traces---> 
+['', 'p', 'd', 'pd', 'dq', 'mp', 'rmd', 'qmm', 'adad', 'map', 'ampp']
+
+
+
+16  iteration complete
+
+
+
+start formula depth: 6
+Before normalization: ((! x0) & (X (X (X (! x0)))))
+Learning formula with depth 5
+learned LTL formula: ((~ a) & (X (X (X (~ a)))))
+Learning took:  45.79421138763428  s
+No positive counterexample found
+EQ test took  0.21498894691467285  s
+new counterexample: namr  should be rejected by implementation
+
+
+positive traces---> 
+['pnpd', 'rmqpmqd', 'rqmqrmqd', 'pqmpd', 'rqmrd', 'qnqd']
+
+
+negative traces---> 
+['', 'p', 'd', 'pd', 'dq', 'mp', 'rmd', 'qmm', 'adad', 'map', 'ampp', 'namr']
+
+
+
+17  iteration complete
+
+
+
+start formula depth: 6
+increasing formula depth to  7
+Before normalization: ((F x1) U ((F x1) & (x3 | x5)))
+Learning formula with depth 3
+learned LTL formula: ((F d) U ((F d) & (n | q)))
+Learning took:  90.00436353683472  s
+EQ test took  0.09728717803955078  s
+new counterexample: rmpapppd  should be accepted by implementation
+
+
+positive traces---> 
+['pnpd', 'rmqpmqd', 'rqmqrmqd', 'pqmpd', 'rqmrd', 'qnqd', 'rmpapppd']
+
+
+negative traces---> 
+['', 'p', 'd', 'pd', 'dq', 'mp', 'rmd', 'qmm', 'adad', 'map', 'ampp', 'namr']
+
+
+
+18  iteration complete
+
+
+
+start formula depth: 7
+Before normalization: ((! (x6 U (X x1))) & (F (x6 U (X x1))))
+Learning formula with depth 4
+learned LTL formula: ((F (r U (X d))) & (~ (r U (X d))))
+Learning took:  26.11972975730896  s
+EQ test took  0.2397441864013672  s
+new counterexample: dpd  should be rejected by implementation
+
+
+positive traces---> 
+['pnpd', 'rmqpmqd', 'rqmqrmqd', 'pqmpd', 'rqmrd', 'qnqd', 'rmpapppd']
+
+
+negative traces---> 
+['', 'p', 'd', 'pd', 'dq', 'mp', 'rmd', 'qmm', 'adad', 'map', 'ampp', 'namr', 'dpd']
+
+
+
+19  iteration complete
+
+
+
+start formula depth: 7
+Before normalization: ((F (X (x1 U (X x1)))) & (! (X (x1 U (X x1)))))
+Learning formula with depth 5
+learned LTL formula: ((~ (X (d U (X d)))) & (F (X (d U (X d)))))
+Learning took:  58.35766887664795  s
+No positive counterexample found
+EQ test took  0.265291690826416  s
+new counterexample: nqnd  should be rejected by implementation
+
+
+positive traces---> 
+['pnpd', 'rmqpmqd', 'rqmqrmqd', 'pqmpd', 'rqmrd', 'qnqd', 'rmpapppd']
+
+
+negative traces---> 
+['', 'p', 'd', 'pd', 'dq', 'mp', 'rmd', 'qmm', 'adad', 'map', 'ampp', 'namr', 'dpd', 'nqnd']
+
+
+
+20  iteration complete
+
+
+
+
+
+epsilon= 0.05 delta= 0.05 max_trace_length= 50
+query: (F(m|n))&((p|q|r)U(m|n))
+final ltl:  ((~ (X (d U (X d)))) & (F (X (d U (X d)))))
+incomplete formula
+Number of samples: 352
+Number of counterexamples returned: 296
+3.387605438235249e+64 2.7568089560102256
+
+Time taken: 401.0649673938751
+extracted LTL score against rnn on test set:                       402 (89.33)
+extracted LTL score against target on rnn's test set:              402 (89.33)
+extracted LTL score against rnn on test set (with query):          301 (66.88)
+extracted LTL score against target on rnn's test set (with query): 301 (66.88)
+target                     query                                  explanation status  rnn score  explanation score  explanation score on ground truth  extraction time  revised delta  revised epsilon                                    counterexamples train size test size
+email match  (F(m|n))&((p|q|r)U(m|n))  ((~ (X (d U (X d)))) & (F (X (d U (X d)))))  False      100.0              66.88                              66.88       401.064967   3.387605e+64         2.756809  [, pnpd, p, rmqpmqd, d, pd, rqmqrmqd, dq, pqmp...       1797       450
+query: (F(m|n))&(F(a & X(m|n)))
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.12754249572753906  s
+EQ test took  0.0003592967987060547  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.12528157234191895  s
+EQ test took  0.18833208084106445  s
+new counterexample: qammqd  should be accepted by implementation
+
+
+positive traces---> 
+['qammqd']
+
+
+negative traces---> 
+['']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+Before normalization: x5
+Learning formula with depth 0
+learned LTL formula: q
+Learning took:  0.1545093059539795  s
+EQ test took  0.039781808853149414  s
+new counterexample: q  should be rejected by implementation
+
+
+positive traces---> 
+['qammqd']
+
+
+negative traces---> 
+['', 'q']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 1
+increasing formula depth to  2
+Before normalization: (F x0)
+Learning formula with depth 1
+learned LTL formula: (F a)
+Learning took:  0.20351338386535645  s
+No positive counterexample found
+EQ test took  0.040297508239746094  s
+new counterexample: a  should be rejected by implementation
+
+
+positive traces---> 
+['qammqd']
+
+
+negative traces---> 
+['', 'q', 'a']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 2
+Before normalization: (F x1)
+Learning formula with depth 1
+learned LTL formula: (F d)
+Learning took:  0.19895315170288086  s
+No positive counterexample found
+EQ test took  0.04417562484741211  s
+new counterexample: d  should be rejected by implementation
+
+
+positive traces---> 
+['qammqd']
+
+
+negative traces---> 
+['', 'q', 'a', 'd']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 2
+Before normalization: (X x0)
+Learning formula with depth 1
+learned LTL formula: (X a)
+Learning took:  0.20799946784973145  s
+EQ test took  0.04359579086303711  s
+new counterexample: qqranpd  should be accepted by implementation
+
+
+positive traces---> 
+['qammqd', 'qqranpd']
+
+
+negative traces---> 
+['', 'q', 'a', 'd']
+
+
+
+5  iteration complete
+
+
+
+start formula depth: 2
+increasing formula depth to  3
+Before normalization: (F (X x1))
+Learning formula with depth 2
+learned LTL formula: (F (X d))
+Learning took:  0.4328305721282959  s
+EQ test took  0.05765056610107422  s
+new counterexample: ad  should be rejected by implementation
+
+
+positive traces---> 
+['qammqd', 'qqranpd']
+
+
+negative traces---> 
+['', 'q', 'a', 'd', 'ad']
+
+
+
+6  iteration complete
+
+
+
+start formula depth: 3
+Before normalization: (F (X x5))
+Learning formula with depth 2
+learned LTL formula: (F (X q))
+Learning took:  0.3960564136505127  s
+EQ test took  0.06488656997680664  s
+new counterexample: raanpd  should be accepted by implementation
+
+
+positive traces---> 
+['qammqd', 'qqranpd', 'raanpd']
+
+
+negative traces---> 
+['', 'q', 'a', 'd', 'ad']
+
+
+
+7  iteration complete
+
+
+
+start formula depth: 3
+Before normalization: (X (! x1))
+Learning formula with depth 2
+learned LTL formula: (X (~ d))
+Learning took:  0.45156121253967285  s
+EQ test took  0.07206583023071289  s
+new counterexample: rp  should be rejected by implementation
+
+
+positive traces---> 
+['qammqd', 'qqranpd', 'raanpd']
+
+
+negative traces---> 
+['', 'q', 'a', 'd', 'ad', 'rp']
+
+
+
+8  iteration complete
+
+
+
+start formula depth: 3
+Before normalization: (X (F x0))
+Learning formula with depth 2
+learned LTL formula: (X (F a))
+Learning took:  0.48150634765625  s
+No positive counterexample found
+EQ test took  0.07621312141418457  s
+new counterexample: pa  should be rejected by implementation
+
+
+positive traces---> 
+['qammqd', 'qqranpd', 'raanpd']
+
+
+negative traces---> 
+['', 'q', 'a', 'd', 'ad', 'rp', 'pa']
+
+
+
+9  iteration complete
+
+
+
+start formula depth: 3
+increasing formula depth to  4
+Before normalization: (F (x2 | x3))
+Learning formula with depth 2
+learned LTL formula: (F (m | n))
+Learning took:  1.1646344661712646  s
+No positive counterexample found
+EQ test took  0.03838920593261719  s
+new counterexample: n  should be rejected by implementation
+
+
+positive traces---> 
+['qammqd', 'qqranpd', 'raanpd']
+
+
+negative traces---> 
+['', 'q', 'a', 'd', 'ad', 'rp', 'pa', 'n']
+
+
+
+10  iteration complete
+
+
+
+start formula depth: 4
+Before normalization: (F (X (X x1)))
+Learning formula with depth 3
+learned LTL formula: (F (X (X d)))
+Learning took:  0.9851994514465332  s
+No positive counterexample found
+EQ test took  0.08845782279968262  s
+new counterexample: ppd  should be rejected by implementation
+
+
+positive traces---> 
+['qammqd', 'qqranpd', 'raanpd']
+
+
+negative traces---> 
+['', 'q', 'a', 'd', 'ad', 'rp', 'pa', 'n', 'ppd']
+
+
+
+11  iteration complete
+
+
+
+start formula depth: 4
+Before normalization: (X (X (! x1)))
+Learning formula with depth 3
+learned LTL formula: (X (X (~ d)))
+Learning took:  0.9600350856781006  s
+No positive counterexample found
+EQ test took  0.11077237129211426  s
+new counterexample: pqm  should be rejected by implementation
+
+
+positive traces---> 
+['qammqd', 'qqranpd', 'raanpd']
+
+
+negative traces---> 
+['', 'q', 'a', 'd', 'ad', 'rp', 'pa', 'n', 'ppd', 'pqm']
+
+
+
+12  iteration complete
+
+
+
+start formula depth: 4
+increasing formula depth to  5
+Before normalization: (F (X (X (X x1))))
+Learning formula with depth 4
+learned LTL formula: (F (X (X (X d))))
+Learning took:  3.4399242401123047  s
+No positive counterexample found
+EQ test took  0.19994354248046875  s
+new counterexample: prmd  should be rejected by implementation
+
+
+positive traces---> 
+['qammqd', 'qqranpd', 'raanpd']
+
+
+negative traces---> 
+['', 'q', 'a', 'd', 'ad', 'rp', 'pa', 'n', 'ppd', 'pqm', 'prmd']
+
+
+
+13  iteration complete
+
+
+
+start formula depth: 5
+Before normalization: ((X (X (! x4))) & (! x4))
+Learning formula with depth 4
+learned LTL formula: ((~ p) & (X (X (~ p))))
+Learning took:  2.679856777191162  s
+EQ test took  0.08120179176330566  s
+new counterexample: prpamapqd  should be accepted by implementation
+
+
+positive traces---> 
+['qammqd', 'qqranpd', 'raanpd', 'prpamapqd']
+
+
+negative traces---> 
+['', 'q', 'a', 'd', 'ad', 'rp', 'pa', 'n', 'ppd', 'pqm', 'prmd']
+
+
+
+14  iteration complete
+
+
+
+start formula depth: 5
+Before normalization: (X (X (X (! x1))))
+Learning formula with depth 4
+learned LTL formula: (X (X (X (~ d))))
+Learning took:  6.519796371459961  s
+EQ test took  0.1415081024169922  s
+new counterexample: rnpm  should be rejected by implementation
+
+
+positive traces---> 
+['qammqd', 'qqranpd', 'raanpd', 'prpamapqd']
+
+
+negative traces---> 
+['', 'q', 'a', 'd', 'ad', 'rp', 'pa', 'n', 'ppd', 'pqm', 'prmd', 'rnpm']
+
+
+
+15  iteration complete
+
+
+
+start formula depth: 5
+increasing formula depth to  6
+Before normalization: (! (x4 U ((F x0) -> x0)))
+Learning formula with depth 4
+learned LTL formula: (~ (p U ((F a) -> a)))
+Learning took:  11.240617275238037  s
+EQ test took  0.10613083839416504  s
+new counterexample: amnrd  should be accepted by implementation
+
+
+positive traces---> 
+['qammqd', 'qqranpd', 'raanpd', 'prpamapqd', 'amnrd']
+
+
+negative traces---> 
+['', 'q', 'a', 'd', 'ad', 'rp', 'pa', 'n', 'ppd', 'pqm', 'prmd', 'rnpm']
+
+
+
+16  iteration complete
+
+
+
+start formula depth: 6
+Before normalization: (X (X (X (X (F x1)))))
+Learning formula with depth 5
+learned LTL formula: (X (X (X (X (F d)))))
+Learning took:  4.358604192733765  s
+EQ test took  0.15578031539916992  s
+new counterexample: ddddd  should be rejected by implementation
+
+
+positive traces---> 
+['qammqd', 'qqranpd', 'raanpd', 'prpamapqd', 'amnrd']
+
+
+negative traces---> 
+['', 'q', 'a', 'd', 'ad', 'rp', 'pa', 'n', 'ppd', 'pqm', 'prmd', 'rnpm', 'ddddd']
+
+
+
+17  iteration complete
+
+
+
+start formula depth: 6
+Before normalization: ((! x1) U (x0 & (X (! x1))))
+Learning formula with depth 4
+learned LTL formula: ((~ d) U (a & (X (~ d))))
+Learning took:  19.123095273971558  s
+EQ test took  0.3399055004119873  s
+new counterexample: prprpqqqdqmnqmmqnanpmrqrrqd  should be accepted by implementation
+
+
+positive traces---> 
+['qammqd', 'qqranpd', 'raanpd', 'prpamapqd', 'amnrd', 'prprpqqqdqmnqmmqnanpmrqrrqd']
+
+
+negative traces---> 
+['', 'q', 'a', 'd', 'ad', 'rp', 'pa', 'n', 'ppd', 'pqm', 'prmd', 'rnpm', 'ddddd']
+
+
+
+18  iteration complete
+
+
+
+start formula depth: 6
+Before normalization: (X (F (X (x3 | x5))))
+Learning formula with depth 4
+learned LTL formula: (X (F (X (n | q))))
+Learning took:  53.53749203681946  s
+EQ test took  0.08398199081420898  s
+new counterexample: dan  should be rejected by implementation
+
+
+positive traces---> 
+['qammqd', 'qqranpd', 'raanpd', 'prpamapqd', 'amnrd', 'prprpqqqdqmnqmmqnanpmrqrrqd']
+
+
+negative traces---> 
+['', 'q', 'a', 'd', 'ad', 'rp', 'pa', 'n', 'ppd', 'pqm', 'prmd', 'rnpm', 'ddddd', 'dan']
+
+
+
+19  iteration complete
+
+
+
+start formula depth: 6
+Before normalization: (F ((X (X (! x0))) & x0))
+Learning formula with depth 5
+learned LTL formula: (F (a & (X (X (~ a)))))
+Learning took:  46.88830804824829  s
+No positive counterexample found
+EQ test took  0.148179292678833  s
+new counterexample: ard  should be rejected by implementation
+
+
+positive traces---> 
+['qammqd', 'qqranpd', 'raanpd', 'prpamapqd', 'amnrd', 'prprpqqqdqmnqmmqnanpmrqrrqd']
+
+
+negative traces---> 
+['', 'q', 'a', 'd', 'ad', 'rp', 'pa', 'n', 'ppd', 'pqm', 'prmd', 'rnpm', 'ddddd', 'dan', 'ard']
+
+
+
+20  iteration complete
+
+
+
+
+
+epsilon= 0.05 delta= 0.05 max_trace_length= 50
+query: (F(m|n))&(F(a & X(m|n)))
+final ltl:  (F (a & (X (X (~ a)))))
+incomplete formula
+Number of samples: 352
+Number of counterexamples returned: 352
+1.0 None
+
+Time taken: 401.1221749782562
+extracted LTL score against rnn on test set:                       384 (85.33)
+extracted LTL score against target on rnn's test set:              384 (85.33)
+extracted LTL score against rnn on test set (with query):          32 (7.11)
+extracted LTL score against target on rnn's test set (with query): 32 (7.11)
+target                     query              explanation status  rnn score  explanation score  explanation score on ground truth  extraction time  revised delta revised epsilon                                    counterexamples train size test size
+email match  (F(m|n))&(F(a & X(m|n)))  (F (a & (X (X (~ a)))))  False      100.0               7.11                               7.11       401.122175            1.0            None  [, qammqd, q, a, d, qqranpd, ad, raanpd, rp, p...       1797       450

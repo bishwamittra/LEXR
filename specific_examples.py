@@ -15,25 +15,29 @@ class Alternating_Bit_Protocol:
         self.dfa = ltlf2dfa.DFA()
         self.target_formula = "alternating bit protocol"
         self.construct_dfa()
-        self.alphabet=self.dfa.alphabet
-        self.classify_word=self.dfa.classify_word
+        self.alphabet = self.dfa.alphabet
+        self.classify_word = self.dfa.classify_word
 
-        self.query_formulas=[
-            "false", # rejects everything
+        self.query_formulas = [
+            "false",  # rejects everything
             "true",  # accepts everything
-            "F(a&X(c))", # eventually bit 0 is followed by ack 0
-            "(F(a&X(c))) | (F(b&X(d)))", # eventually bit 0 is followed by ack 0 and eventually bit 1 is followed by ack 1
-            "F(a&X(b))", # Eventually bit 0 is followed by bit 1 (should be false)
-            "F(b&X(a))", # vice versa
-            "F(c&X(d))", # eventually ack 0 is followed by ack 1
-            "F(d&X(c))", # vice versa
-            "~F(a & X(a))", # reduce space: consecutive bit 0 is not transmitted
-            "~F(b & X(b))", # reduce space: consecutive bit 1 is not transmitted
-            "~F(c & X(c))", # reduce space: consecutive ack 0 is not transmitted
-            "~F(d & X(d))", # reduce space: consecutive ack 1 is not transmitted
-            "~F( a U c )", # it is not the case that eventually ack 0 is transmitted until bit 0 is transmitted
-            "~F( b U d )", # it is not the case that eventually ack 1 is transmitted until bit 1 is transmitted
-            "(F(a) & F(b)) -> F(c) " # if both bit 0 and bit 1 is present, then there must be ack 0
+            "F(a&X(c))",  # eventually bit 0 is followed by ack 0
+            # eventually bit 0 is followed by ack 0 and eventually bit 1 is followed by ack 1
+            "(F(a&X(c))) | (F(b&X(d)))",
+            "F(a&X(b))",  # Eventually bit 0 is followed by bit 1 (should be false)
+            "F(b&X(a))",  # vice versa
+            "F(c&X(d))",  # eventually ack 0 is followed by ack 1
+            "F(d&X(c))",  # vice versa
+            "~F(a & X(a))",  # reduce space: consecutive bit 0 is not transmitted
+            "~F(b & X(b))",  # reduce space: consecutive bit 1 is not transmitted
+            "~F(c & X(c))",  # reduce space: consecutive ack 0 is not transmitted
+            "~F(d & X(d))",  # reduce space: consecutive ack 1 is not transmitted
+            # it is not the case that eventually ack 0 is transmitted until bit 0 is transmitted
+            "~F( a U c )",
+            # it is not the case that eventually ack 1 is transmitted until bit 1 is transmitted
+            "~F( b U d )",
+            # if both bit 0 and bit 1 is present, then there must be ack 0
+            "(F(a) & F(b)) -> F(c) "
 
         ]
 
@@ -108,7 +112,6 @@ class Email():
         self._all_symbols_regex = "|".join(
             [char for char in self._numerical_symbols+self._letter_symbols])
 
-
         self.query_formulas = [
             "false",  # rejects everything
             "true",  # accepts everything
@@ -121,7 +124,8 @@ class Email():
             # if there is a numeric symbol, then letters are true until the numeric symbol appears
             "F(m|n)->((p|q|r)U(m|n))",
             "~(F(m|n)->((p|q|r)U(m|n)))",  # opposite to the earlier query
-            "(F(m|n))&((p|q|r)U(m|n))", # there is a numeric symbol and it must satisfy the constraint that letters are true until 
+            # there is a numeric symbol and it must satisfy the constraint that letters are true until
+            "(F(m|n))&((p|q|r)U(m|n))",
             # numeric symbols are true
             "(F(m|n))&(F(a & X(m|n)))"
 
@@ -223,8 +227,6 @@ class Reber_Grammar:
         return seq, inseq, outseq
 
 
-
-
 class Balanced_Parentheses:
 
     """  
@@ -233,23 +235,24 @@ class Balanced_Parentheses:
     ')' = r
     Therfore, bp_other_letters cannot contain l and r.
     """
-    def __init__(self):    
-        self._bp_other_letters="abcd"
-        self.alphabet =  "lr"  + self._bp_other_letters
-        self.target_formula="balanced parentheses"
+
+    def __init__(self):
+        self._bp_other_letters = "abcd"
+        self.alphabet = "lr" + self._bp_other_letters
+        self.target_formula = "balanced parentheses"
 
         self.query_formulas = [
             "false",  # rejects everything
-            "~F(l|r)", # no parenthesis (both left and right)
-            "F(l&X(~l))", # no consecutive left parentheses
-            "G(l->(l & X(r)))", # globally it is true that if there is a left parenthesis, then there is a
+            "~F(l|r)",  # no parenthesis (both left and right)
+            "F(l&X(~l))",  # no consecutive left parentheses
+            # globally it is true that if there is a left parenthesis, then there is a
+            "G(l->(l & X(r)))",
             # right parenthesis next to it
-            "true", # accepts everything
-            "(F(l) & F(r))", # eventually l is true and r is true
-            "F(l U (~l))", # eventually l is true until ~l is true
-            "G(~l)" # globally ~l is true
-        ]    
-        
+            "true",  # accepts everything
+            "(F(l) & F(r))",  # eventually l is true and r is true
+            "F(l U (~l))",  # eventually l is true until ~l is true
+            "G(~l)"  # globally ~l is true
+        ]
 
     def _make_similar(self, w, alphabet):
         new = list(w)
@@ -276,62 +279,215 @@ class Balanced_Parentheses:
         while ((num_changes == 0) or random.choice(range(3)) == 0) and len(new) > 0:
             index = random.choice(range(len(new)))
             new = new[:index] + new[index + 1:]
-            num_changes +=1
+            num_changes += 1
         return ''.join(new)
 
     def classify_word(self, w):
         open_counter = 0
-        while len(w)>0:
+        while len(w) > 0:
             c = w[0]
             w = w[1:]
             if c == "l":
                 open_counter += 1
-            elif c=="r":
+            elif c == "r":
                 open_counter -= 1
-                if open_counter <0:
+                if open_counter < 0:
                     return False
         return open_counter == 0
 
     def _random_balanced_word(self, start_closing):
         count = 0
         word = ""
-        while len(word)<start_closing:
-            paran = (random.choice(range(3))==0)
-            next_letter = random.choice("lr") if paran else random.choice(self._bp_other_letters)
+        while len(word) < start_closing:
+            paran = (random.choice(range(3)) == 0)
+            next_letter = random.choice(
+                "lr") if paran else random.choice(self._bp_other_letters)
             if next_letter == "r" and count <= 0:
                 continue
-            word+=next_letter
+            word += next_letter
             if next_letter == "l":
                 count += 1
             if next_letter == "r":
                 count -= 1
         while True:
-            paran = (random.choice(range(3))==0)
-            next_letter = random.choice("r") if paran else random.choice(self._bp_other_letters)
+            paran = (random.choice(range(3)) == 0)
+            next_letter = random.choice(
+                "r") if paran else random.choice(self._bp_other_letters)
             if next_letter == "r":
                 count -= 1
-                if count<0:
+                if count < 0:
                     break
-            word+=next_letter
+            word += next_letter
         return word
-            
-    def _n_balanced_words_around_lengths(self, n,short,longg):
+
+    def _n_balanced_words_around_lengths(self, n, short, longg):
         words = set()
-        while len(words)<n:
-            for l in range(short,longg):
+        while len(words) < n:
+            for l in range(short, longg):
                 words.add(self._random_balanced_word(l))
     #     print('\n'.join(sorted(list(words),key=len)))
         return words
 
-    def get_balanced_parantheses_train_set(self, n,short,longg,lengths=None,max_train_samples_per_length=300,search_size_per_length=200): # eg 15000, 2, 30
-        balanced_words = list(self._n_balanced_words_around_lengths(n,short,longg))
-        almost_balanced = [self._make_similar(w,self.alphabet) for w in balanced_words][:int(2*n/3)]
-        less_balanced = [self._make_similar(w,self.alphabet) for w in almost_balanced]
-        barely_balanced = [self._make_similar(w,self.alphabet) for w in less_balanced]
+    # eg 15000, 2, 30
+    def get_balanced_parantheses_train_set(self, n, short, longg, lengths=None, max_train_samples_per_length=300, search_size_per_length=200):
+        balanced_words = list(
+            self._n_balanced_words_around_lengths(n, short, longg))
+        almost_balanced = [self._make_similar(
+            w, self.alphabet) for w in balanced_words][:int(2*n/3)]
+        less_balanced = [self._make_similar(
+            w, self.alphabet) for w in almost_balanced]
+        barely_balanced = [self._make_similar(
+            w, self.alphabet) for w in less_balanced]
 
         all_words = balanced_words + almost_balanced + less_balanced + barely_balanced
-        return make_train_set_for_target(self.classify_word,self.alphabet,lengths=lengths,\
-            max_train_samples_per_length=max_train_samples_per_length,\
-            search_size_per_length=search_size_per_length,\
-            provided_examples=all_words)
+        return make_train_set_for_target(self.classify_word, self.alphabet, lengths=lengths,
+                                         max_train_samples_per_length=max_train_samples_per_length,
+                                         search_size_per_length=search_size_per_length,
+                                         provided_examples=all_words)
 
+
+class Example:
+    def __init__(self, alphabet, target_formula, token):
+        self.alphabet = alphabet
+        self.target_formula = target_formula
+        self.dfa = ltlf2dfa.translate_ltl2dfa(
+            alphabet=[character for character in self.alphabet], formula=self.target_formula, token=str(token))
+        self.classify_word = self.dfa.classify_word
+
+
+class Example1(Example):
+
+    def __init__(self, token=""):
+        super().__init__(alphabet="abc", target_formula="G(~a)", token=token)
+
+        self.query_formulas = [
+            "true",
+            "false",
+            "a",
+            "~a",
+            'F(a)',
+            "F(~a)",
+            "F(b)",
+            "F(b|c)",
+            "G(b|c)",
+            'X(G(~a))',
+            'X(G(a))'
+        ]
+
+
+class Example2(Example):
+
+    def __init__(self, token=""):
+        super().__init__(alphabet="abc", target_formula="G(b->X(~a))", token=token)
+
+        self.query_formulas = [
+            "true",
+            "false",
+            "b",
+            "X(b)",
+            "G(b)",
+            "F(a)",
+            "G(a)",
+        ]
+
+
+class Example3(Example):
+
+    def __init__(self, token=""):
+        super().__init__(alphabet="abc", target_formula="G(b -> G(~a))", token=token)
+
+        self.query_formulas = [
+            "true",
+            "false",
+            'G(b)',
+            'G(~a)',
+            'G(a)',
+            'F(c)'
+        ]
+
+
+class Example4(Example):
+
+    def __init__(self, token=""):
+        super().__init__(alphabet="abc", target_formula="F(a)", token=token)
+
+        self.query_formulas = [
+            "true",
+            "false",
+            "F(b)",
+            "F(~a)",
+            "F(~b)",
+            'F(aUb)',
+            'F(bUa)' 
+        ]
+
+
+class Example5(Example):
+
+    def __init__(self, token=""):
+        super().__init__(alphabet="abc", target_formula="F(aUb)", token=token)
+
+        self.query_formulas = [
+            "true",
+            "false",
+            "F(a)",
+            "F(aUb)",
+            "F(bUa)",
+            "G(a)",
+            "G(c)",
+            "F(c)",
+            "F(a & X(b))"
+        ]
+
+
+class Example6(Example):
+
+    def __init__(self, token=""):
+        super().__init__(alphabet="abc", target_formula="F(a & X(b))", token=token)
+
+        self.query_formulas = [
+            "true",
+            "false",
+            "F(a)",
+            "F(b)",
+            "F(c)",
+            "G(a)",
+            "F(aUb)"
+        ]
+
+
+class Example7(Example):
+
+    def __init__(self, token=""):
+        super().__init__(alphabet="abc", target_formula="G(a)", token=token)
+
+        self.query_formulas = [
+            "true",
+            "false",
+            "F(a)",
+            "F(b)",
+            "F(a|b)",
+            "F(aUb)"
+        ]
+
+
+class Example8(Example):
+
+    def __init__(self, token=""):
+        super().__init__(alphabet="abc", target_formula="F(b) -> (a U b)", token=token)
+
+        self.query_formulas = [
+            "true",
+            "false"
+        ]
+
+
+class Example9(Example):
+
+    def __init__(self, token=""):
+        super().__init__(alphabet="abc", target_formula="G(b -> G(a))", token=token)
+
+        self.query_formulas = [
+            "true",
+            "false",
+        ]

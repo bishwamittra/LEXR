@@ -6,21 +6,23 @@ import traceback
 import logging
 from samples2ltl.utils.SimpleTree import Formula
 
-def get_models(finalDepth, traces, startValue, step, encoder, maxNumModels=1, verbose=True):
+def get_models(finalDepth, traces, startValue, step, encoder, maxNumModels=1, verbose=True, optimization=False):
 
     if(verbose):
         print("start formula depth:", startValue)
 
     results = []
     i = startValue
-    fg = encoder(i, traces, optimization=False)
+    fg = encoder(i, traces, optimization=optimization)
     fg.encodeFormula()
     while len(results) < maxNumModels and i < finalDepth:
         solverRes = fg.solver.check()
         if not solverRes == sat:
             logging.debug("not sat for i = {}".format(i))
             i += step
-            fg = encoder(i, traces, optimization=False)
+            print("increasing formula depth to ", i )
+
+            fg = encoder(i, traces, optimization=optimization)
             fg.encodeFormula()
         else:
             solverModel = fg.solver.model()
@@ -31,7 +33,9 @@ def get_models(finalDepth, traces, startValue, step, encoder, maxNumModels=1, ve
             """ 
             There seems to be inconsistencies  in formula.normalize
             """
-            # formula = Formula.normalize(formula)
+
+            print("Before normalization:", formula.prettyPrint())
+            formula = Formula.normalize(formula)
             
             logging.info("normalized formula {}".format(formula))
             if formula not in results:

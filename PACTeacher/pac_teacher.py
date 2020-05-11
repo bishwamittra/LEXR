@@ -7,6 +7,8 @@ import time
 import signal
 from contextlib import contextmanager
 from multiprocessing import Process, Queue
+import operator as op
+from functools import reduce
 
 # @contextmanager
 # def timeout(time):
@@ -44,9 +46,14 @@ class PACTeacher():
         self.max_trace_length = max_trace_length
         self.max_formula_depth = max_formula_depth
         self._last_counterexample_positive = False
+        self.returned_counterexamples = []
+        self._num_counterexamples_in_EQ = None
+        self._number_of_samples = None
 
     def equivalence_query_dfs(self, dfa, verbose=False):
         _max_trace_length = self.max_trace_length
+
+        self._num_counterexamples_in_EQ = 0
 
         self._num_equivalence_asked = self._num_equivalence_asked + 1
 
@@ -62,9 +69,9 @@ class PACTeacher():
         # number_of_rounds = int((self._log_delta - self._num_equivalence_asked)/self._log_one_minus_epsilon)
 
         # from the paper
-        number_of_rounds = int(
+        self._number_of_samples = int(
             math.ceil((self._num_equivalence_asked*0.693147-self._log_delta)/self.epsilon))
-        for i in range(number_of_rounds):
+        for i in range(self._number_of_samples):
 
             """  
             # when both positive and negative counterexamples are found, one can safely decrease the max_trace_length for the current 
@@ -107,12 +114,13 @@ class PACTeacher():
                         The following code tries to balance between positive and negative counterexamples.
                         """
                         if(not dfa_verdict):  # if current verdict is negative, the word must be a positive counterexample
-                            if(positive_counterexample is None or len(positive_counterexample) > word_length):
+                            if(positive_counterexample is None or len(positive_counterexample) > word_length and word not in self.returned_counterexamples):
                                 positive_counterexample = word
                         else:
-                            if(negative_counterexample is None or len(negative_counterexample) > word_length):
+                            if(negative_counterexample is None or len(negative_counterexample) > word_length and word not in self.returned_counterexamples):
                                 negative_counterexample = word
 
+                        self._num_counterexamples_in_EQ += 1
                         break
                         # return word
 
@@ -144,75 +152,35 @@ class PACTeacher():
                 return negative_counterexample
         return None
 
-    """  
-    A BFS traversal on randomly generated words
-    """
+    def _ncr(self, n, r):
+        r = min(r, n-r)
+        numer = reduce(op.mul, range(n, n-r, -1), 1)
+        denom = reduce(op.mul, range(1, r+1), 1)
+        return numer / denom
 
-    def equivalence_query_bfs(self, dfa):
-        self._num_equivalence_asked = self._num_equivalence_asked + 1
+    def calculate_revised_delta_and_epsilon(self, verbose=True):
+        if(verbose):
+            print("Number of samples:", self._number_of_samples)
+            print("Number of counterexamples returned:",
+                  self._num_counterexamples_in_EQ)
 
-        if(self.query_dfa is None):
-            if dfa.is_word_in("") != self.specification_dfa.is_word_in(""):
-                return ""
-        else:
-            if dfa.is_word_in("") != (self.query_dfa.is_word_in("") and self.specification_dfa.is_word_in("")):
-                return ""
+        _computed_combination = self._ncr(
+            self._number_of_samples, self._num_counterexamples_in_EQ)
 
-        # number_of_rounds = int((self._log_delta - self._num_equivalence_asked)/self._log_one_minus_epsilon)
+        try:
+            _new_delta = _computed_combination * \
+            math.pow(math.e, -(self.epsilon *
+                               (self._number_of_samples-self._num_counterexamples_in_EQ)))
+        except:
+            _new_delta = None
 
-        # from the paper
-        number_of_rounds = int(
-            math.ceil((self._num_equivalence_asked*0.693147-self._log_delta)/self.epsilon))
+        try:
+            _new_epsilon = (math.log(_computed_combination)-math.log(self.delta)) / \
+            (self._number_of_samples-self._num_counterexamples_in_EQ)
+        except:
+            _new_epsilon = None
 
-        words = ["" for i in range(number_of_rounds)]
-        dfa_state = [dfa.reset_current_to_init()
-                     for i in range(number_of_rounds)]
-        specification_state = [
-            self.specification_dfa.reset_current_to_init() for i in range(number_of_rounds)]
-
-        if(self.query_dfa is not None):
-            query_state = [self.query_dfa.reset_current_to_init()
-                           for i in range(number_of_rounds)]
-
-        for _ in range(self.max_trace_length):
-            index = 0
-            for letter in bfs_random(self.specification_dfa.alphabet, number_of_rounds):
-                words[index] += letter
-
-                """  
-                specify automata states during traversal
-                """
-                dfa.current_state = dfa_state[index]
-                self.specification_dfa.current_state = specification_state[index]
-
-                # get verdict from DFAs
-                dfa_verdict = dfa.is_word_letter_by_letter(letter)
-                specification_verdict = self.specification_dfa.is_word_letter_by_letter(
-                    letter)
-
-                # remember automata state after traversal
-                dfa_state[index] = dfa.current_state
-                specification_state[index] = self.specification_dfa.current_state
-
-                # repeat everything when query is specified
-                if(self.query_dfa is not None):
-                    self.query_dfa.current_state = query_state[index]
-                    query_verdict = self.query_dfa.is_word_letter_by_letter(
-                        letter)
-                    query_state[index] = self.query_dfa.current_state
-
-                if(self.query_dfa == None):
-                    if dfa_verdict != specification_verdict:
-                        return words[index]
-                else:
-
-                    if(dfa_verdict != (specification_verdict and query_verdict)):
-                        return words[index]
-
-                index += 1
-                pass
-
-        return None
+        return _new_delta, _new_epsilon
 
     def membership_query(self, w):
         return self.specification_dfa.is_word_in(w)
@@ -223,7 +191,7 @@ class PACTeacher():
 
         start_time = time.time()
 
-        for i in range(100):
+        for i in range(300):
 
             if(learner.current_formula_depth > self.max_formula_depth):
                 if(verbose):
@@ -257,6 +225,8 @@ class PACTeacher():
                           equivalence_test_start_time, " s")
                 if counterexample is None:
                     return learner,  True
+                else:
+                    self.returned_counterexamples.append(counterexample)
 
                 if(self.query_dfa is None):
                     if(self.specification_dfa.classify_word(counterexample)):

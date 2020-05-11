@@ -3,7 +3,7 @@ import os
 
 class DotHandler:
 
-    def __init__(self, path='./inter-automa.dot'):
+    def __init__(self, path='./ltlf2dfa/automa_inter.dot'):
         self.dot_path = path
         self.new_digraph = None
 

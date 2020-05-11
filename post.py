@@ -3,6 +3,7 @@ path="nscc:/home/projects/11000744/bishwa/xRNN/"
 
 # choose files/folder to copy to cluster
 # os.system("rsync -vap lstar_extraction/ "+path+"lstar_extraction/")
+os.system("./clean.sh")
 os.system("rsync -vap ltlf2dfa/ "+path+"ltlf2dfa/")
 os.system("rsync -vap RNN2DFA/ "+path+"RNN2DFA/")
 os.system("rsync -vap PACTeacher/ "+path+"PACTeacher/")

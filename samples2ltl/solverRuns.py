@@ -9,7 +9,7 @@ from samples2ltl.formulaBuilder.DTFormulaBuilder import DTFormulaBuilder
 from samples2ltl.formulaBuilder.AtomBuilder import AtomBuilder, AtomBuildingStrategy
 from samples2ltl.formulaBuilder.satQuerying import get_models
 
-def run_solver(finalDepth, traces, maxNumOfFormulas = 1, startValue=1, step=1, q = None, encoder=DagSATEncoding):
+def run_solver(finalDepth, traces, maxNumOfFormulas = 1, startValue=1, step=1, q = None, encoder=DagSATEncoding, optimization=False):
     if q is not None:
         separate_process = True
     else:
@@ -17,7 +17,7 @@ def run_solver(finalDepth, traces, maxNumOfFormulas = 1, startValue=1, step=1, q
 
     t = TicToc()
     t.tic()
-    results, formula_depth = get_models(finalDepth, traces, startValue, step, encoder, maxNumOfFormulas)
+    results, formula_depth = get_models(finalDepth, traces, startValue, step, encoder, maxNumOfFormulas, optimization=optimization)
     time_passed = t.tocvalue()
 
     if separate_process == True:

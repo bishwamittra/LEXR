@@ -131,7 +131,7 @@ class Formula(SimpleTree):
         fRight = Formula.normalize(f.right)
 
         if fLeft.label == "true":
-            if f.label in ['|', 'F', 'G', 'X']:
+            if f.label in ['|', 'F', 'G']: # X(true) != true for finite trace, thus omitted
                 return Formula("true")
             if f.label in ["&", "->"]:
                 return Formula.normalize(fRight)
@@ -143,7 +143,7 @@ class Formula(SimpleTree):
         if fLeft.label == "false":
             if f.label in ['->', '!']:
                 return Formula["true"]
-            if f.label in ['&', 'F', 'G', 'X']:
+            if f.label in ['&', 'F', 'G']: # similar to previous reason, for finite trace X(false) != false
                 return Formula["false"]
             if f.label in ['|', 'U']:
                 return Formula.normalize(fRight)
