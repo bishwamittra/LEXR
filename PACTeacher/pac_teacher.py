@@ -50,7 +50,11 @@ class PACTeacher():
         self._num_counterexamples_in_EQ = None
         self._number_of_samples = None
 
-    def equivalence_query_dfs(self, dfa, verbose=False):
+    def equivalence_query(self, dfa, verbose=False):
+
+        # if(verbose):
+        #     print("already found counterexamples:", self.returned_counterexamples)
+            
         _max_trace_length = self.max_trace_length
 
         self._num_counterexamples_in_EQ = 0
@@ -61,7 +65,7 @@ class PACTeacher():
             if dfa.is_word_in("") != self.specification_dfa.is_word_in(""):
                 return ""
         else:
-            if dfa.is_word_in("") != (self.query_dfa.is_word_in("") and self.specification_dfa.is_word_in("")):
+            if ( dfa.is_word_in("") != (self.query_dfa.is_word_in("") and self.specification_dfa.is_word_in(""))) and "" not in self.returned_counterexamples:
                 return ""
 
         positive_counterexample = None
@@ -103,7 +107,9 @@ class PACTeacher():
                     if dfa.is_word_letter_by_letter(letter) != self.specification_dfa.is_word_letter_by_letter(letter):
                         return word
                 else:
-                    dfa_verdict = dfa.is_word_letter_by_letter(letter)
+                    
+                    
+                    dfa_verdict = dfa.is_word_letter_by_letter(letter, word)
                     specification_verdict = self.specification_dfa.is_word_letter_by_letter(
                         letter)
                     query_verdict = self.query_dfa.is_word_letter_by_letter(
@@ -114,10 +120,10 @@ class PACTeacher():
                         The following code tries to balance between positive and negative counterexamples.
                         """
                         if(not dfa_verdict):  # if current verdict is negative, the word must be a positive counterexample
-                            if(positive_counterexample is None or len(positive_counterexample) > word_length and word not in self.returned_counterexamples):
+                            if((positive_counterexample is None or len(positive_counterexample) > word_length) and word not in self.returned_counterexamples):
                                 positive_counterexample = word
                         else:
-                            if(negative_counterexample is None or len(negative_counterexample) > word_length and word not in self.returned_counterexamples):
+                            if((negative_counterexample is None or len(negative_counterexample) > word_length) and word not in self.returned_counterexamples):
                                 negative_counterexample = word
 
                         self._num_counterexamples_in_EQ += 1
@@ -217,7 +223,7 @@ class PACTeacher():
                 [learner] = q.get()
 
                 # learner.learn_ltlf_and_dfa()
-                counterexample = self.equivalence_query_dfs(
+                counterexample = self.equivalence_query(
                     learner.dfa, verbose=verbose)
 
                 if(verbose):

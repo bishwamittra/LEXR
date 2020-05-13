@@ -1,10 +1,12 @@
 import pandas as pd
 import numpy as np
+pd.options.display.max_colwidth = 400
 df = pd.read_csv("output/result.csv", header=None)
 df.columns = ['target',
               'query',
               'explanation',
               'status',
+              'test accuracy',
               'rnn score',
               'explanation score',
               'explanation score on ground truth',
@@ -21,28 +23,30 @@ email_df = df[df['target'] == "email match"][[
     'query', 'explanation', 'status','explanation score', 'extraction time']]
 replace_dict = dict(zip([
     "X",
+    '\|',
     "U",
     "F",
     "G",
     "d",
     "&",
     "~",
+    "false",
+    "a",
     "->",
     "true",
-    "false",
-    "a"
 ], [
     "\\\\X",
+    "\\\\vee ",
     "\\\\U",
     "\\\\F",
     "\\\\G",
     "\\\\circ",
     " \\\\wedge ",
     " \\\\neg ",
+    "\\\\bot",
+    "@",
     " \\\\rightarrow",
     "\\\\top",
-    "\\\\bot",
-    "@"
 ]))
 email_df['query'] = '$ ' + email_df['query'].str.strip().replace(replace_dict,
                                                                  regex=True) + ' $  &'
@@ -57,7 +61,7 @@ email_df['explanation score'] = '$ ' + \
     email_df['explanation score'].round(2).astype(str) + ' $  &'
 email_df['extraction time'] = '$ ' + \
     email_df['extraction time'].round(2).astype(str) + ' $  \\\\'
-pd.options.display.max_colwidth = 200
+pd.options.display.max_colwidth = 400
 
 
 print("""  
@@ -65,7 +69,7 @@ print("""
       \\begin{center}
          \\begin{tabular}{llcrr}
             \\toprule
-            Query & Explanation & Completeness & Accuracy(\\%) &  Time(s)\\\\
+            Query & Explanation & Completeness & Acc(\%) &  Time(s)\\\\
             \\midrule
    """)
 
@@ -97,6 +101,7 @@ bp_df = df[df['target'] == "balanced parentheses"][[
 replace_dict = dict(zip([
     #    "d",
     "X",
+    '\|',
     "U",
     "F",
     "G",
@@ -110,6 +115,7 @@ replace_dict = dict(zip([
 
     #    "\\\\circ",
     "\\\\X ",
+    "\\\\vee ",
     "\\\\U ",
     "\\\\F ",
     "\\\\G ",
@@ -132,7 +138,7 @@ bp_df['explanation score'] = '$ ' + \
     bp_df['explanation score'].round(2).astype(str) + ' $  &'
 bp_df['extraction time'] = '$ ' + \
     bp_df['extraction time'].round(2).astype(str) + ' $  \\\\'
-pd.options.display.max_colwidth = 200
+pd.options.display.max_colwidth = 400
 
 
 print("""  
@@ -140,7 +146,7 @@ print("""
       \\begin{center}
          \\begin{tabular}{llcrr}
             \\toprule
-            Query & Explanation & Completeness & Accuracy(\\%) &  Time(s)\\\\
+            Query & Explanation & Completeness & Acc(\%) &  Time(s)\\\\
             \\midrule
    """)
 
@@ -171,6 +177,7 @@ replace_dict = dict(zip([
     #    "d",
     "b",
     "X",
+    '\|',
     "U",
     "F",
     "G",
@@ -188,6 +195,7 @@ replace_dict = dict(zip([
     #    "\\\\circ",
     "\\\\text{msg}1",
     "\\\\X ",
+    "\\\\vee ",
     "\\\\U ",
     "\\\\F ",
     "\\\\G ",
@@ -215,7 +223,7 @@ abp_df['explanation score'] = '$ ' + \
     abp_df['explanation score'].round(2).astype(str) + ' $  &'
 abp_df['extraction time'] = '$ ' + \
     abp_df['extraction time'].round(2).astype(str) + ' $  \\\\'
-pd.options.display.max_colwidth = 200
+pd.options.display.max_colwidth = 400
 
 
 
@@ -225,7 +233,7 @@ print("""
       \\begin{center}
          \\begin{tabular}{llcrr}
             \\toprule
-            Query & Explanation & Completeness & Accuracy(\\%) &  Time(s)\\\\
+            Query & Explanation & Completeness & Acc(\%) &  Time(s)\\\\
             \\midrule
    """)
 
@@ -263,6 +271,7 @@ for formula, each_df in other_examples_df.groupby(['target']):
     replace_dict = dict(zip([
         #    "d",
         "X",
+        '\|',
         "U",
         "F",
         "G",
@@ -275,6 +284,7 @@ for formula, each_df in other_examples_df.groupby(['target']):
 
         #    "\\\\circ",
         "\\\\X ",
+        "\\\\vee ",
         "\\\\U ",
         "\\\\F ",
         "\\\\G ",
@@ -298,14 +308,13 @@ for formula, each_df in other_examples_df.groupby(['target']):
         each_df['explanation score'].round(2).astype(str) + ' $  &'
     each_df['extraction time'] = '$ ' + \
         each_df['extraction time'].round(2).astype(str) + ' $  \\\\'
-    pd.options.display.max_colwidth = 200
-
+    
     print("""  
    \\begin{table}
       \\begin{center}
          \\begin{tabular}{llcrr}
             \\toprule
-            Query & Explanation & Completeness & Accuracy(\\%) &  Time(s)\\\\
+            Query & Explanation & Completeness & Acc(\%) &  Time(s)\\\\
             \\midrule
    """)
 
@@ -321,6 +330,7 @@ for formula, each_df in other_examples_df.groupby(['target']):
     replace_dict = dict(zip([
         #    "d",
         "X",
+        '\|',
         "U",
         "F",
         "G",
@@ -333,6 +343,7 @@ for formula, each_df in other_examples_df.groupby(['target']):
 
         #    "\\\\circ",
         "\\X ",
+        "\\vee ",
         "\\U ",
         "\\F ",
         "\\G ",

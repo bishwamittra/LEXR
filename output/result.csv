@@ -1,13 +1,81 @@
-email match,false,false,True,99.66,100.0,100.0,0.3212404251098633,,,[''],2420,605
-email match,true,(((a | d) | (m | r)) U (~ ((a | d) | (m | r)))),False,99.66,71.07,70.74,401.10932660102844,1.0,,"['a', '', 'ampaaapad', 'm', 'mnnmadmnqrnrnrnqpaaqrpd', 'd', 'r', 'p']",2420,605
-email match,(m|n),((~ r) & ((F (~ r)) U (r & (F (~ r))))),False,99.66,41.32,41.32,401.0898356437683,5.634567373728452e+98,2.5271827070609283,"['', 'mammmpprrnard', 'm', 'd', 'n', 'p', 'a', 'r', 'mnnrqnrpaaramadraamarnpard', 'rr', 'mrqdmmpmnqaapaqprd', 'qd', 'pn', 'pa', 'pp', 'pm', 'nqmpanmqapappparnrmamqapd', 'qqm', 'mprrmrmnprmrpqd', 'pnd', 'qqr', 'mmraqd', 'rd', 'mqdqqnpaqarqnmrmqnqaaqmapqprpaard', 'nnmn', 'rmnd', 'nrrpamrrrqnrnrqrpnanpqd', 'mr', 'nd', 'nmammpapmapqad']",2420,605
-email match,~F(a),(F (~ ((a | q) | (d | n)))),False,99.66,0.99,0.82,401.11268639564514,1.0,,"['n', '', 'd', 'q', 'qpqd', 'a', 'r']",2420,605
-email match,~F(d),(~ ((a | q) | (m | n))),False,99.66,42.97,42.8,401.11372447013855,8.413441102848855e+39,1.221930635291562,"['q', '', 'n', 'm', 'a', 'p']",2420,605
-email match,F(a & X(m|n)),(X (X (X (X (~ d))))),False,99.66,9.42,9.42,312.4784984588623,1.2433910484582753e+61,3.043151360620262,"['', 'pamaarpaprd', 'p', 'd', 'm', 'qrpamapqarpd', 'a', 'amqmmnappd', 'am', 'pd', 'amraqd', 'na', 'amnrrqqanpqd', 'pad', 'rmdmqmrnqrmmqdammmaprprd', 'raa', 'q', 'ppanaqrd', 'qn', 'rrnppammrpmpd', 'nprd', 'qmma', 'mrdpd', 'qampd']",2420,605
-email match,F((m|n) & X(d)),((X (F m)) U (m & (X (F m)))),False,99.66,74.21,74.21,401.0409004688263,121160.4447872691,7.400301604880979,"['', 'qdpppndmdammmqpdarnarnqqprpaprrrd', 'q', 'n', 'a', 'm', 'd', 'r', 'qmdqqrnmrnnnmpprqd', 'p', 'dn', 'rm', 'dq', 'md', 'rp', 'nr', 'dqandmraqnqqnnmnqaamrqnanmmnnaprd', 'nam', 'pnp', 'pmn', 'nqr', 'pdanrpdmaramnmamrrmdrarammrppd', 'ndd', 'dr', 'dm', 'panrnprpmndmamqprannqpmrpqpqpd', 'napp', 'dddm', 'qdmd', 'pd', 'nqqmmdnqnmnnnmnanqmnnqapd', 'mp', 'mm']",2420,605
-email match,G(m|n),false,True,99.66,100.0,100.0,0.4535086154937744,,,[''],2420,605
-email match,F(m|n)->((p|q|r)U(m|n)),(~ ((d | p) | (G (m | q)))),False,99.66,54.38,54.38,401.1202058792114,6.0176330180341344e+54,1.1536753956483938,"['q', '', 'qpqd', 'm', 'qqmrqqd', 'd', 'mmpmpanpppd', 'p', 'qapd', 'a']",2420,605
-email match,~(F(m|n)->((p|q|r)U(m|n))),false,True,99.66,100.0,100.0,0.4658997058868408,,,[''],2420,605
-email match,(F(m|n))&((p|q|r)U(m|n)),(((F n) -> n) -> (((F n) -> n) U (X r))),False,99.66,55.7,55.7,401.0533130168915,1.0371239517411426e+87,1.6512369040574997,"['', 'qnpd', 'q', 'qmpprd', 'd', 'qnrqrd', 'dd', 'dm', 'p', 'pmqrd', 'r', 'rrmpd', 'npd', 'mddndaddrmarmmpqadmrpppnpnmamqrrnnraammnaqd', 'nn', 'ampa', 'qdmd', 'pmpd']",2420,605
-email match,(F(m|n))&(F(a & X(m|n))),(X (X (X (X (~ m))))),False,99.66,12.89,12.89,401.1230344772339,1.6596502043217275e+59,2.8370971924015675,"['', 'qamprprd', 'q', 'amnmprprd', 'a', 'r', 'prnrnranrrd', 'p', 'd', 'damaanpppnqpmqnadaadmmmmmqammapamanpd', 'mr', 'dd', 'pnd', 'nrdnqdnrmmmrarrrnnamamammpd', 'pa', 'ad', 'arpd', 'qmrdqmmannnmaqqnpmammmrrnqad', 'rrm', 'ramamrd']",2420,605
-F(a),F(a),(F a),True,100.0,100.0,100.0,0.5547659397125244,,,"['', 'a', 'ca']",1010,498
+G(~a),true,(G (~ a)),True,100.0,100.0,100.0,100.0,0.6711130142211914,,,"['a', '', 'ba']",0,0
+G(~a),false,false,True,100.0,,,,0.2631242275238037,,,[''],0,0
+G(~a),a,false,True,100.0,100.0,100.0,100.0,0.25975871086120605,,,[''],0,0
+G(~a),~a,(G (~ a)),True,100.0,100.0,100.0,100.0,0.6721606254577637,,,"['a', '', 'ca']",0,0
+G(~a),F(a),false,True,100.0,100.0,100.0,100.0,0.2625560760498047,,,[''],0,0
+G(~a),F(~a),(G (~ a)),True,100.0,100.0,100.0,100.0,0.6311190128326416,,,"['a', '', 'ca']",0,0
+email match,d,false,True,100.0,100.0,100.0,100.0,0.24681401252746582,,,[''],1620,406
+G(~a),F(b),((~ (F a)) & ((~ (F a)) U b)),True,100.0,100.0,100.0,100.0,5.5974509716033936,,,"['', 'b', 'ba', 'cb', 'ab', 'c', 'bc', 'ac']",0,0
+G(~a),F(b|c),(G (b | c)),True,100.0,100.0,100.0,100.0,1.5436899662017822,,,"['', 'c', 'ca', 'b', 'ba']",0,0
+G(~a),G(b|c),(G (b | c)),True,100.0,100.0,100.0,100.0,1.6836400032043457,,,"['', 'b', 'ba', 'c', 'ca']",0,0
+G(~a),X(G(~a)),((G (~ a)) & (X (~ a))),True,100.0,100.0,100.0,100.0,3.006659984588623,,,"['', 'cb', 'c', 'cc', 'ac', 'cba']",0,0
+G(~a),X(G(a)),false,True,100.0,100.0,100.0,100.0,0.8547470569610596,,,[''],0,0
+balanced parentheses,false,false,True,99.05,,,,0.23748993873596191,,,[''],1272,318
+balanced parentheses,~F(l|r),(G a),True,99.05,100.0,100.0,100.0,0.74591064453125,,,"['', 'a', 'al']",1272,318
+balanced parentheses,G( (l & (X(~l))) | (~l) ),(((F l) -> (G (F l))) -> (G a)),False,99.05,100.0,51.77,51.77,16.014305114746094,4.224037813903345e+97,1.733717189673593,"['', 'a', 'al', 'lr', 'l', 'alr', 'r', 'lar', 'ar', 'rrrra']",1272,318
+balanced parentheses,G(l),false,True,99.05,100.0,100.0,100.0,0.25653696060180664,,,[''],1272,318
+balanced parentheses,G(l->(X(~l))),((a U ((F r) -> r)) -> (G a)),False,99.05,100.0,77.65,77.65,16.45653510093689,1.2076938009001031e+38,0.31587305336175475,"['', 'a', 'ar', 'lr', 'l', 'alr', 'al', 'r', 'lar', 'lrl']",1272,318
+balanced parentheses,F(l & X(G(~r))),false,True,99.05,100.0,100.0,100.0,0.2589902877807617,,,[''],1272,318
+balanced parentheses,G(~l),((G a) | (X (X r))),False,99.05,100.0,76.47,76.47,16.01366090774536,8.232678945432997e+87,1.0153568060253457,"['', 'a', 'ar', 'rrrra', 'la', 'ra', 'ala', 'arrrarrrra', 'llr']",1272,318
+balanced parentheses,G(~r),(G a),True,99.05,100.0,100.0,100.0,0.7858219146728516,,,"['', 'a', 'al']",1272,318
+balanced parentheses,r,((X r) & (X (X (X r)))),False,99.05,100.0,91.43,91.43,16.86327028274536,1.4619782389094026e+75,0.47255696829228905,"['', 'rrrra', 'r', 'ar', 'a', 'rr', 'rrarrra', 'la', 'ra', 'ala', 'rar', 'ralr', 'lrla', 'lrr', 'rlaaaaaralraar']",1272,318
+balanced parentheses,a U r,false,True,99.05,100.0,100.0,100.0,0.26587796211242676,,,[''],1272,318
+balanced parentheses,a U r,(X (X (F (X r)))),False,90.87,99.74,8.37,8.12,16.01740789413452,383.3259857516607,9.485443662221105,"['', 'aaaar', 'a', 'arlllraaraaaa', 'r', 'ar', 'la', 'rllaaaaalalrar', 'raa', 'rlr', 'aa', 'rrlr']",961,241
+balanced parentheses,a U r,(X (X (F (X r)))),False,90.87,99.74,8.37,8.12,16.011425971984863,1.0,,"['', 'rllraaarr', 'r', 'al', 'lr', 'aa', 'aaaar', 'arr', 'rla', 'aaa', 'llra', 'aalr']",961,241
+balanced parentheses,(F(l) -> F(r)) & (F(r) -> F(l)),(~ (G (r | (F (G l))))),False,90.87,95.18,39.85,40.69,16.01992702484131,1.0,,"['r', '', 'rlaaaarr', 'l', 'lr', 'rl', 'laaa', 'al', 'la']",961,241
+balanced parentheses,(F(l) -> F(r)) & (F(r) -> F(l) & F(l U r)) ,((r | (F l)) -> (F (X r))),False,90.87,95.18,15.06,15.89,16.261208057403564,1.1292873887030138e+108,1.350980810183269,"['l', '', 'lr', 'r', 'lar', 'la', 'laar', 'al', 'alr', 'rl', 'laaa']",961,241
+balanced parentheses,(F(l) -> F(r)) & (F(r) -> F(l)) & (F( (l|a) U r)) ,(((X r) -> l) & (F (X r))),False,90.87,95.09,32.87,33.93,16.02006721496582,7.744593773174399e+93,1.0064176291913605,"['', 'lr', 'l', 'alr', 'r', 'ar', 'aaaaar', 'll', 'allaarr', 'rar']",961,241
+balanced parentheses,(F(l) -> F(r)) & (F(r) -> F(l)),(((F l) | (F r)) -> ((F l) & (F r))),False,90.87,95.18,15.79,16.63,16.384226083755493,1.1292873887030138e+108,1.350980810183269,"['l', '', 'lr', 'r', 'lar', 'la', 'laar', 'al', 'alr', 'ar', 'laaa']",961,241
+balanced parentheses,( F(l) & F(r) ),(F (l & (F r))),False,90.87,94.77,12.93,13.84,16.01783037185669,383.3259857516607,9.485443662221105,"['', 'lr', 'l', 'alr', 'r', 'rr', 'rlaaarar', 'al', 'rl', 'la', 'ar', 'rlr']",961,241
+balanced parentheses,F(l) & F(r) & F( (l|r) U r ),((F r) U (l & (F r))),False,90.87,94.77,12.93,13.84,16.01735496520996,73283.40718085831,7.384323695479546,"['', 'lr', 'l', 'alr', 'r', 'rr', 'rllaarrarr', 'ra', 'la', 'ar', 'rl', 'lrl']",961,241
+balanced parentheses,F(l) & F(r) & F( (l|a) U r ),((F r) U (l & (F r))),False,90.87,94.77,12.93,13.84,16.014163970947266,383.3259857516607,9.485443662221105,"['', 'lr', 'l', 'alr', 'r', 'rr', 'rlaaaalarar', 'rl', 'lra', 'la', 'ar', 'rlr']",961,241
+balanced parentheses,F(l) & F(r) & ~(F( (l|a) U r )),false,True,90.87,,,,0.26224803924560547,,,[''],961,241
+alternating bit protocol,false,false,True,99.38,,,,0.26163816452026367,,,[''],1303,326
+alternating bit protocol,a & X(c) & X(X(b)) & X(X(Xd)),false,True,99.38,100.0,40.0,40.0,0.26648616790771484,,,[''],1303,326
+alternating bit protocol,a & (X(c)) & (X(X(b))) & (X(X(Xd))),false,True,99.38,100.0,25.0,25.0,0.25916290283203125,,,[''],1303,326
+alternating bit protocol,true,((b | (a | c)) -> (X (b | (a | c)))),False,99.38,99.92,42.44,42.51,16.013753175735474,2.7927901216119023e+67,2.6767800044605394,"['b', '', 'c', 'a', 'acbd', 'bd', 'abdd', 'ad', 'aacdd', 'ac']",1303,326
+alternating bit protocol,a & (X(c)) & (X(X(b))) & (X(X(Xd))),(a & (X (X b))),False,99.38,100.0,75.0,75.0,16.727936029434204,5.456150876218652e+45,0.25813339760058013,"['', 'acbd', 'a', 'b', 'd', 'bc', 'cd', 'db', 'cab', 'ac', 'ad', 'dcad', 'ab', 'bd', 'cad', 'ccb', 'abb']",1303,326
+alternating bit protocol,F(a &X(b)),((X (~ c)) & (X (X (~ c)))),False,99.38,100.0,41.16,41.16,16.01518678665161,1.0628777298972836e+134,1.5675070957027153,"['', 'abdd', 'a', 'd', 'dddabd', 'b', 'db', 'bd', 'abbd', 'acd', 'ba', 'dacb', 'ab', 'dddaabbb', 'dda']",1303,326
+alternating bit protocol,~F(a),(G (~ (a | (b | c)))),True,99.38,100.0,100.0,100.0,6.22526216506958,,,"['b', '', 'a', 'c', 'da', 'db']",1303,326
+alternating bit protocol,~F(b),((c | (a | b)) -> (X a)),False,99.38,100.0,56.81,56.81,16.013844966888428,1.6092933303063404e+44,0.5174819312334393,"['b', '', 'c', 'a', 'aaaacdd', 'db']",1303,326
+alternating bit protocol,(F(a &X(c))),(X (X (X true))),False,99.38,99.9,32.43,32.53,16.01259994506836,1.0,,"['', 'acbd', 'a', 'acdd', 'c', 'aaacbbb', 'cc', 'dacbd', 'aa', 'ac', 'd', 'cdd', 'dcab']",1303,326
+alternating bit protocol,F(a & ~(X(c|a))),(F (b & (X d))),False,99.38,100.0,22.6,22.6,16.022496938705444,3.172685411184876e+109,2.2724816789106272,"['', 'abbd', 'a', 'd', 'ddabd', 'b', 'dd', 'db', 'bcd', 'abdd', 'ac', 'cbcd', 'ab', 'ad', 'bd']",1303,326
+alternating bit protocol,F(a & ~(X(c|a))) & F(b & ~(X(b|d))) &  F(c & ~(X(c|b))) &  F(d & ~(X(d|a))),false,True,99.38,100.0,100.0,100.0,0.2633841037750244,,,[''],1303,326
+alternating bit protocol,F(a & X(c|a)) & F(b & X(b|d)) &  F(c & X(c|b)) &  F(d & X(d|a)),false,True,99.38,100.0,67.68,67.68,0.27204418182373047,,,[''],1303,326
+alternating bit protocol,F(a & X(c|a)) & F(b & X(b|d)) &  F(c & X(c|b)) &  F(d & X(d|a)),false,True,99.38,100.0,67.68,67.68,0.27356505393981934,,,[''],1303,326
+alternating bit protocol,a -> (F(a & X(c|a)) & F(b & X(b|d)) &  F(c & X(c|b)) &  F(d & X(d|a))),((b | (a | c)) -> (X c)),False,99.38,99.9,65.48,65.57,16.01746416091919,4.3834450569437925e+71,1.131097610835322,"['c', '', 'a', 'acbddacbcbcdd', 'b', 'aacccdbddaccbdd']",1303,326
+alternating bit protocol,F(a U c) & F(c U b) & F(b U d) & F(d U a),(F (X (X a))),False,99.38,100.0,20.79,20.79,16.018753051757812,2053173977.1665587,6.267302652902309,"['', 'dacbdacdd', 'd', 'b', 'c', 'ca', 'db', 'dd', 'cc', 'a', 'ddc', 'dddacddbcdadd', 'bad', 'abb', 'acbbbddad', 'cca']",1303,326
+alternating bit protocol,~(F(a U c) & F(c U b) & F(b U d) & F(d U a)),((c | (a | b)) U (~ (c | (a | b)))),False,99.38,99.76,46.33,46.57,16.015647172927856,1.0,,"['c', '', 'b', 'a', 'abbd', 'bb', 'ad']",1303,326
+F(a),false,false,True,100.0,,,,0.2619330883026123,,,[''],988,247
+F(a),true,(F a),True,100.0,100.0,100.0,100.0,0.9680986404418945,,,"['', 'a', 'ba']",988,247
+F(a),Fb,((F a) & (F b)),True,100.0,100.0,100.0,100.0,4.368104934692383,,,"['', 'ab', 'a', 'ba', 'b', 'bc', 'bca', 'cb', 'ca']",988,247
+F(a),false,false,True,100.0,,,,0.27930784225463867,,,[''],988,247
+F(a),true,(F a),True,100.0,100.0,100.0,100.0,0.6907029151916504,,,"['', 'a', 'ba']",988,247
+F(a),F(a),(F a),True,100.0,100.0,100.0,100.0,0.7466030120849609,,,"['', 'a', 'ba']",988,247
+F(a),false,false,True,100.0,,,,0.2904658317565918,,,[''],988,247
+F(a),Fb,((F a) & (F b)),True,100.0,100.0,100.0,100.0,6.705811977386475,,,"['', 'ab', 'a', 'ba', 'b', 'cc', 'acb', 'bb', 'ac', 'cb']",988,247
+F(a),b,(b & (F a)),True,100.0,100.0,100.0,100.0,3.9519951343536377,,,"['', 'ba', 'b', 'bca', 'a', 'bba', 'aa', 'ca', 'bc']",988,247
+F(a),b,(b & (F a)),True,100.0,100.0,100.0,100.0,1.789623737335205,,,"['', 'ba', 'b', 'bba', 'a', 'ca']",972,243
+F(a),b,(b & (F a)),True,100.0,100.0,100.0,100.0,3.7170298099517822,,,"['', 'ba', 'b', 'bca', 'a', 'bba', 'aa', 'ca', 'bc']",968,243
+F(a),b,(b & (F a)),True,100.0,100.0,100.0,100.0,3.5812747478485107,,,"['', 'ba', 'b', 'bca', 'a', 'bba', 'aa', 'ca', 'bc']",991,248
+F(a),true,(F a),True,100.0,100.0,100.0,100.0,0.6939928531646729,,,"['', 'a', 'ca']",991,248
+F(a),true,(F a),True,100.0,100.0,100.0,100.0,0.6394610404968262,,,"['b', 'a', 'ba']",991,248
+F(a),F(a),(F a),True,100.0,100.0,100.0,100.0,0.6545741558074951,,,"['c', 'a', 'ba']",991,248
+F(a),G(a),(G a),True,100.0,100.0,100.0,100.0,0.6916244029998779,,,"['b', 'a', 'ac']",991,248
+F(a),b,(b & (F a)),True,100.0,100.0,100.0,100.0,2.439105987548828,,,"['a', 'ba', 'b', 'bca', 'ca', 'bc']",991,248
+F(a),b,(b & (F a)),True,100.0,100.0,100.0,100.0,2.5393683910369873,,,"['c', 'ba', 'b', 'bca', 'a', 'bba', 'cc', 'aa']",981,246
+F(a),b,(b & (F a)),True,100.0,100.0,100.0,100.0,2.421788215637207,,,"['c', 'ba', 'b', 'bba', 'a', 'ca', 'bca']",1006,252
+F(a),Ga,(G a),True,100.0,100.0,100.0,100.0,0.7631168365478516,,,"['c', 'a', 'ac']",1006,252
+F(a),b,(b & (F a)),True,100.0,100.0,100.0,100.0,2.047316789627075,,,"['b', 'ba', 'aa', 'bca', 'ca']",1006,252
+G(a),true,(G (~ (b | c))),True,100.0,100.0,100.0,100.0,2.127017021179199,,,"['c', '', 'b', 'ac', 'ab']",784,196
+G(a),true,(~ (F (b | c))),True,100.0,100.0,100.0,100.0,2.1195712089538574,,,"['c', '', 'b', 'ab', 'ac']",784,196
+G(a),b,false,True,100.0,100.0,100.0,100.0,0.3521440029144287,,,[''],784,196
+G(a),a,(G a),True,100.0,100.0,100.0,100.0,0.7155060768127441,,,"['', 'a', 'ab']",784,196
+F(a),a,a,True,100.0,100.0,100.0,100.0,0.44274187088012695,,,"['', 'a']",986,247
+F(a),true,((b | c) U (~ (b | c))),True,100.0,100.0,100.0,100.0,2.0118041038513184,,,"['b', '', 'ba', 'c', 'ca']",986,247
+F(a),true,((b | c) U (~ (b | c))),True,100.0,100.0,100.0,100.0,1.9810380935668945,,,"['b', '', 'ba', 'c', 'ca']",986,247
+F(a),true,(F a),True,100.0,100.0,100.0,100.0,0.6180698871612549,,,"['', 'a', 'ca']",972,243
+F(a),b,(b & (F a)),True,100.0,100.0,100.0,100.0,1.786864995956421,,,"['', 'ba', 'b', 'bba', 'a', 'ca']",972,243
+F(a),G(a),(G a),False,100.0,100.0,100.0,100.0,16.213212966918945,1.0,,"['', 'a', 'ca', 'ba', 'bba', 'aba', 'cca', 'cba', 'aca', 'bca', 'aaba', 'ccba', 'bbba', 'aaca', 'abca', 'cbca', 'bcba', 'bcca', 'acca', 'ccca', 'cbba', 'bbca', 'acba', 'abba', 'bccca', 'abcca', 'accba', 'abbba', 'bbcca', 'cbcba', 'aabca', 'aacba', 'cbbba', 'aaaca', 'aaaba']",972,243
+F(a),G(a),(G a),False,100.0,100.0,100.0,100.0,16.575385093688965,1.0,,"['', 'a', 'ba', 'ca', 'bca', 'cca', 'aba', 'bba', 'cba', 'aca', 'abca', 'bbba', 'bcca', 'bbca', 'bcba', 'ccca', 'ccba', 'aaca', 'cbca', 'acba', 'acca', 'abba', 'aaba', 'cbba', 'cbbba', 'acbca', 'abcba', 'aacba', 'abcca', 'aabca', 'bcbca', 'ccbba', 'bbcba', 'aacca', 'accba', 'cbbca', 'cccba', 'bbbba']",983,246
+F(a),false,false,True,100.0,,,,0.2774050235748291,,,[''],983,246

@@ -18,7 +18,11 @@ separator = "_"
 class DFA:
     def __init__(self,obs_table):
         self.alphabet = obs_table.A #alphabet
-        self.Q = [s for s in obs_table.S if s==obs_table.minimum_matching_row(s)] #avoid duplicate states
+        # self.Q = [s for s in obs_table.S if s==obs_table.minimum_matching_row(s)] #avoid duplicate states
+        """  
+        The equal-cache in observation table is probably not correct.
+        """
+        self.Q = [s for s in obs_table.S]
         self.q0 = obs_table.minimum_matching_row("")
         self.F = [s for s in self.Q if obs_table.T[s]== 1]
         self._make_transition_function(obs_table)
@@ -169,16 +173,21 @@ class DFA:
     """
 
 
-    def next_state_by_letter(self, s, l):
-        q = self.delta[s][l]
+    def next_state_by_letter(self, s, l, word):
+        try:
+            q = self.delta[s][l]
+        except:
+            print(self.delta)
+            print(s,l, word)
+            raise ValueError
         return q
 
 
-    def is_word_letter_by_letter(self, letter, reset=False):
+    def is_word_letter_by_letter(self, letter, word, reset=False):
         if reset:
             self.current_state = self.q0
 
-        self.current_state = self.next_state_by_letter(self.current_state, letter)
+        self.current_state = self.next_state_by_letter(self.current_state, letter, word)
         return self.current_state in self.F
 
     def is_word_in(self, w):

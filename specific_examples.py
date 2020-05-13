@@ -7,9 +7,11 @@ import LTL2DFA as ltlf2dfa
 import random
 import string
 from RNN2DFA.Training_Functions import make_train_set_for_target
-
+import math
 
 # construct a dfa that implements alternating bit protocol
+
+
 class Alternating_Bit_Protocol:
     def __init__(self):
         self.dfa = ltlf2dfa.DFA()
@@ -21,24 +23,16 @@ class Alternating_Bit_Protocol:
         self.query_formulas = [
             "false",  # rejects everything
             "true",  # accepts everything
-            "F(a&X(c))",  # eventually bit 0 is followed by ack 0
-            # eventually bit 0 is followed by ack 0 and eventually bit 1 is followed by ack 1
-            "(F(a&X(c))) | (F(b&X(d)))",
-            "F(a&X(b))",  # Eventually bit 0 is followed by bit 1 (should be false)
-            "F(b&X(a))",  # vice versa
-            "F(c&X(d))",  # eventually ack 0 is followed by ack 1
-            "F(d&X(c))",  # vice versa
-            "~F(a & X(a))",  # reduce space: consecutive bit 0 is not transmitted
-            "~F(b & X(b))",  # reduce space: consecutive bit 1 is not transmitted
-            "~F(c & X(c))",  # reduce space: consecutive ack 0 is not transmitted
-            "~F(d & X(d))",  # reduce space: consecutive ack 1 is not transmitted
-            # it is not the case that eventually ack 0 is transmitted until bit 0 is transmitted
-            "~F( a U c )",
-            # it is not the case that eventually ack 1 is transmitted until bit 1 is transmitted
-            "~F( b U d )",
-            # if both bit 0 and bit 1 is present, then there must be ack 0
-            "(F(a) & F(b)) -> F(c) "
-
+            "a & X(c) & X(X(b)) & X(X(Xd))",
+            "~F(a)",
+            "~F(b)",
+            "~F(c)",
+            "~F(d)",
+            "F(a & ~(X(c|a))) & F(b & ~(X(b|d))) &  F(c & ~(X(c|b))) &  F(d & ~(X(d|a)))",
+            "F(a & X(c|a)) & F(b & X(b|d)) &  F(c & X(c|b)) &  F(d & X(d|a))",
+            "a -> (F(a & X(c|a)) & F(b & X(b|d)) &  F(c & X(c|b)) &  F(d & X(d|a)))",
+            "F(a U c) & F(c U b) & F(b U d) & F(d U a)",
+            "~(F(a U c) & F(c U b) & F(b U d) & F(d U a))"
         ]
 
     def construct_dfa(self):
@@ -54,7 +48,7 @@ class Alternating_Bit_Protocol:
         # state 4 denotes rejecting state for all unalowed move
         self.dfa.Q = [0, 1, 2, 3, 4]
         self.dfa.q0 = 0
-        self.dfa.F = [0, 2]
+        self.dfa.F = [0]
         self.dfa.delta = {
             0: {
                 '0001': 0,
@@ -93,13 +87,37 @@ class Alternating_Bit_Protocol:
             }
         }
 
+    def generate_matching_strings(self, n, max_sequence_length=20):
+
+        sequences = []
+        for sequence_length in range(4, max_sequence_length+1):
+            for i in range(int(n/max_sequence_length-3)):
+                _max = np.random.randint(
+                    2, max(3, int(math.ceil(sequence_length/4))))
+                msg0 = np.random.randint(1, _max)
+                ack0 = np.random.randint(1, _max)
+                msg1 = np.random.randint(1, _max)
+                ack1 = np.random.randint(1, _max)
+                init_ack1 = int(ack1/2)
+                ack1 = ack1 - init_ack1
+                repeatation = np.random.randint(1, max(
+                    2, int(math.ceil(sequence_length/(init_ack1 + msg0 + msg1 + ack0 + ack1)))))
+                r = '(d{'+str(init_ack1)+'}a{'+str(msg0)+'}c{'+str(ack0) + \
+                    '}b{'+str(msg1)+'}d{'+str(ack1) + \
+                    '}){' + str(repeatation) + '}'
+                sequences.append(exrex.getone(r))
+                assert(self.classify_word(
+                    sequences[-1])), sequences[-1]+" classification error"
+
+        return sequences
+
 
 class Email():
     def __init__(self):
         self._at_the_rate = "a"
         self._dot = "d"
-        self._numerical_symbols = "mn"
-        self._letter_symbols = "pqr"
+        self._numerical_symbols = "m"
+        self._letter_symbols = "p"
         self.alphabet = self._at_the_rate + self._dot + \
             self._numerical_symbols + self._letter_symbols
         self._construct_regex()
@@ -115,35 +133,42 @@ class Email():
         self.query_formulas = [
             "false",  # rejects everything
             "true",  # accepts everything
-            "(m|n)",  # email starts with numeric symbols
+            "(m)",  # email starts with numeric symbols
             "~F(a)",  # there is no '@'
+            "~F(a | m)",
             "~F(d)",  # there is no '.'
-            "F(a & X(m|n))",  # @ is followed by numerical symbols
-            "F((m|n) & X(d))",  # numerical symbols are followed by '.'
-            "G(m|n)",  # only numeric
-            # if there is a numeric symbol, then letters are true until the numeric symbol appears
-            "F(m|n)->((p|q|r)U(m|n))",
-            "~(F(m|n)->((p|q|r)U(m|n)))",  # opposite to the earlier query
-            # there is a numeric symbol and it must satisfy the constraint that letters are true until
-            "(F(m|n))&((p|q|r)U(m|n))",
-            # numeric symbols are true
-            "(F(m|n))&(F(a & X(m|n)))"
+            "~F(a | d | m)",
+            "F(a & X(d))",
+            "F(a & X(Fa))",
+            "F(d & X(Fd))",
+            "F(d & X(F(m)))",
+            "F(~p)",
+            "F(m & X(F(a & X(F(m)))))",
+            "G(m)",  
+            "~F(d & X(Gp))",
+            "~p",
+            "a", 
+            "d", 
+            "F(d & X(Gp))",
+            "F(a & X(G(~d)))"
 
         ]
 
     def _construct_regex(self):
-        before_at_the_rate_only_letter = "("+"|".join(
+        _only_letter = "("+"|".join(
             char for char in self._letter_symbols)+")"
-        before_at_the_rate_both = "("+"|".join(
+        _both = "("+"|".join(
             char for char in self._letter_symbols+self._numerical_symbols)+")"
 
-        self.regex = before_at_the_rate_only_letter + \
-            before_at_the_rate_both + \
+        self.regex = _only_letter + \
+            _both + \
             "*" + \
             self._at_the_rate + \
-            before_at_the_rate_only_letter + \
+            _both + \
             "+" + \
             self._dot + \
+            _only_letter + \
+            "+" + \
             "$"
         # print(self.regex)
 
@@ -153,15 +178,23 @@ class Email():
 
     def generate_matching_strings(self, n, max_length=20):
         strings = []
-        for length in range(4, max_length+1):
-            for i in range(int(n/(max_length-3))):
+        for length in range(5, max_length+1):
+            for i in range(int(n/(max_length-4))):
+                # print(length)
                 prefix_length = random.randint(
-                    0, length-4)  # the part before '@'
-                suffix_length = length-prefix_length-3
+                    0, length-5)  # the part before '@'
+                # print(prefix_length)
+                suffix_length = length-prefix_length-4
+                # print(suffix_length)
+                suffix_length_1 = random.randint(1, suffix_length)
+                suffix_length_2 = suffix_length + 1  - suffix_length_1
+                # print(suffix_length_1, suffix_length_2)
                 r = "("+self._letter_symbols_regex + \
                     "){1}" + "("+self._all_symbols_regex+")" + \
-                    "{" + str(prefix_length) + "}" + self._at_the_rate + "(" + self._letter_symbols_regex +\
-                    "){" + str(suffix_length) + "}"+self._dot
+                    "{" + str(prefix_length) + "}" + self._at_the_rate + "(" + self._all_symbols_regex +\
+                    "){" + str(suffix_length_1) + "}"+self._dot +\
+                    "(" + self._letter_symbols_regex + \
+                    "){" + str(suffix_length_2) + "}"
                 strings.append(exrex.getone(r))
                 assert(self.classify_word(
                     strings[-1])), strings[-1]+" classification error"
@@ -237,21 +270,26 @@ class Balanced_Parentheses:
     """
 
     def __init__(self):
-        self._bp_other_letters = "abcd"
+        self._bp_other_letters = "a"
         self.alphabet = "lr" + self._bp_other_letters
         self.target_formula = "balanced parentheses"
 
         self.query_formulas = [
             "false",  # rejects everything
             "~F(l|r)",  # no parenthesis (both left and right)
-            "F(l&X(~l))",  # no consecutive left parentheses
             # globally it is true that if there is a left parenthesis, then there is a
-            "G(l->(l & X(r)))",
-            # right parenthesis next to it
+            "G( (l & (X(~l))) | (~l) )",
+            "G(l)",
+            "G(l->(X(~l)))",
+            "F(l & X(G(~r)))",
             "true",  # accepts everything
-            "(F(l) & F(r))",  # eventually l is true and r is true
-            "F(l U (~l))",  # eventually l is true until ~l is true
-            "G(~l)"  # globally ~l is true
+            "G(~l)",  # globally ~l is true
+            "G(~r)",
+            "r",  # starts with right parenthesis
+            "a U r", 
+            "F(l) & F(r)",
+            "F(l) & F(r) & F( (l|a) U r )",
+            "F(l) & F(r) & ~(F( (l|a) U r ))"
         ]
 
     def _make_similar(self, w, alphabet):
@@ -418,7 +456,7 @@ class Example4(Example):
             "F(~a)",
             "F(~b)",
             'F(aUb)',
-            'F(bUa)' 
+            'F(bUa)'
         ]
 
 

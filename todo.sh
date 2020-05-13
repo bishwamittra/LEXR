@@ -6,7 +6,7 @@ shopt -s nullglob
 mythread=$((OMPI_COMM_WORLD_RANK))
 
 # tlimit="2000"
-memlimit="12000000"
+memlimit="32000000"
 ulimit -v $memlimit
 
 
