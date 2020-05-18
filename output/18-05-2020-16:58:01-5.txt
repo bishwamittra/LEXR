@@ -1,0 +1,2064 @@
+made train set of size: 140517 , of which positive examples: 70596
+out of  140517  sequences 70596  are positive. (percent:  0.5024018446166656 )
+examples per length: [0, 3, 9, 27, 72, 218, 724, 1994, 5188, 10000, 10000, 10000, 10000, 10000, 10000, 9150, 8090, 6900, 6042, 5368, 4718, 4036, 3514, 3126, 2806, 2330, 2066, 1844, 1568, 1424, 1194, 1032, 964, 824, 662, 614, 608, 478, 422, 350, 282, 302, 254, 240, 226, 234, 146, 130, 140, 104, 94]
+size of train set: 126465
+size of test set: 14052
+The dy.parameter(...) call is now DEPRECATED.
+        There is no longer need to explicitly add parameters to the computation graph.
+        Any used parameter will be added automatically.
+classification loss on last batch was: 0.0001363446510683677
+testing on train set, i.e. test set is train set
+rnn score against target on test set:                              14049 (99.97)
+target: F(a & X(b))
+query: true
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.14218425750732422  s
+No positive counterexample found
+EQ test took  0.01173090934753418  s
+new counterexample: b  should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['b']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.13264894485473633  s
+EQ test took  0.001623392105102539  s
+new counterexample:   should be accepted by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['b']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+increasing formula depth to  2
+Before normalization: (! x1)
+Learning formula with depth 1
+learned LTL formula: (~ b)
+Learning took:  0.18269801139831543  s
+EQ test took  0.010057687759399414  s
+new counterexample: baab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'baab']
+
+
+negative traces---> 
+['b']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 2
+increasing formula depth to  3
+Before normalization: (x1 U (! x1))
+Learning formula with depth 2
+learned LTL formula: (b U (~ b))
+Learning took:  0.2818603515625  s
+EQ test took  0.01918935775756836  s
+new counterexample: c  should be rejected by implementation
+
+
+positive traces---> 
+['', 'baab']
+
+
+negative traces---> 
+['b', 'c']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 3
+increasing formula depth to  4
+increasing formula depth to  5
+Before normalization: (x1 U (! (x1 | x2)))
+Learning formula with depth 3
+learned LTL formula: (b U (~ (b | c)))
+Learning took:  0.7956204414367676  s
+EQ test took  0.022591352462768555  s
+new counterexample: cab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'baab', 'cab']
+
+
+negative traces---> 
+['b', 'c']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 5
+Before normalization: ((x2 | x1) U (! (x2 | x1)))
+Learning formula with depth 3
+learned LTL formula: ((b | c) U (~ (b | c)))
+Learning took:  0.715559720993042  s
+EQ test took  0.022359371185302734  s
+new counterexample: a  should be rejected by implementation
+
+
+positive traces---> 
+['', 'baab', 'cab']
+
+
+negative traces---> 
+['b', 'c', 'a']
+
+
+
+5  iteration complete
+
+
+
+start formula depth: 5
+increasing formula depth to  6
+increasing formula depth to  7
+Before normalization: ((x1 | (x0 | x2)) -> (X (x0 | x2)))
+Learning formula with depth 3
+learned LTL formula: ((b | (a | c)) -> (X (a | c)))
+Learning took:  3.9181225299835205  s
+EQ test took  0.017125844955444336  s
+new counterexample: ab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'baab', 'cab', 'ab']
+
+
+negative traces---> 
+['b', 'c', 'a']
+
+
+
+6  iteration complete
+
+
+
+start formula depth: 7
+Before normalization: ((x2 | (x0 | x1)) -> (X (x0 | x1)))
+Learning formula with depth 3
+learned LTL formula: ((c | (a | b)) -> (X (a | b)))
+Learning took:  2.347722291946411  s
+EQ test took  0.021983623504638672  s
+new counterexample: ca  should be rejected by implementation
+
+
+positive traces---> 
+['', 'baab', 'cab', 'ab']
+
+
+negative traces---> 
+['b', 'c', 'a', 'ca']
+
+
+
+7  iteration complete
+
+
+
+start formula depth: 7
+increasing formula depth to  8
+Before normalization: ((x1 | (x2 | x0)) -> (X (x0 U x1)))
+Learning formula with depth 3
+learned LTL formula: ((b | (a | c)) -> (X (a U b)))
+Learning took:  13.079557180404663  s
+EQ test took  0.034468889236450195  s
+new counterexample: acab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'baab', 'cab', 'ab', 'acab']
+
+
+negative traces---> 
+['b', 'c', 'a', 'ca']
+
+
+
+8  iteration complete
+
+
+
+start formula depth: 8
+Before normalization: ((x2 | (x1 | x0)) -> (F (X x1)))
+Learning formula with depth 3
+learned LTL formula: ((c | (a | b)) -> (F (X b)))
+Learning took:  4.9117066860198975  s
+EQ test took  0.14058899879455566  s
+new counterexample: cb  should be rejected by implementation
+
+
+positive traces---> 
+['', 'baab', 'cab', 'ab', 'acab']
+
+
+negative traces---> 
+['b', 'c', 'a', 'ca', 'cb']
+
+
+
+9  iteration complete
+
+
+
+start formula depth: 8
+Before normalization: (((G x0) | (x2 | x1)) U (! ((G x0) | (x2 | x1))))
+Learning formula with depth 4
+learned LTL formula: (((G a) | (b | c)) U (~ ((G a) | (b | c))))
+Learning took:  27.79260516166687  s
+No positive counterexample found
+EQ test took  0.18154025077819824  s
+new counterexample: ac  should be rejected by implementation
+
+
+positive traces---> 
+['', 'baab', 'cab', 'ab', 'acab']
+
+
+negative traces---> 
+['b', 'c', 'a', 'ca', 'cb', 'ac']
+
+
+
+10  iteration complete
+
+
+
+start formula depth: 8
+increasing formula depth to  9
+Before normalization: ((((F x1) | x0) | x2) -> ((F x1) U ((F x1) & x0)))
+Learning formula with depth 4
+learned LTL formula: ((c | (a | (F b))) -> ((F b) U (a & (F b))))
+Learning took:  232.82976484298706  s
+No positive counterexample found
+EQ test took  0.24777746200561523  s
+new counterexample: acb  should be rejected by implementation
+
+
+positive traces---> 
+['', 'baab', 'cab', 'ab', 'acab']
+
+
+negative traces---> 
+['b', 'c', 'a', 'ca', 'cb', 'ac', 'acb']
+
+
+
+11  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: ((((F x0) | x2) -> ((F x0) U x1)) & (x1 -> (F x0)))
+Learning formula with depth 4
+learned LTL formula: ((b -> (F a)) & ((c | (F a)) -> ((F a) U b)))
+Learning took:  10.14945101737976  s
+No positive counterexample found
+EQ test took  0.17746806144714355  s
+new counterexample: ba  should be rejected by implementation
+
+
+positive traces---> 
+['', 'baab', 'cab', 'ab', 'acab']
+
+
+negative traces---> 
+['b', 'c', 'a', 'ca', 'cb', 'ac', 'acb', 'ba']
+
+
+
+12  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: ((x1 | (x0 | x2)) -> ((x1 | (x0 | x2)) U (x0 & (X x1))))
+Learning formula with depth 4
+learned LTL formula: ((b | (a | c)) -> ((b | (a | c)) U (a & (X b))))
+Learning took:  13.714462995529175  s
+EQ test took  0.4035162925720215  s
+
+
+epsilon= 0.1 delta= 0.1 max_trace_length= 50
+query: true
+final ltl:  ((b | (a | c)) -> ((b | (a | c)) U (a & (X b))))
+
+Time taken to extract ltl: 312.3258354663849
+overall guided extraction time took: 0.2300000000000182
+generated counterexamples were: (format: (counterexample, counterexample generation time))
+('abc', 0.009999999999990905)
+('cb', 0.06999999999993634)
+<IPython.core.display.Image object>
+
+Time taken to extract lstar-dfa: 0.2310638427734375
+number of states of the dfa: 6
+returned flag: True
+transitions:->
+{'': {'a': 'a', 'b': 'c', 'c': 'c'}, 'ab': {'a': 'ab', 'b': 'ab', 'c': 'ab'}, 'c': {'a': 'a', 'b': 'c', 'c': 'c'}, 'cb': {'a': 'a', 'b': 'c', 'c': 'c'}, 'abc': {'a': 'ab', 'b': 'ab', 'c': 'ab'}, 'a': {'a': 'a', 'b': 'ab', 'c': 'c'}}
+Explanation matches RNN: 99.98
+RNN matches ground truth: 99.98
+Explanation matches ground truth: 100.0
+Lstar matches RNN: 99.98
+Lstar matches ground truth: 100.0
+target query                                       explanation status  test accuracy  rnn score  explanation score  explanation score on ground truth  extraction time revised delta revised epsilon                                    counterexamples train size test size ltl_depth lstar_states  lstar explanation score  lstar explanation score on ground truth  lstar extraction time lstar_status  epsilon  delta
+F(a & X(b))  true  ((b | (a | c)) -> ((b | (a | c)) U (a & (X b))))   True          99.97      99.98              99.98                              100.0       312.325835          None            None  [b, , baab, c, cab, a, ab, ca, acab, cb, ac, a...          0         0         4            6                    99.98                                    100.0               0.231064         True      0.1    0.1
+target: F(a & X(b))
+query: true
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.1356217861175537  s
+No positive counterexample found
+EQ test took  0.013861894607543945  s
+new counterexample: b  should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['b']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.13399958610534668  s
+EQ test took  0.0016825199127197266  s
+new counterexample:   should be accepted by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['b']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+increasing formula depth to  2
+Before normalization: (! x1)
+Learning formula with depth 1
+learned LTL formula: (~ b)
+Learning took:  0.18653082847595215  s
+EQ test took  0.019917726516723633  s
+new counterexample: bab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'bab']
+
+
+negative traces---> 
+['b']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 2
+increasing formula depth to  3
+Before normalization: (F (! x1))
+Learning formula with depth 2
+learned LTL formula: (F (~ b))
+Learning took:  0.26852965354919434  s
+EQ test took  0.0182037353515625  s
+new counterexample: a  should be rejected by implementation
+
+
+positive traces---> 
+['', 'bab']
+
+
+negative traces---> 
+['b', 'a']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 3
+increasing formula depth to  4
+increasing formula depth to  5
+Before normalization: (! (x0 | (G x1)))
+Learning formula with depth 3
+learned LTL formula: (~ (a | (G b)))
+Learning took:  0.7310221195220947  s
+EQ test took  0.019064664840698242  s
+new counterexample: ab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab']
+
+
+negative traces---> 
+['b', 'a']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 5
+Before normalization: ((x1 | x0) -> (X (x1 | x0)))
+Learning formula with depth 3
+learned LTL formula: ((a | b) -> (X (a | b)))
+Learning took:  0.610137939453125  s
+EQ test took  0.016211748123168945  s
+new counterexample: c  should be rejected by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab']
+
+
+negative traces---> 
+['b', 'a', 'c']
+
+
+
+5  iteration complete
+
+
+
+start formula depth: 5
+increasing formula depth to  6
+increasing formula depth to  7
+Before normalization: ((x1 | (x0 | x2)) -> (X (x1 | (x0 | x2))))
+Learning formula with depth 4
+learned LTL formula: ((b | (a | c)) -> (X (b | (a | c))))
+Learning took:  4.020195960998535  s
+No positive counterexample found
+EQ test took  0.05080008506774902  s
+new counterexample: cb  should be rejected by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab']
+
+
+negative traces---> 
+['b', 'a', 'c', 'cb']
+
+
+
+6  iteration complete
+
+
+
+start formula depth: 7
+increasing formula depth to  8
+Before normalization: ((x2 | ((G x0) | x1)) -> (X x0))
+Learning formula with depth 4
+learned LTL formula: ((c | (b | (G a))) -> (X a))
+Learning took:  11.604948997497559  s
+EQ test took  0.04020118713378906  s
+new counterexample: bcab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab', 'bcab']
+
+
+negative traces---> 
+['b', 'a', 'c', 'cb']
+
+
+
+7  iteration complete
+
+
+
+start formula depth: 8
+Before normalization: (! ((G x1) | ((G x0) | x2)))
+Learning formula with depth 4
+learned LTL formula: (~ ((G b) | (c | (G a))))
+Learning took:  5.934643030166626  s
+EQ test took  0.028810977935791016  s
+new counterexample: ac  should be rejected by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab', 'bcab']
+
+
+negative traces---> 
+['b', 'a', 'c', 'cb', 'ac']
+
+
+
+8  iteration complete
+
+
+
+start formula depth: 8
+increasing formula depth to  9
+Before normalization: ((x0 -> (x0 U x1)) & (! ((G x1) | x2)))
+Learning formula with depth 4
+learned LTL formula: ((a -> (a U b)) & (~ (c | (G b))))
+Learning took:  175.1235818862915  s
+EQ test took  0.0327908992767334  s
+new counterexample: cab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab', 'bcab', 'cab']
+
+
+negative traces---> 
+['b', 'a', 'c', 'cb', 'ac']
+
+
+
+9  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: ((x0 -> (X x1)) & (! (G (x1 | x2))))
+Learning formula with depth 4
+learned LTL formula: ((a -> (X b)) & (~ (G (b | c))))
+Learning took:  15.185322046279907  s
+EQ test took  0.02791595458984375  s
+new counterexample: ca  should be rejected by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab', 'bcab', 'cab']
+
+
+negative traces---> 
+['b', 'a', 'c', 'cb', 'ac', 'ca']
+
+
+
+10  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: ((x2 | (x1 | x0)) -> (F ((X x1) & (x1 | x0))))
+Learning formula with depth 4
+learned LTL formula: ((c | (a | b)) -> (F ((a | b) & (X b))))
+Learning took:  12.066922903060913  s
+No positive counterexample found
+EQ test took  0.25124216079711914  s
+new counterexample: bb  should be rejected by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab', 'bcab', 'cab']
+
+
+negative traces---> 
+['b', 'a', 'c', 'cb', 'ac', 'ca', 'bb']
+
+
+
+11  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: ((((F x1) | x2) | x0) -> (F (((F x1) | x2) & x0)))
+Learning formula with depth 5
+learned LTL formula: ((a | (c | (F b))) -> (F (a & (c | (F b)))))
+Learning took:  9.902350902557373  s
+No positive counterexample found
+EQ test took  0.33108067512512207  s
+new counterexample: acb  should be rejected by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab', 'bcab', 'cab']
+
+
+negative traces---> 
+['b', 'a', 'c', 'cb', 'ac', 'ca', 'bb', 'acb']
+
+
+
+12  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: (((x0 | x2) | x1) -> (F (x0 & (X x1))))
+Learning formula with depth 4
+learned LTL formula: ((b | (a | c)) -> (F (a & (X b))))
+Learning took:  15.152326583862305  s
+EQ test took  0.39443373680114746  s
+
+
+epsilon= 0.1 delta= 0.05 max_trace_length= 50
+query: true
+final ltl:  ((b | (a | c)) -> (F (a & (X b))))
+
+Time taken to extract ltl: 252.3206958770752
+overall guided extraction time took: 5.689999999999827
+generated counterexamples were: (format: (counterexample, counterexample generation time))
+('aba', 0.009999999999990905)
+('bb', 0.12999999999988177)
+('accaccaaacaacbccccacaacbcbbbbabbcbcbcb', 0.2999999999999545)
+<IPython.core.display.Image object>
+
+Time taken to extract lstar-dfa: 5.6868896484375
+number of states of the dfa: 51
+returned flag: True
+transitions:->
+{'': {'a': 'a', 'b': 'b', 'c': 'ac'}, 'accaccaaac': {'a': 'accacca', 'b': 'accaccaaacaac', 'c': 'accaccaaacc'}, 'accaccaaacaacbccccaca': {'a': 'accaccaaacaacbccccacaa', 'b': 'ab', 'c': 'accaccaaacaacbcc'}, 'accaccaaacaacbccccacaac': {'a': 'accaccaaacaacbccccacaa', 'b': 'accaccaaacaacbccccacaacb', 'c': 'accaccaaacaacbccccacaacbc'}, 'ab': {'a': 'ab', 'b': 'ab', 'c': 'ab'}, 'b': {'a': 'a', 'b': 'bb', 'c': 'bb'}, 'bb': {'a': 'a', 'b': 'accac', 'c': 'acc'}, 'accaccaaacaacb': {'a': 'accacca', 'b': 'accaccaaacaacbccccacaacb', 'c': 'accaccaaacaacbc'}, 'accaccaaa': {'a': 'accaccaaa', 'b': 'ab', 'c': 'accaccaaac'}, 'accaccaaacaacbccccacaacbcb': {'a': 'accaccaaacaacbcccca', 'b': 'accaccaaacaacbccccacaacbcbb', 'c': 'accaccaaacaacbccccacaacbcb'}, 'accaccaaacaacbcccca': {'a': 'accaccaaacaacbccccacaa', 'b': 'ab', 'c': 'accaccaaacaacbccccacaacbc'}, 'accaccaaacaacbccccacaacbcbbbbabbcbc': {'a': 'ab', 'b': 'accaccaaacaacbccccacaacbcbbbbabbcbcb', 'c': 'accaccaaacaacbccccacaacbcbbbbabbcbcbc'}, 'accaccaaacaacbccccacaacbcbbbba': {'a': 'accaccaaacaacbcccca', 'b': 'accaccaaacaacbccccacaacbcbbbbab', 'c': 'accaccaaacaacbccccacaacbcb'}, 'accaccaaacaacbccccacaacbcbbb': {'a': 'accaccaaacaacbccccacaacbcbbba', 'b': 'accaccaaacaacbccccacaacbcbbbb', 'c': 'accaccaaacaacbccccacaacbcbbbb'}, 'accaccaaacaacbccccacaacbcbbba': {'a': 'accaccaaacaacbccccaca', 'b': 'accaccaaacaacbccccacaacbcbbbbabb', 'c': 'accaccaaacaacbccc'}, 'accaccaaacaacbccccacaacbc': {'a': 'accaccaaacaacbccccaca', 'b': 'accaccaaacaacbccccacaacbcb', 'c': 'accaccaaacaacbccccacaacbcb'}, 'accaccaaacaacbccccacaacbcbbbbabbcbcb': {'a': 'ab', 'b': 'accaccaaacaacbccccacaacbcbbbbabbcbcbc', 'c': 'accaccaaacaacbccccacaacbcbbbbabbcbcbc'}, 'accaccaaacaacbccccacaacbcbb': {'a': 'accaccaaacaacbccccacaacbcbba', 'b': 'accaccaaacaacbccccacaacbcbbb', 'c': 'accaccaaacaacbccccacaacbcb'}, 'accaccaaacaacbccccacaa': {'a': 'accacca', 'b': 'ab', 'c': 'accaccaaacaacbccccacaac'}, 'accaccaaacaacbccccacaacbcbbbbabbcb': {'a': 'ab', 'b': 'accaccaaacaacbccccacaacbcbbbbabbcbb', 'c': 'accaccaaacaacbccccacaacbcbbbbabbcbc'}, 'accaccaaacaacbc': {'a': 'accaccaaacaacbccccacaa', 'b': 'accaccaaacaacbcb', 'c': 'accaccaaacaacbcc'}, 'accaccaaacaacbccccacaacbcbbbbabbcbb': {'a': 'ab', 'b': 'accaccaaacaacbccccacaacbcbbbbabbcbcbc', 'c': 'accaccaaacaacbccccacaacbcbbbbabbcbcb'}, 'accaccaaacaacbccccacaacbcbbbbabb': {'a': 'ab', 'b': 'ab', 'c': 'accaccaaacaacbccccacaacbcbbbbabbc'}, 'acccb': {'a': 'accacca', 'b': 'accaccaaacaacbc', 'c': 'accaccaaacaac'}, 'acc': {'a': 'acca', 'b': 'accb', 'c': 'accc'}, 'accaccaaacaacbcc': {'a': 'accaccaaacaacbccccaca', 'b': 'accaccaaacaacbccccacaacbc', 'c': 'accaccaaacaacbccc'}, 'aba': {'a': 'ab', 'b': 'ab', 'c': 'ab'}, 'accaccaa': {'a': 'accaccaaa', 'b': 'ab', 'c': 'accaccaaacaac'}, 'accaccaaacaacbcccc': {'a': 'accaccaaacaacbcccca', 'b': 'accaccaaacaacbccccacaacbcbb', 'c': 'accaccaaacaacbccccacaacbcb'}, 'accaccaaacaa': {'a': 'accaccaaa', 'b': 'ab', 'c': 'accaccaaacaac'}, 'accaccaaacaacbccccacaacb': {'a': 'accaccaaacaacbccccacaa', 'b': 'accaccaaacaacbccccacaacbcb', 'c': 'accaccaaacaacbccccacaacbc'}, 'accaccaaacaacbccccacaacbcbbbbab': {'a': 'ab', 'b': 'accaccaaacaacbccccacaacbcbbbbabb', 'c': 'accaccaaacaacbccccacaacbcbbbbabbcb'}, 'accaccaaacaacbccccacaacbcbbbb': {'a': 'accaccaaacaacbccccacaacbcbbbba', 'b': 'accaccaaacaacbccccacaacbcbbbb', 'c': 'accaccaaacaacbccccacaacbcbbbb'}, 'ac': {'a': 'a', 'b': 'acc', 'c': 'acc'}, 'accaccaaacaacbccc': {'a': 'accaccaaacaacbcccca', 'b': 'accaccaaacaacbccccacaacbcb', 'c': 'accaccaaacaacbccccacaacbcb'}, 'accaccaaacaac': {'a': 'accacca', 'b': 'accaccaaacaacb', 'c': 'accaccaaacaacbccccacaac'}, 'accc': {'a': 'acca', 'b': 'acccb', 'c': 'acccb'}, 'accaccaaacaacbcb': {'a': 'accaccaaacaacbccccaca', 'b': 'accaccaaacaacbccccacaacbcb', 'c': 'accaccaaacaacbccccacaacbc'}, 'accaccaaacaacbccccacaacbcbbbbabbc': {'a': 'ab', 'b': 'accaccaaacaacbccccacaacbcbbbbabbcb', 'c': 'accaccaaacaacbccccacaacbcbbbbabbcb'}, 'accaccaaacaacbccccac': {'a': 'accaccaaacaacbccccaca', 'b': 'accaccaaacaacbccccacaacbcb', 'c': 'accaccaaacaacbccccacaacbcb'}, 'accb': {'a': 'acca', 'b': 'accaccaaacaac', 'c': 'acccb'}, 'acca': {'a': 'acca', 'b': 'ab', 'c': 'accac'}, 'accac': {'a': 'acca', 'b': 'acccb', 'c': 'accacc'}, 'accacca': {'a': 'accaccaa', 'b': 'ab', 'c': 'accaccaaacaac'}, 'accaccaaacc': {'a': 'accaccaaacaacbccccacaa', 'b': 'accaccaaacaacbccccacaacb', 'c': 'accaccaaacaacbcc'}, 'accaccaaacaacbccccacaacbcbbbbabbcbcbcb': {'a': 'ab', 'b': 'b', 'c': 'b'}, 'accaccaaacaacbccccacaacbcbba': {'a': 'accaccaaacaacbccccaca', 'b': 'ab', 'c': 'accaccaaacaacbccc'}, 'accaccaaacaacbccccacaacbcbbbbabbcbcbc': {'a': 'ab', 'b': 'accaccaaacaacbccccacaacbcbbbbabbcbcbcb', 'c': 'b'}, 'accaccaaaca': {'a': 'accaccaa', 'b': 'ab', 'c': 'accaccaaacaac'}, 'accacc': {'a': 'accacca', 'b': 'accaccaaacaac', 'c': 'accaccaaacaac'}, 'a': {'a': 'a', 'b': 'ab', 'c': 'ac'}}
+Explanation matches RNN: 99.98
+RNN matches ground truth: 99.98
+Explanation matches ground truth: 100.0
+Lstar matches RNN: 99.98
+Lstar matches ground truth: 99.99
+target query                         explanation status  test accuracy  rnn score  explanation score  explanation score on ground truth  extraction time revised delta revised epsilon                                    counterexamples train size test size ltl_depth lstar_states  lstar explanation score  lstar explanation score on ground truth  lstar extraction time lstar_status  epsilon  delta
+F(a & X(b))  true  ((b | (a | c)) -> (F (a & (X b))))   True          99.97      99.98              99.98                              100.0       252.320696          None            None  [b, , bab, a, ab, c, cb, bcab, ac, cab, ca, bb...          0         0         4           51                    99.98                                    99.99                5.68689         True      0.1   0.05
+target: F(a & X(b))
+query: true
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.14310383796691895  s
+No positive counterexample found
+EQ test took  0.015645742416381836  s
+new counterexample: c  should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['c']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.13239550590515137  s
+EQ test took  0.0015621185302734375  s
+new counterexample:   should be accepted by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['c']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+increasing formula depth to  2
+Before normalization: (! x2)
+Learning formula with depth 1
+learned LTL formula: (~ c)
+Learning took:  0.19414472579956055  s
+EQ test took  0.017141342163085938  s
+new counterexample: cab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'cab']
+
+
+negative traces---> 
+['c']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 2
+increasing formula depth to  3
+Before normalization: (x2 U (! x2))
+Learning formula with depth 2
+learned LTL formula: (c U (~ c))
+Learning took:  0.26555681228637695  s
+EQ test took  0.0213625431060791  s
+new counterexample: b  should be rejected by implementation
+
+
+positive traces---> 
+['', 'cab']
+
+
+negative traces---> 
+['c', 'b']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 3
+increasing formula depth to  4
+increasing formula depth to  5
+Before normalization: (! (x1 | (G x2)))
+Learning formula with depth 3
+learned LTL formula: (~ (b | (G c)))
+Learning took:  0.7591438293457031  s
+EQ test took  0.020381689071655273  s
+new counterexample: bab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'cab', 'bab']
+
+
+negative traces---> 
+['c', 'b']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 5
+Before normalization: ((x1 | x2) U (! (x1 | x2)))
+Learning formula with depth 3
+learned LTL formula: ((b | c) U (~ (b | c)))
+Learning took:  0.6582674980163574  s
+EQ test took  0.03382372856140137  s
+new counterexample: a  should be rejected by implementation
+
+
+positive traces---> 
+['', 'cab', 'bab']
+
+
+negative traces---> 
+['c', 'b', 'a']
+
+
+
+5  iteration complete
+
+
+
+start formula depth: 5
+increasing formula depth to  6
+increasing formula depth to  7
+Before normalization: (((x2 | x1) | x0) -> (X ((x2 | x1) | x0)))
+Learning formula with depth 4
+learned LTL formula: ((a | (b | c)) -> (X (a | (b | c))))
+Learning took:  3.544032573699951  s
+No positive counterexample found
+EQ test took  0.04784846305847168  s
+new counterexample: ba  should be rejected by implementation
+
+
+positive traces---> 
+['', 'cab', 'bab']
+
+
+negative traces---> 
+['c', 'b', 'a', 'ba']
+
+
+
+6  iteration complete
+
+
+
+start formula depth: 7
+increasing formula depth to  8
+Before normalization: ((x0 | (x2 | x1)) -> ((x2 | x1) U (X x1)))
+Learning formula with depth 3
+learned LTL formula: ((a | (b | c)) -> ((b | c) U (X b)))
+Learning took:  12.487876653671265  s
+EQ test took  0.028150081634521484  s
+new counterexample: aab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'cab', 'bab', 'aab']
+
+
+negative traces---> 
+['c', 'b', 'a', 'ba']
+
+
+
+7  iteration complete
+
+
+
+start formula depth: 8
+Before normalization: ((x1 | (x2 | x0)) -> (X (F x1)))
+Learning formula with depth 3
+learned LTL formula: ((b | (a | c)) -> (X (F b)))
+Learning took:  3.364434242248535  s
+EQ test took  0.21594619750976562  s
+new counterexample: bb  should be rejected by implementation
+
+
+positive traces---> 
+['', 'cab', 'bab', 'aab']
+
+
+negative traces---> 
+['c', 'b', 'a', 'ba', 'bb']
+
+
+
+8  iteration complete
+
+
+
+start formula depth: 8
+Before normalization: ((x1 | (x0 | x2)) -> (X (X x1)))
+Learning formula with depth 3
+learned LTL formula: ((b | (a | c)) -> (X (X b)))
+Learning took:  6.224535703659058  s
+EQ test took  0.025800466537475586  s
+new counterexample: ab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'cab', 'bab', 'aab', 'ab']
+
+
+negative traces---> 
+['c', 'b', 'a', 'ba', 'bb']
+
+
+
+9  iteration complete
+
+
+
+start formula depth: 8
+Before normalization: (F (! (x1 | (x2 | (G x0)))))
+Learning formula with depth 5
+learned LTL formula: (F (~ (b | (c | (G a)))))
+Learning took:  15.169167280197144  s
+EQ test took  0.2010481357574463  s
+new counterexample: ac  should be rejected by implementation
+
+
+positive traces---> 
+['', 'cab', 'bab', 'aab', 'ab']
+
+
+negative traces---> 
+['c', 'b', 'a', 'ba', 'bb', 'ac']
+
+
+
+10  iteration complete
+
+
+
+start formula depth: 8
+Before normalization: (x1 U (! (x1 | (G (x0 | x2)))))
+Learning formula with depth 5
+learned LTL formula: (b U (~ (b | (G (a | c)))))
+Learning took:  24.34799814224243  s
+No positive counterexample found
+EQ test took  0.22078466415405273  s
+new counterexample: cb  should be rejected by implementation
+
+
+positive traces---> 
+['', 'cab', 'bab', 'aab', 'ab']
+
+
+negative traces---> 
+['c', 'b', 'a', 'ba', 'bb', 'ac', 'cb']
+
+
+
+11  iteration complete
+
+
+
+start formula depth: 8
+increasing formula depth to  9
+Before normalization: ((x2 | (x1 | x0)) -> (F (x0 & (x0 U x1))))
+Learning formula with depth 4
+learned LTL formula: ((c | (a | b)) -> (F (a & (a U b))))
+Learning took:  196.3598289489746  s
+EQ test took  0.4114804267883301  s
+
+
+epsilon= 0.1 delta= 0.01 max_trace_length= 50
+query: true
+final ltl:  ((c | (a | b)) -> (F (a & (a U b))))
+
+Time taken to extract ltl: 264.9283273220062
+overall guided extraction time took: 28.25
+generated counterexamples were: (format: (counterexample, counterexample generation time))
+('abc', 0.08999999999991815)
+('bb', 0.8300000000001546)
+('bbccbaacbbbccacbcbcccccabcccc', 1.9699999999998)
+('baaacccbbbbbabcccc', 2.1700000000000728)
+('bcbbccbcbbccbabcccc', 1.8199999999999363)
+
+Time taken to extract lstar-dfa: 28.257148265838623
+number of states of the dfa: 136
+returned flag: True
+transitions:->
+{'': {'a': 'a', 'b': 'b', 'c': 'b'}, 'bbccbaacbbbccacbcbccccca': {'a': 'bbccbaacbbbccacbcbcccccaa', 'b': 'bbccbaacbbbccacbcbcccccab', 'c': 'bbccbaacbbbccacbcbcccccac'}, 'baaacccbbbbbabcccacca': {'a': 'baaacccbbbbbabcccaccaa', 'b': 'ab', 'c': 'bbccbaacbbbccacbcbcccccabc'}, 'bbccbaacbbbccacbcbcccccabcccc': {'a': 'a', 'b': 'bbccbaacbbbccacbcbcccccabcccc', 'c': 'bbccbaacbbbccacbcbcccccabcccc'}, 'bbccbaac': {'a': 'bbccbaa', 'b': 'bbccbaacb', 'c': 'bbccbaacc'}, 'bbc': {'a': 'bbca', 'b': 'bbcb', 'c': 'bbcc'}, 'bbccbaacb': {'a': 'bbccbaacba', 'b': 'bbccbaacbb', 'c': 'bcbbcc'}, 'bbccbaacbbbcc': {'a': 'bbccbaacbbbcca', 'b': 'bbccbaacbbbccb', 'c': 'bbccbaacbbbccc'}, 'bbccbaacc': {'a': 'bbccbaacca', 'b': 'bbccbaacbb', 'c': 'bcbbccb'}, 'baaacccb': {'a': 'bbccbaacca', 'b': 'baaacccbb', 'c': 'bcbbccb'}, 'bbccbaacbbbccacbcbcccccabcc': {'a': 'bbccbaacbbbccacbcbcccccabcca', 'b': 'bcbbccbcbbccbabccc', 'c': 'bbccbaacbbbccacbcbcccccabccc'}, 'bbccbaacbaa': {'a': 'bbccbaacbaa', 'b': 'ab', 'c': 'bbccbaacbaac'}, 'baaacccbbcbbbb': {'a': 'bbccbaacbbbccacbcbba', 'b': 'bbccbaacbbbccacbcbccccc', 'c': 'bbccbaacbbbccacbcbccc'}, 'bbca': {'a': 'baaa', 'b': 'ab', 'c': 'bbc'}, 'baaacc': {'a': 'bbccbaa', 'b': 'bbccbaacb', 'c': 'baaaccc'}, 'bbccbaacbbbccacbcbcccccabcccaaacb': {'a': 'ab', 'b': 'bbccbaacbbbccacbcbcccccabcccaaacbb', 'c': 'bcbbccbcbbccbab'}, 'bbccbaacbbbccacbcbcccccabccca': {'a': 'bbccbaacbbbccacbcbcccccabcccaa', 'b': 'ab', 'c': 'bbccbaacbbbccacbcbcccccabcccc'}, 'bcbbccbcbbccbabcccc': {'a': 'a', 'b': 'bbccbaacbbbccacbcbcccccabcccc', 'c': 'bbccbaacbbbccacbcbcccccabcccc'}, 'baaacccbbcbbb': {'a': 'baaacccbbcbbba', 'b': 'baaacccbbcbbbb', 'c': 'bcbbccbcbbcc'}, 'bbccbaacbbbccacbcbccba': {'a': 'baaacccbbbbbaa', 'b': 'bcbbccbcbbccbab', 'c': 'bbccbaacbbbcc'}, 'bbccbaaccaa': {'a': 'bbccbaacbaa', 'b': 'ab', 'c': 'bbccbaacc'}, 'baaacccbbbbbabccca': {'a': 'bbccbaacbbbccacbcbcccccabcca', 'b': 'ab', 'c': 'baaacccbbbbbabcccac'}, 'bbcb': {'a': 'bbccba', 'b': 'bbccbaacb', 'c': 'bbcbc'}, 'bcbbccbcbbccb': {'a': 'bbccbaacbbbccacbcbccba', 'b': 'bbccbaacbbbccacbcbccccc', 'c': 'bbccbaacbbbccacbcbcc'}, 'bcbbccbcb': {'a': 'bbccbaacbbbcca', 'b': 'baaacccbbbb', 'c': 'bbccbaacbbbcc'}, 'baaacccbbcbbc': {'a': 'bbccbaacbbbccacbcbccba', 'b': 'bcbbccbcbbccb', 'c': 'bcbbccbcbbcc'}, 'bbccbaacbbbccacbcbcccccabcccaaaaac': {'a': 'ab', 'b': 'ab', 'c': 'bbccbaacbbbccacbcbcccccabcccaaaaacc'}, 'baaacccbb': {'a': 'baaacccbbbbbaa', 'b': 'bcbbccbcb', 'c': 'baaacccbbc'}, 'baaacccbbb': {'a': 'bbccbaacbbbcca', 'b': 'baaacccbbbb', 'c': 'bbccbaacbbbcc'}, 'bbccbaacba': {'a': 'bbccbaacbaa', 'b': 'ab', 'c': 'bcbbc'}, 'bbccbaacbbbccacbcbcccccabccc': {'a': 'bbccbaacbbbccacbcbcccccabccca', 'b': 'bbccbaacbbbccacbcbcccccabcccc', 'c': 'bbccbaacbbbccacbcbcccccabcccc'}, 'baaacccbbcbbba': {'a': 'baaacccbbbbbaa', 'b': 'bbccbaacbbbccacbcbcccccab', 'c': 'baaacccbbcbbbac'}, 'baaaccc': {'a': 'bbccbaacba', 'b': 'baaacccb', 'c': 'bbccbaacc'}, 'bcbbc': {'a': 'bbccbaacca', 'b': 'bbccbaacbb', 'c': 'bcbbcc'}, 'bbccbaacbbbccacbcbcccccabcccaaa': {'a': 'bbccbaacbbbccacbcbcccccabcccaaaa', 'b': 'ab', 'c': 'bbccbaacbbbccacbcbcccccabcccaaac'}, 'baaa': {'a': 'baaa', 'b': 'ab', 'c': 'baaac'}, 'bbccbaacca': {'a': 'bbccbaaccaa', 'b': 'ab', 'c': 'bcbbcc'}, 'bbccbaacbbbccacbcbcccccab': {'a': 'ab', 'b': 'ab', 'c': 'bbccbaacbbbccacbcbcccccabc'}, 'bbccbaacbbbccacbcbcccccabcccaaaaa': {'a': 'ab', 'b': 'ab', 'c': 'bbccbaacbbbccacbcbcccccabcccaaaaac'}, 'bcbbccbcbbccbabccc': {'a': 'ab', 'b': 'bbccbaacbbbccacbcbcccccabcccaacb', 'c': 'bcbbccbcbbccbabcccc'}, 'bbccbaacbbbccc': {'a': 'bbccbaacbbbcca', 'b': 'bbccbaacbbbccacbcb', 'c': 'bcbbccbcbbcc'}, 'a': {'a': 'ba', 'b': 'ab', 'c': 'b'}, 'bbccbaacbbbccacbcbcccccabcccaaaa': {'a': 'bbccbaacbbbccacbcbcccccabcccaaaaa', 'b': 'ab', 'c': 'bbccbaacbbbccacbcbcccccabcccaaaaac'}, 'bbccbaacbbbccacbcbcccccabcccaa': {'a': 'bbccbaacbbbccacbcbcccccabcccaaa', 'b': 'ab', 'c': 'bbccbaacbbbccacbcbcccccabcccaac'}, 'baaacccbbbbbabc': {'a': 'ab', 'b': 'baaacccbbbbbabcc', 'c': 'baaacccbbbbbabcc'}, 'bbcbc': {'a': 'bbccbaa', 'b': 'bcbbc', 'c': 'bcbbc'}, 'ab': {'a': 'ab', 'b': 'ab', 'c': 'ab'}, 'b': {'a': 'ba', 'b': 'bb', 'c': 'bc'}, 'bb': {'a': 'bba', 'b': 'bbb', 'c': 'bbc'}, 'bbccbaacbbbccacbcbcccccabc': {'a': 'ab', 'b': 'baaacccbbbbbabcc', 'c': 'bbccbaacbbbccacbcbcccccabcc'}, 'bbccbaacbbbccacbcbccb': {'a': 'bbccbaacbbbccacbcbccba', 'b': 'bbccbaacbbbccacbcbccccc', 'c': 'bbccbaacbbbccacbcbccc'}, 'bbccbaacbbbccacbcbcccccabcccaaaaacc': {'a': 'baaacccbbbbbabcccaccaa', 'b': 'bbccbaacbbbccacbcbcccccabcccaaaaacc', 'c': 'bbccbaacbbbccacbcbcccccabcccaaaaacc'}, 'baa': {'a': 'baaa', 'b': 'ab', 'c': 'baac'}, 'baaacccbbbbbabccc': {'a': 'baaacccbbbbbabccca', 'b': 'bbccbaacbbbccacbcbcccccabccc', 'c': 'bbccbaacbbbccacbcbcccccabcccc'}, 'bbccbaacbbbccacb': {'a': 'bbccbaacbbbcca', 'b': 'bbccbaacbbbccb', 'c': 'bbccbaacbbbccacbc'}, 'bbccbaacbb': {'a': 'bbccbaacca', 'b': 'bbccbaacbbb', 'c': 'bcbbccb'}, 'bbccbaacbbbc': {'a': 'bbccbaacbbbcca', 'b': 'bbccbaacbbbcb', 'c': 'bbccbaacbbbcc'}, 'bcba': {'a': 'bbccba', 'b': 'ab', 'c': 'bbccb'}, 'baaacccbbbbbaa': {'a': 'bbccbaacca', 'b': 'ab', 'c': 'baaacccbbbbbaac'}, 'bbccbaacbbbccacbcbcb': {'a': 'bbccbaacbbbccacbcbccba', 'b': 'bbccbaacbbbccacbcbccccc', 'c': 'bbccbaacbbbccacbcbcc'}, 'baaacccbbbbba': {'a': 'baaacccbbbbbaa', 'b': 'baaacccbbbbbab', 'c': 'bbccbaacbbbc'}, 'bbb': {'a': 'baaa', 'b': 'bbcbc', 'c': 'bcb'}, 'baaacccbbbbbabcc': {'a': 'ab', 'b': 'bcbbccbcbbccbabccc', 'c': 'baaacccbbbbbabccc'}, 'bbccbaacbbbcca': {'a': 'baaacccbbbbbaa', 'b': 'ab', 'c': 'bbccbaacbbbccac'}, 'bbccbaacbbbccacbcbcccccabcccaaac': {'a': 'bbccbaacbbbccacbcbcccccabcccaaaca', 'b': 'bbccbaacbbbccacbcbcccccabcccaaacb', 'c': 'bbccbaacbbbccacbcbcccccabcccaaacc'}, 'bcbbccbcbbccbabc': {'a': 'ab', 'b': 'baaacccbbbbbabc', 'c': 'bcbbccbcbbccbabcc'}, 'bcbbccbcbbccbabcc': {'a': 'ab', 'b': 'bbccbaacbbbccacbcbcccccabc', 'c': 'bcbbccbcbbccbabccc'}, 'bbccbaa': {'a': 'bbccbaa', 'b': 'ab', 'c': 'bbccbaac'}, 'baaacccbbbbbabcccac': {'a': 'ab', 'b': 'baaacccbbbbbabcc', 'c': 'baaacccbbbbbabcccacc'}, 'baaacccbbbbbabcccacc': {'a': 'baaacccbbbbbabcccacca', 'b': 'baaacccbbbbbabcccaccb', 'c': 'bbccbaacbbbccacbcbcccccabcccc'}, 'bcbbccbcbbccba': {'a': 'baaacccbbbbbaa', 'b': 'bcbbccbcbbccbab', 'c': 'bbccbaacbbbcc'}, 'bbccbaacbbbccacbcbcccccaac': {'a': 'baaacccbbbbbaa', 'b': 'bbccbaacbbbcc', 'c': 'bbccbaacbbbccc'}, 'bbccbaacbbbccacbcbcccccaa': {'a': 'bbccbaacca', 'b': 'ab', 'c': 'bbccbaacbbbccacbcbcccccaac'}, 'bcbbccb': {'a': 'baaacccbbbbbaa', 'b': 'bbccbaacbbbc', 'c': 'bcbbccbc'}, 'bcbbccbc': {'a': 'baaacccbbbbbaa', 'b': 'bcbbccbcb', 'c': 'bbccbaacbbbccacb'}, 'bbccbaacbaac': {'a': 'bbccbaaccaa', 'b': 'bcbbcc', 'c': 'bbccbaacbb'}, 'baaacccbbbb': {'a': 'baaacccbbbbba', 'b': 'baaacccbbbbb', 'c': 'bcbbccbcbbc'}, 'bbccbaacbbbccacbcbba': {'a': 'baaacccbbbbbaa', 'b': 'bbccbaacbbbccacbcbcccccab', 'c': 'bbccbaacbbbcc'}, 'bbccbaacbbbccac': {'a': 'baaacccbbbbbaa', 'b': 'bbccbaacbbbccacb', 'c': 'bbccbaacbbbcc'}, 'bbccbaacbbbccacbcbcccccabcccaaccc': {'a': 'baaa', 'b': 'bbb', 'c': 'bbc'}, 'bbccbaacbbbccacbcbb': {'a': 'bbccbaacbbbccacbcbba', 'b': 'bbccbaacbbbccacbcbccccc', 'c': 'bbccbaacbbbccacbcbcc'}, 'baaacccbbbbbabcccaccaa': {'a': 'ab', 'b': 'ab', 'c': 'bcbbccbcbbccbab'}, 'bbccbaacbbbccacbcbcccccabcccaaacc': {'a': 'a', 'b': 'bbccbaacbbbccacbcbcccccabcccaaccb', 'c': 'b'}, 'bbccbaacbbbccacbcbcccac': {'a': 'bbccbaacbbbcca', 'b': 'bcbbccbcbbc', 'c': 'bbccbaacbbbccacbcbcccacc'}, 'bbccbaacbbbccacbcbcccccac': {'a': 'bbccbaacbbbcca', 'b': 'bcbbccbcbbccb', 'c': 'bbccbaacbbbccacbcbcc'}, 'bcbbccbcbbcc': {'a': 'bbccbaacbbbccacbcbccba', 'b': 'bcbbccbcbbccb', 'c': 'bbccbaacbbbccacbcbcc'}, 'bcbbccbcbbccbab': {'a': 'ab', 'b': 'ab', 'c': 'bcbbccbcbbccbabc'}, 'bbccbaacbbbccacbcbccc': {'a': 'bbccbaacbbbccacbcbccca', 'b': 'bbccbaacbbbccacbcbcccc', 'c': 'bbccbaacbbbccacbcbcccc'}, 'bcb': {'a': 'bcba', 'b': 'bcbb', 'c': 'baaacc'}, 'baaaca': {'a': 'baaaca', 'b': 'ab', 'c': 'baaacac'}, 'baaacccbbcb': {'a': 'bbccbaacbbbcca', 'b': 'baaacccbbcbb', 'c': 'bbccbaacbbbcc'}, 'baaacccbbbbb': {'a': 'baaacccbbbbba', 'b': 'bbccbaacbbbccacbcbb', 'c': 'bcbbccbcbbcc'}, 'bcbb': {'a': 'bbccbaa', 'b': 'bbccbaacbb', 'c': 'bcbbc'}, 'ba': {'a': 'baa', 'b': 'ab', 'c': 'bac'}, 'baaacccbbcbb': {'a': 'baaacccbbbbba', 'b': 'baaacccbbcbbb', 'c': 'baaacccbbcbbc'}, 'baaacccbbbbbabcccc': {'a': 'a', 'b': 'bbccbaacbbbccacbcbcccccabcccc', 'c': 'bbccbaacbbbccacbcbcccccabcccc'}, 'bbccba': {'a': 'bbccbaa', 'b': 'ab', 'c': 'bbcbc'}, 'baaacccbbcbbbac': {'a': 'bbccbaacbbbcca', 'b': 'bbccbaacbbbccb', 'c': 'bbccbaacbbbccacbcbcccac'}, 'bbccbaacbbbccacbcbcccccabccac': {'a': 'ab', 'b': 'ab', 'c': 'baaacccbbbbbabcccac'}, 'bbccbaacbbbccacbcb': {'a': 'bbccbaacbbbcca', 'b': 'bbccbaacbbbccacbcbb', 'c': 'bcbbccbcbbcc'}, 'baaacac': {'a': 'bcba', 'b': 'bbcbc', 'c': 'bbccbaac'}, 'bac': {'a': 'baaa', 'b': 'bbcc', 'c': 'bbcc'}, 'bcbbccbcbb': {'a': 'baaacccbbbbba', 'b': 'baaacccbbbbb', 'c': 'bcbbccbcbbc'}, 'bcbbccbcbbc': {'a': 'bbccbaacbbbcca', 'b': 'baaacccbbbbb', 'c': 'bcbbccbcbbcc'}, 'bbccbaacbbbccacbcbcccccabcca': {'a': 'ab', 'b': 'ab', 'c': 'bbccbaacbbbccacbcbcccccabccac'}, 'bbccbaacbbbcb': {'a': 'bbccbaacbbbcca', 'b': 'baaacccbbbbb', 'c': 'bbccbaacbbbccacbc'}, 'bbccbaacbbbccacbcbcccccabcccaaccb': {'a': 'ba', 'b': 'bbb', 'c': 'bac'}, 'bbccbaacbbbccacbcbcccccabcccaac': {'a': 'a', 'b': 'bbccbaacbbbccacbcbcccccabcccaacb', 'c': 'bbccbaacbbbccacbcbcccccabcccaacc'}, 'bbccbaacbbbccacbcbcccccabcccaaacbb': {'a': 'ab', 'b': 'baaacccbbbbbabcc', 'c': 'bbccbaacbbbccacbcbcccccabcca'}, 'bbccbaacbbbccacbcbcccc': {'a': 'bbccbaacbbbccacbcbccca', 'b': 'bbccbaacbbbccacbcbccccc', 'c': 'bbccbaacbbbccacbcbccccc'}, 'bbccbaacbbbccb': {'a': 'bbccbaacbbbcca', 'b': 'baaacccbbbbb', 'c': 'bcbbccbcbbc'}, 'bbccbaacbbbccacbcbcccccabcccaaaca': {'a': 'ab', 'b': 'ab', 'c': 'bbccbaacbbbccacbcbcccccabcccaaaaa'}, 'bbccbaacbbbccacbcbcc': {'a': 'bbccbaacbbbccacbcbccca', 'b': 'bbccbaacbbbccacbcbccb', 'c': 'bbccbaacbbbccacbcbccc'}, 'bbccbaacbbbccacbcbccccc': {'a': 'bbccbaacbbbccacbcbccccca', 'b': 'bbccbaacbbbccacbcbccccc', 'c': 'bbccbaacbbbccacbcbccccc'}, 'bbccbaacbbbccacbcbc': {'a': 'bbccbaacbbbccacbcbccba', 'b': 'bcbbccbcbbccb', 'c': 'bbccbaacbbbccacbcbcc'}, 'bba': {'a': 'baaa', 'b': 'ab', 'c': 'bac'}, 'bbccbaacbbbccacbcbcccccabcccaacb': {'a': 'ab', 'b': 'bbccbaacbbbccacbcbcccccabcccc', 'c': 'bbccbaacbbbccacbcbcccccabcccc'}, 'bbccbaacbbbccacbc': {'a': 'bbccbaacbbbcca', 'b': 'bbccbaacbbbccacbcb', 'c': 'bcbbccbcbbc'}, 'baaacccbbbbbaac': {'a': 'baaacccbbbbbaa', 'b': 'bbccbaacbbbc', 'c': 'bbccbaacbbbcc'}, 'bbccbaacbbbccacbcbcccccabcccaacc': {'a': 'a', 'b': 'bbccbaacbbbccacbcbcccccabcccaaccb', 'c': 'bbccbaacbbbccacbcbcccccabcccaaccc'}, 'bbccbaacbbbccacbcbccca': {'a': 'bbccbaacbbbccacbcbcccccaa', 'b': 'bcbbccbcbbccbab', 'c': 'bbccbaacbbbccacbcbcccac'}, 'bbccbaacbbb': {'a': 'baaacccbbbbbaa', 'b': 'bbccbaacbbbcb', 'c': 'bbccbaacbbbc'}, 'baac': {'a': 'baaa', 'b': 'bbcc', 'c': 'bbccc'}, 'bbcc': {'a': 'baaa', 'b': 'bbccb', 'c': 'bbccc'}, 'bbccb': {'a': 'bbccba', 'b': 'bbccbaacb', 'c': 'baaaccc'}, 'bc': {'a': 'bbca', 'b': 'bcb', 'c': 'bbb'}, 'baaac': {'a': 'baaaca', 'b': 'bcb', 'c': 'baaacc'}, 'baaacccbbbbbab': {'a': 'ab', 'b': 'ab', 'c': 'baaacccbbbbbabc'}, 'baaacccbbbbbabcccaccb': {'a': 'bbccbaacbbbccacbcbcccccabcca', 'b': 'bbccbaacbbbccacbcbcccccabcccc', 'c': 'bbccbaacbbbccacbcbcccccabcccc'}, 'bbccc': {'a': 'bbccba', 'b': 'bbccbaac', 'c': 'bbccbaac'}, 'baaacccbbc': {'a': 'baaacccbbbbbaa', 'b': 'baaacccbbcb', 'c': 'bbccbaacbbbcc'}, 'bbccbaacbbbccacbcbcccacc': {'a': 'bbccbaacbbbccacbcbcccacca', 'b': 'bbccbaacbbbccacbcbcccaccb', 'c': 'bbccbaacbbbccacbcbcc'}, 'bcbbcc': {'a': 'bbccbaacca', 'b': 'bcbbccb', 'c': 'bcbbccb'}, 'bbccbaacbbbccacbcbcccacca': {'a': 'baaacccbbbbbaa', 'b': 'ab', 'c': 'bbccbaacbbbcc'}, 'bbccbaacbbbccacbcbcccaccb': {'a': 'bbccbaacbbbccacbcbcccacca', 'b': 'bbccbaacbbbccacbcbccccc', 'c': 'bbccbaacbbbccacbcbcc'}, 'abc': {'a': 'ab', 'b': 'ab', 'c': 'ab'}}
+Explanation matches RNN: 99.98
+RNN matches ground truth: 99.98
+Explanation matches ground truth: 100.0
+Lstar matches RNN: 99.99
+Lstar matches ground truth: 99.98
+target query                           explanation status  test accuracy  rnn score  explanation score  explanation score on ground truth  extraction time revised delta revised epsilon                                 counterexamples train size test size ltl_depth lstar_states  lstar explanation score  lstar explanation score on ground truth  lstar extraction time lstar_status  epsilon  delta
+F(a & X(b))  true  ((c | (a | b)) -> (F (a & (a U b))))   True          99.97      99.98              99.98                              100.0       264.928327          None            None  [c, , cab, b, bab, a, ba, aab, bb, ab, ac, cb]          0         0         4          136                    99.99                                    99.98              28.257148         True      0.1   0.01
+target: F(a & X(b))
+query: true
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.1384871006011963  s
+No positive counterexample found
+EQ test took  0.015677452087402344  s
+new counterexample: a  should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['a']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.13038015365600586  s
+EQ test took  0.0015392303466796875  s
+new counterexample:   should be accepted by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['a']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+increasing formula depth to  2
+Before normalization: (! x0)
+Learning formula with depth 1
+learned LTL formula: (~ a)
+Learning took:  0.1862802505493164  s
+EQ test took  0.021486520767211914  s
+new counterexample: ab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'ab']
+
+
+negative traces---> 
+['a']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 2
+increasing formula depth to  3
+Before normalization: (x0 U (! x0))
+Learning formula with depth 2
+learned LTL formula: (a U (~ a))
+Learning took:  0.27280640602111816  s
+EQ test took  0.08382296562194824  s
+new counterexample: b  should be rejected by implementation
+
+
+positive traces---> 
+['', 'ab']
+
+
+negative traces---> 
+['a', 'b']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 3
+increasing formula depth to  4
+increasing formula depth to  5
+Before normalization: ((x0 | x1) -> (X x1))
+Learning formula with depth 2
+learned LTL formula: ((a | b) -> (X b))
+Learning took:  0.6993906497955322  s
+EQ test took  0.02976250648498535  s
+new counterexample: aab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'ab', 'aab']
+
+
+negative traces---> 
+['a', 'b']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 5
+Before normalization: ((x1 | x0) -> (X (x1 | x0)))
+Learning formula with depth 3
+learned LTL formula: ((a | b) -> (X (a | b)))
+Learning took:  0.6056828498840332  s
+EQ test took  0.02963709831237793  s
+new counterexample: c  should be rejected by implementation
+
+
+positive traces---> 
+['', 'ab', 'aab']
+
+
+negative traces---> 
+['a', 'b', 'c']
+
+
+
+5  iteration complete
+
+
+
+start formula depth: 5
+increasing formula depth to  6
+increasing formula depth to  7
+Before normalization: (((x1 | x0) | x2) -> (X ((x1 | x0) | x2)))
+Learning formula with depth 4
+learned LTL formula: ((c | (a | b)) -> (X (c | (a | b))))
+Learning took:  3.69659686088562  s
+No positive counterexample found
+EQ test took  0.07601261138916016  s
+new counterexample: ba  should be rejected by implementation
+
+
+positive traces---> 
+['', 'ab', 'aab']
+
+
+negative traces---> 
+['a', 'b', 'c', 'ba']
+
+
+
+6  iteration complete
+
+
+
+start formula depth: 7
+Before normalization: (! (x2 | ((G x0) | x1)))
+Learning formula with depth 4
+learned LTL formula: (~ (c | (b | (G a))))
+Learning took:  2.3484292030334473  s
+EQ test took  0.04907989501953125  s
+new counterexample: cab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'ab', 'aab', 'cab']
+
+
+negative traces---> 
+['a', 'b', 'c', 'ba']
+
+
+
+7  iteration complete
+
+
+
+start formula depth: 7
+Before normalization: (! (x1 | (G (x0 | x2))))
+Learning formula with depth 4
+learned LTL formula: (~ (b | (G (a | c))))
+Learning took:  4.202484130859375  s
+EQ test took  0.030675649642944336  s
+new counterexample: cb  should be rejected by implementation
+
+
+positive traces---> 
+['', 'ab', 'aab', 'cab']
+
+
+negative traces---> 
+['a', 'b', 'c', 'ba', 'cb']
+
+
+
+8  iteration complete
+
+
+
+start formula depth: 7
+increasing formula depth to  8
+Before normalization: (! (G ((x1 | x2) | (G x0))))
+Learning formula with depth 4
+learned LTL formula: (~ (G ((G a) | (b | c))))
+Learning took:  28.720476627349854  s
+No positive counterexample found
+EQ test took  0.3314094543457031  s
+new counterexample: ac  should be rejected by implementation
+
+
+positive traces---> 
+['', 'ab', 'aab', 'cab']
+
+
+negative traces---> 
+['a', 'b', 'c', 'ba', 'cb', 'ac']
+
+
+
+9  iteration complete
+
+
+
+start formula depth: 8
+Before normalization: (! ((G (x0 | x2)) | (x2 U x1)))
+Learning formula with depth 4
+learned LTL formula: (~ ((c U b) | (G (a | c))))
+Learning took:  11.61990475654602  s
+EQ test took  0.057464599609375  s
+new counterexample: bab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'ab', 'aab', 'cab', 'bab']
+
+
+negative traces---> 
+['a', 'b', 'c', 'ba', 'cb', 'ac']
+
+
+
+10  iteration complete
+
+
+
+start formula depth: 8
+increasing formula depth to  9
+Before normalization: ((((x1 | x0) -> (X x1)) -> x2) -> (X (X x1)))
+Learning formula with depth 4
+learned LTL formula: ((((a | b) -> (X b)) -> c) -> (X (X b)))
+Learning took:  229.67878127098083  s
+EQ test took  0.04685211181640625  s
+new counterexample: bb  should be rejected by implementation
+
+
+positive traces---> 
+['', 'ab', 'aab', 'cab', 'bab']
+
+
+negative traces---> 
+['a', 'b', 'c', 'ba', 'cb', 'ac', 'bb']
+
+
+
+11  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: ((x2 | (x1 | x0)) -> (F (x0 & (X x1))))
+Learning formula with depth 4
+learned LTL formula: ((c | (a | b)) -> (F (a & (X b))))
+Learning took:  10.80956220626831  s
+No positive counterexample found
+EQ test took  0.6806790828704834  s
+new counterexample: acbaaaccbbbaaccbcbccbbabccca  should be rejected by implementation
+
+
+positive traces---> 
+['', 'ab', 'aab', 'cab', 'bab']
+
+
+negative traces---> 
+['a', 'b', 'c', 'ba', 'cb', 'ac', 'bb', 'acbaaaccbbbaaccbcbccbbabccca']
+
+
+
+12  iteration complete
+
+
+
+
+
+epsilon= 0.05 delta= 0.1 max_trace_length= 50
+query: true
+final ltl:  ((c | (a | b)) -> (F (a & (X b))))
+incomplete formula
+Number of samples: 227
+Number of counterexamples returned: 1
+0.002808653807425928 0.03419263323219225
+
+Time taken to extract ltl: 401.1175465583801
+overall guided extraction time took: 0.22000000000002728
+generated counterexamples were: (format: (counterexample, counterexample generation time))
+('abb', 0.01999999999998181)
+('cb', 0.05999999999994543)
+<IPython.core.display.Image object>
+
+Time taken to extract lstar-dfa: 0.21526741981506348
+number of states of the dfa: 6
+returned flag: True
+transitions:->
+{'': {'a': 'a', 'b': 'c', 'c': 'c'}, 'abb': {'a': 'abb', 'b': 'abb', 'c': 'abb'}, 'ab': {'a': 'abb', 'b': 'abb', 'c': 'abb'}, 'c': {'a': 'a', 'b': 'c', 'c': 'c'}, 'cb': {'a': 'a', 'b': 'c', 'c': 'c'}, 'a': {'a': 'a', 'b': 'abb', 'c': 'c'}}
+Explanation matches RNN: 99.98
+RNN matches ground truth: 99.98
+Explanation matches ground truth: 100.0
+Lstar matches RNN: 99.98
+Lstar matches ground truth: 100.0
+target query                         explanation status  test accuracy  rnn score  explanation score  explanation score on ground truth  extraction time  revised delta  revised epsilon                                    counterexamples train size test size ltl_depth lstar_states  lstar explanation score  lstar explanation score on ground truth  lstar extraction time lstar_status  epsilon  delta
+F(a & X(b))  true  ((c | (a | b)) -> (F (a & (X b))))  False          99.97      99.98              99.98                              100.0       401.117547       0.002809         0.034193  [a, , ab, b, aab, c, ba, cab, cb, ac, bab, bb,...          0         0         4            6                    99.98                                    100.0               0.215267         True     0.05    0.1
+target: F(a & X(b))
+query: true
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.1317758560180664  s
+No positive counterexample found
+EQ test took  0.020500659942626953  s
+new counterexample: c  should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['c']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.12143230438232422  s
+EQ test took  0.0016438961029052734  s
+new counterexample:   should be accepted by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['c']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+increasing formula depth to  2
+Before normalization: (! x2)
+Learning formula with depth 1
+learned LTL formula: (~ c)
+Learning took:  0.19566059112548828  s
+EQ test took  0.02173137664794922  s
+new counterexample: cab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'cab']
+
+
+negative traces---> 
+['c']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 2
+increasing formula depth to  3
+Before normalization: (x2 U (! x2))
+Learning formula with depth 2
+learned LTL formula: (c U (~ c))
+Learning took:  0.2669386863708496  s
+EQ test took  0.02171778678894043  s
+new counterexample: b  should be rejected by implementation
+
+
+positive traces---> 
+['', 'cab']
+
+
+negative traces---> 
+['c', 'b']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 3
+increasing formula depth to  4
+increasing formula depth to  5
+Before normalization: (! (x1 | (G x2)))
+Learning formula with depth 3
+learned LTL formula: (~ (b | (G c)))
+Learning took:  0.7803902626037598  s
+EQ test took  0.039887428283691406  s
+new counterexample: bab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'cab', 'bab']
+
+
+negative traces---> 
+['c', 'b']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 5
+Before normalization: ((x1 | x2) U (! (x1 | x2)))
+Learning formula with depth 3
+learned LTL formula: ((b | c) U (~ (b | c)))
+Learning took:  0.6491351127624512  s
+EQ test took  0.04442024230957031  s
+new counterexample: a  should be rejected by implementation
+
+
+positive traces---> 
+['', 'cab', 'bab']
+
+
+negative traces---> 
+['c', 'b', 'a']
+
+
+
+5  iteration complete
+
+
+
+start formula depth: 5
+increasing formula depth to  6
+increasing formula depth to  7
+Before normalization: (((x2 | x1) | x0) -> (X ((x2 | x1) | x0)))
+Learning formula with depth 4
+learned LTL formula: ((a | (b | c)) -> (X (a | (b | c))))
+Learning took:  3.52071475982666  s
+No positive counterexample found
+EQ test took  0.10343241691589355  s
+new counterexample: aa  should be rejected by implementation
+
+
+positive traces---> 
+['', 'cab', 'bab']
+
+
+negative traces---> 
+['c', 'b', 'a', 'aa']
+
+
+
+6  iteration complete
+
+
+
+start formula depth: 7
+Before normalization: (! ((G (x1 | x2)) | x0))
+Learning formula with depth 4
+learned LTL formula: (~ (a | (G (b | c))))
+Learning took:  1.7364015579223633  s
+EQ test took  0.02477550506591797  s
+new counterexample: ab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'cab', 'bab', 'ab']
+
+
+negative traces---> 
+['c', 'b', 'a', 'aa']
+
+
+
+7  iteration complete
+
+
+
+start formula depth: 7
+increasing formula depth to  8
+Before normalization: ((x0 | (x2 | x1)) -> (F (X x1)))
+Learning formula with depth 3
+learned LTL formula: ((a | (b | c)) -> (F (X b)))
+Learning took:  11.84816861152649  s
+EQ test took  0.25149059295654297  s
+new counterexample: cb  should be rejected by implementation
+
+
+positive traces---> 
+['', 'cab', 'bab', 'ab']
+
+
+negative traces---> 
+['c', 'b', 'a', 'aa', 'cb']
+
+
+
+8  iteration complete
+
+
+
+start formula depth: 8
+Before normalization: (((x2 | (G x0)) | x1) U (! ((x2 | (G x0)) | x1)))
+Learning formula with depth 5
+learned LTL formula: ((b | (c | (G a))) U (~ (b | (c | (G a)))))
+Learning took:  7.848193168640137  s
+No positive counterexample found
+EQ test took  0.3237123489379883  s
+new counterexample: ac  should be rejected by implementation
+
+
+positive traces---> 
+['', 'cab', 'bab', 'ab']
+
+
+negative traces---> 
+['c', 'b', 'a', 'aa', 'cb', 'ac']
+
+
+
+9  iteration complete
+
+
+
+start formula depth: 8
+increasing formula depth to  9
+Before normalization: ((x2 | (x0 | x1)) -> ((F x1) & (F x0)))
+Learning formula with depth 3
+learned LTL formula: ((c | (a | b)) -> ((F a) & (F b)))
+Learning took:  192.56143760681152  s
+No positive counterexample found
+EQ test took  0.28638577461242676  s
+new counterexample: ba  should be rejected by implementation
+
+
+positive traces---> 
+['', 'cab', 'bab', 'ab']
+
+
+negative traces---> 
+['c', 'b', 'a', 'aa', 'cb', 'ac', 'ba']
+
+
+
+10  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: (! (G ((x0 U x2) | ((G x0) | x1))))
+Learning formula with depth 5
+learned LTL formula: (~ (G ((a U c) | (b | (G a)))))
+Learning took:  10.109419822692871  s
+No positive counterexample found
+EQ test took  0.6957123279571533  s
+new counterexample: acbcbbacaccbcaaccbccbbabccca  should be rejected by implementation
+
+
+positive traces---> 
+['', 'cab', 'bab', 'ab']
+
+
+negative traces---> 
+['c', 'b', 'a', 'aa', 'cb', 'ac', 'ba', 'acbcbbacaccbcaaccbccbbabccca']
+
+
+
+11  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: (((x2 | x1) | x0) -> ((x2 | x1) U (x0 & (X x1))))
+Learning formula with depth 4
+learned LTL formula: ((a | (b | c)) -> ((b | c) U (a & (X b))))
+Learning took:  88.99965596199036  s
+EQ test took  0.2752492427825928  s
+new counterexample: aab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'cab', 'bab', 'ab', 'aab']
+
+
+negative traces---> 
+['c', 'b', 'a', 'aa', 'cb', 'ac', 'ba', 'acbcbbacaccbcaaccbccbbabccca']
+
+
+
+12  iteration complete
+
+
+
+
+
+epsilon= 0.05 delta= 0.05 max_trace_length= 50
+query: true
+final ltl:  ((a | (b | c)) -> ((b | c) U (a & (X b))))
+incomplete formula
+Number of samples: 241
+Number of counterexamples returned: 86
+3.639522162584868e+63 1.0135512614915816
+
+Time taken to extract ltl: 401.09576654434204
+overall guided extraction time took: 0.4800000000000182
+generated counterexamples were: (format: (counterexample, counterexample generation time))
+('abc', 0.01999999999998181)
+('bb', 0.14000000000010004)
+<IPython.core.display.Image object>
+
+Time taken to extract lstar-dfa: 0.48128175735473633
+number of states of the dfa: 6
+returned flag: True
+transitions:->
+{'': {'a': 'a', 'b': 'b', 'c': 'b'}, 'ab': {'a': 'ab', 'b': 'ab', 'c': 'ab'}, 'b': {'a': 'a', 'b': 'b', 'c': 'b'}, 'bb': {'a': 'a', 'b': 'b', 'c': 'b'}, 'abc': {'a': 'ab', 'b': 'ab', 'c': 'ab'}, 'a': {'a': 'a', 'b': 'ab', 'c': 'b'}}
+Explanation matches RNN: 70.14
+RNN matches ground truth: 99.98
+Explanation matches ground truth: 70.14
+Lstar matches RNN: 99.98
+Lstar matches ground truth: 100.0
+target query                                 explanation status  test accuracy  rnn score  explanation score  explanation score on ground truth  extraction time  revised delta  revised epsilon                                    counterexamples train size test size ltl_depth lstar_states  lstar explanation score  lstar explanation score on ground truth  lstar extraction time lstar_status  epsilon  delta
+F(a & X(b))  true  ((a | (b | c)) -> ((b | c) U (a & (X b))))  False          99.97      99.98              70.14                              70.14       401.095767   3.639522e+63         1.013551  [c, , cab, b, bab, a, aa, ab, cb, ac, ba, acbc...          0         0         4            6                    99.98                                    100.0               0.481282         True     0.05   0.05
+target: F(a & X(b))
+query: true
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.13100576400756836  s
+No positive counterexample found
+EQ test took  0.021297931671142578  s
+new counterexample: b  should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['b']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.12883830070495605  s
+EQ test took  0.0016238689422607422  s
+new counterexample:   should be accepted by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['b']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+increasing formula depth to  2
+Before normalization: (! x1)
+Learning formula with depth 1
+learned LTL formula: (~ b)
+Learning took:  0.1851649284362793  s
+EQ test took  0.024329662322998047  s
+new counterexample: bab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'bab']
+
+
+negative traces---> 
+['b']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 2
+increasing formula depth to  3
+Before normalization: (F (! x1))
+Learning formula with depth 2
+learned LTL formula: (F (~ b))
+Learning took:  0.26391029357910156  s
+EQ test took  0.02808856964111328  s
+new counterexample: a  should be rejected by implementation
+
+
+positive traces---> 
+['', 'bab']
+
+
+negative traces---> 
+['b', 'a']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 3
+increasing formula depth to  4
+increasing formula depth to  5
+Before normalization: (! (x0 | (G x1)))
+Learning formula with depth 3
+learned LTL formula: (~ (a | (G b)))
+Learning took:  0.7508325576782227  s
+EQ test took  0.02925395965576172  s
+new counterexample: ab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab']
+
+
+negative traces---> 
+['b', 'a']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 5
+Before normalization: ((x1 | x0) -> (X (x1 | x0)))
+Learning formula with depth 3
+learned LTL formula: ((a | b) -> (X (a | b)))
+Learning took:  0.6012353897094727  s
+EQ test took  0.029163360595703125  s
+new counterexample: c  should be rejected by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab']
+
+
+negative traces---> 
+['b', 'a', 'c']
+
+
+
+5  iteration complete
+
+
+
+start formula depth: 5
+increasing formula depth to  6
+increasing formula depth to  7
+Before normalization: ((x1 | (x0 | x2)) -> (X (x1 | (x0 | x2))))
+Learning formula with depth 4
+learned LTL formula: ((b | (a | c)) -> (X (b | (a | c))))
+Learning took:  4.070745229721069  s
+No positive counterexample found
+EQ test took  0.1067495346069336  s
+new counterexample: cc  should be rejected by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab']
+
+
+negative traces---> 
+['b', 'a', 'c', 'cc']
+
+
+
+6  iteration complete
+
+
+
+start formula depth: 7
+Before normalization: ((x2 | (x0 | x1)) -> (X (x0 | x1)))
+Learning formula with depth 3
+learned LTL formula: ((c | (a | b)) -> (X (a | b)))
+Learning took:  2.0815935134887695  s
+EQ test took  0.05057692527770996  s
+new counterexample: bcab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab', 'bcab']
+
+
+negative traces---> 
+['b', 'a', 'c', 'cc']
+
+
+
+7  iteration complete
+
+
+
+start formula depth: 7
+increasing formula depth to  8
+Before normalization: ((x0 | (x2 | x1)) -> ((x2 | x1) U (X x1)))
+Learning formula with depth 3
+learned LTL formula: ((a | (b | c)) -> ((b | c) U (X b)))
+Learning took:  13.339364767074585  s
+EQ test took  0.037741899490356445  s
+new counterexample: bb  should be rejected by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab', 'bcab']
+
+
+negative traces---> 
+['b', 'a', 'c', 'cc', 'bb']
+
+
+
+8  iteration complete
+
+
+
+start formula depth: 8
+Before normalization: (! (((G x1) | x2) | (G x0)))
+Learning formula with depth 4
+learned LTL formula: (~ ((G a) | (c | (G b))))
+Learning took:  7.038522481918335  s
+EQ test took  0.05570697784423828  s
+new counterexample: cab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab', 'bcab', 'cab']
+
+
+negative traces---> 
+['b', 'a', 'c', 'cc', 'bb']
+
+
+
+9  iteration complete
+
+
+
+start formula depth: 8
+Before normalization: (! (G (((G x0) | x1) | x2)))
+Learning formula with depth 5
+learned LTL formula: (~ (G (c | (b | (G a)))))
+Learning took:  12.88979697227478  s
+EQ test took  0.43137669563293457  s
+new counterexample: ac  should be rejected by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab', 'bcab', 'cab']
+
+
+negative traces---> 
+['b', 'a', 'c', 'cc', 'bb', 'ac']
+
+
+
+10  iteration complete
+
+
+
+start formula depth: 8
+Before normalization: (x1 U (! (x1 | (G (x2 | x0)))))
+Learning formula with depth 5
+learned LTL formula: (b U (~ (b | (G (a | c)))))
+Learning took:  11.194469928741455  s
+No positive counterexample found
+EQ test took  0.4612293243408203  s
+new counterexample: cb  should be rejected by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab', 'bcab', 'cab']
+
+
+negative traces---> 
+['b', 'a', 'c', 'cc', 'bb', 'ac', 'cb']
+
+
+
+11  iteration complete
+
+
+
+start formula depth: 8
+increasing formula depth to  9
+Before normalization: ((! (G (x1 | x2))) & (x0 -> (X x1)))
+Learning formula with depth 4
+learned LTL formula: ((a -> (X b)) & (~ (G (b | c))))
+Learning took:  216.05258417129517  s
+EQ test took  0.06337690353393555  s
+new counterexample: aab  should be accepted by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab', 'bcab', 'cab', 'aab']
+
+
+negative traces---> 
+['b', 'a', 'c', 'cc', 'bb', 'ac', 'cb']
+
+
+
+12  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: (((x2 | x0) | x1) -> ((F x0) & (F x1)))
+Learning formula with depth 3
+learned LTL formula: ((b | (a | c)) -> ((F a) & (F b)))
+Learning took:  12.579944133758545  s
+EQ test took  0.38413047790527344  s
+new counterexample: ba  should be rejected by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab', 'bcab', 'cab', 'aab']
+
+
+negative traces---> 
+['b', 'a', 'c', 'cc', 'bb', 'ac', 'cb', 'ba']
+
+
+
+13  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: (((x0 | x1) | x2) -> ((F x1) U ((F x1) & x0)))
+Learning formula with depth 4
+learned LTL formula: ((c | (a | b)) -> ((F b) U (a & (F b))))
+Learning took:  19.439768314361572  s
+No positive counterexample found
+EQ test took  0.7434558868408203  s
+new counterexample: acb  should be rejected by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab', 'bcab', 'cab', 'aab']
+
+
+negative traces---> 
+['b', 'a', 'c', 'cc', 'bb', 'ac', 'cb', 'ba', 'acb']
+
+
+
+14  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: ((x2 | (x1 | x0)) -> (F (x0 & (x0 U x1))))
+Learning formula with depth 4
+learned LTL formula: ((c | (a | b)) -> (F (a & (a U b))))
+Learning took:  13.875185012817383  s
+No positive counterexample found
+EQ test took  0.959662675857544  s
+new counterexample: acaccbbaccaccbbbcbabcbbbbb  should be rejected by implementation
+
+
+positive traces---> 
+['', 'bab', 'ab', 'bcab', 'cab', 'aab']
+
+
+negative traces---> 
+['b', 'a', 'c', 'cc', 'bb', 'ac', 'cb', 'ba', 'acb', 'acaccbbaccaccbbbcbabcbbbbb']
+
+
+
+15  iteration complete
+
+
+
+
+
+epsilon= 0.05 delta= 0.01 max_trace_length= 50
+query: true
+final ltl:  ((c | (a | b)) -> (F (a & (a U b))))
+incomplete formula
+Number of samples: 314
+Number of counterexamples returned: 2
+0.008249926365151681 0.0493833948137069
+
+Time taken to extract ltl: 401.09878849983215
+Interrupted due to time limit

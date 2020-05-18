@@ -112,7 +112,7 @@ class ObservationTable:
     # modifies - and definitely calls _fill_T
     def add_counterexample(self, ce, label):
         if ce in self.S:
-            print("bad counterexample - already saved and classified in table!")
+            # print("bad counterexample - already saved and classified in table!")
             return
 
         new_states = [ce[0:i+1]

@@ -16,13 +16,17 @@ graph = functools.partial(gv.Graph, format='png')
 separator = "_"
 
 class DFA:
-    def __init__(self,obs_table):
+    def __init__(self,obs_table, apply_whatever_equal_cache_is_doing=False):
         self.alphabet = obs_table.A #alphabet
-        # self.Q = [s for s in obs_table.S if s==obs_table.minimum_matching_row(s)] #avoid duplicate states
-        """  
-        The equal-cache in observation table is probably not correct.
-        """
-        self.Q = [s for s in obs_table.S]
+        if(apply_whatever_equal_cache_is_doing):
+            self.Q = [s for s in obs_table.S if s==obs_table.minimum_matching_row(s)] #avoid duplicate states
+        else:
+            """  
+            The equal-cache in observation table is probably not correct.
+            """
+    
+            self.Q = [s for s in obs_table.S]
+    
         self.q0 = obs_table.minimum_matching_row("")
         self.F = [s for s in self.Q if obs_table.T[s]== 1]
         self._make_transition_function(obs_table)
@@ -41,7 +45,7 @@ class DFA:
             q = self.delta[q][a]
         return q in self.F
 
-    def draw_nicely(self,force=False,maximum=60): #todo: if two edges are identical except for letter, merge them and note both the letters
+    def draw_nicely(self,force=False,maximum=60, filename="temp"): #todo: if two edges are identical except for letter, merge them and note both the letters
         if (not force) and len(self.Q) > maximum:
             return
 
@@ -140,7 +144,7 @@ class DFA:
         #                  self.Q]))
         # g = add_edges(g,[((label_to_numberlabel(state),label_to_numberlabel(self.delta[state][a])),{'label':a})
         #                  for a in self.alphabet for state in self.Q])
-        display(Image(filename=g.render(filename='img/automaton')))
+        display(Image(filename=g.render(filename='output/img/' + filename)))
 
     def minimal_diverging_suffix(self,state1,state2): #gets series of letters showing the two states are different,
         # i.e., from which one state reaches accepting state and the other reaches rejecting state
@@ -173,21 +177,16 @@ class DFA:
     """
 
 
-    def next_state_by_letter(self, s, l, word):
-        try:
-            q = self.delta[s][l]
-        except:
-            print(self.delta)
-            print(s,l, word)
-            raise ValueError
+    def next_state_by_letter(self, s, l):
+        q = self.delta[s][l]
         return q
 
 
-    def is_word_letter_by_letter(self, letter, word, reset=False):
+    def is_word_letter_by_letter(self, letter, reset=False):
         if reset:
             self.current_state = self.q0
 
-        self.current_state = self.next_state_by_letter(self.current_state, letter, word)
+        self.current_state = self.next_state_by_letter(self.current_state, letter)
         return self.current_state in self.F
 
     def is_word_in(self, w):

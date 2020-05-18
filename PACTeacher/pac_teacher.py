@@ -54,7 +54,7 @@ class PACTeacher():
 
         # if(verbose):
         #     print("already found counterexamples:", self.returned_counterexamples)
-            
+
         _max_trace_length = self.max_trace_length
 
         self._num_counterexamples_in_EQ = 0
@@ -91,7 +91,10 @@ class PACTeacher():
                     _max_trace_length = len(positive_counterexample) - 1
 
             dfa.reset_current_to_init()
+            # renew rnn (applicable for dynet package)
+            self.specification_dfa.renew()
             self.specification_dfa.reset_current_to_init()
+            
             if(self.query_dfa is not None):
                 self.query_dfa.reset_current_to_init()
             word = ""
@@ -107,9 +110,8 @@ class PACTeacher():
                     if dfa.is_word_letter_by_letter(letter) != self.specification_dfa.is_word_letter_by_letter(letter):
                         return word
                 else:
-                    
-                    
-                    dfa_verdict = dfa.is_word_letter_by_letter(letter, word)
+
+                    dfa_verdict = dfa.is_word_letter_by_letter(letter)
                     specification_verdict = self.specification_dfa.is_word_letter_by_letter(
                         letter)
                     query_verdict = self.query_dfa.is_word_letter_by_letter(
@@ -127,6 +129,11 @@ class PACTeacher():
                                 negative_counterexample = word
 
                         self._num_counterexamples_in_EQ += 1
+
+                        # print("positive counterexample:",
+                        #       positive_counterexample)
+                        # print("negative counterexample:",
+                        #       negative_counterexample)
                         break
                         # return word
 
@@ -175,14 +182,14 @@ class PACTeacher():
 
         try:
             _new_delta = _computed_combination * \
-            math.pow(math.e, -(self.epsilon *
-                               (self._number_of_samples-self._num_counterexamples_in_EQ)))
+                math.pow(math.e, -(self.epsilon *
+                                   (self._number_of_samples-self._num_counterexamples_in_EQ)))
         except:
             _new_delta = None
 
         try:
             _new_epsilon = (math.log(_computed_combination)-math.log(self.delta)) / \
-            (self._number_of_samples-self._num_counterexamples_in_EQ)
+                (self._number_of_samples-self._num_counterexamples_in_EQ)
         except:
             _new_epsilon = None
 
@@ -253,12 +260,14 @@ class PACTeacher():
 
                             print("new counterexample:", counterexample,
                                   " should be accepted by implementation")
+                            
                         traces.add_positive_example(counterexample)
                     else:
                         if(verbose):
 
                             print("new counterexample:", counterexample,
                                   " should be rejected by implementation")
+                            
                         traces.add_negative_example(counterexample)
             else:
                 return learner, False

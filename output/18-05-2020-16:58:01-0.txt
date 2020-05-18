@@ -1,0 +1,1287 @@
+made train set of size: 9562 , of which positive examples: 39
+out of  19254  sequences 9731  are positive. (percent:  0.505401475018178 )
+examples per length: [0, 4, 16, 64, 200, 204, 217, 245, 285, 345, 380, 414, 417, 422, 430, 434, 431, 430, 434, 433, 434, 434, 432, 434, 433, 434, 434, 434, 434, 433, 434, 434, 434, 434, 434, 434, 434, 434, 434, 433, 434, 434, 434, 434, 434, 434, 434, 434, 434, 434, 434]
+size of train set: 17328
+size of test set: 1926
+The dy.parameter(...) call is now DEPRECATED.
+        There is no longer need to explicitly add parameters to the computation graph.
+        Any used parameter will be added automatically.
+classification loss on last batch was: 0.0003491616265066117
+testing on train set, i.e. test set is train set
+rnn score against target on test set:                              1926 (100.0)
+target: email match
+query: false
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.09723114967346191  s
+EQ test took  0.0007636547088623047  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.0897984504699707  s
+EQ test took  0.11458063125610352  s
+
+
+epsilon= 0.1 delta= 0.1 max_trace_length= 50
+query: false
+final ltl:  false
+
+Time taken to extract ltl: 0.30577659606933594
+overall guided extraction time took: 0.11000000000001364
+generated counterexamples were: (format: (counterexample, counterexample generation time))
+('', 0.0)
+<IPython.core.display.Image object>
+
+Time taken to extract lstar-dfa: 0.11010622978210449
+number of states of the dfa: 2
+returned flag: True
+transitions:->
+{'': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}, 'a': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}}
+target  query explanation status  test accuracy rnn score explanation score explanation score on ground truth  extraction time revised delta revised epsilon counterexamples train size test size ltl_depth lstar_states lstar explanation score lstar explanation score on ground truth  lstar extraction time lstar_status  epsilon  delta
+email match  false       false   True          100.0      None              None                              None         0.305777          None            None              []          0         0         0            2                    None                                    None               0.110106         True      0.1    0.1
+target: email match
+query: false
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.11539459228515625  s
+EQ test took  0.0006494522094726562  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.13080239295959473  s
+EQ test took  0.13530707359313965  s
+
+
+epsilon= 0.1 delta= 0.05 max_trace_length= 50
+query: false
+final ltl:  false
+
+Time taken to extract ltl: 0.385941743850708
+overall guided extraction time took: 0.2599999999999909
+generated counterexamples were: (format: (counterexample, counterexample generation time))
+('', 0.0)
+<IPython.core.display.Image object>
+
+Time taken to extract lstar-dfa: 0.26830434799194336
+number of states of the dfa: 2
+returned flag: True
+transitions:->
+{'': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}, 'a': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}}
+target  query explanation status  test accuracy rnn score explanation score explanation score on ground truth  extraction time revised delta revised epsilon counterexamples train size test size ltl_depth lstar_states lstar explanation score lstar explanation score on ground truth  lstar extraction time lstar_status  epsilon  delta
+email match  false       false   True          100.0      None              None                              None         0.385942          None            None              []          0         0         0            2                    None                                    None               0.268304         True      0.1   0.05
+target: email match
+query: false
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.12508201599121094  s
+EQ test took  0.0006334781646728516  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.09922981262207031  s
+EQ test took  0.18149518966674805  s
+
+
+epsilon= 0.1 delta= 0.01 max_trace_length= 50
+query: false
+final ltl:  false
+
+Time taken to extract ltl: 0.410245418548584
+overall guided extraction time took: 1.75
+generated counterexamples were: (format: (counterexample, counterexample generation time))
+('', 0.0)
+<IPython.core.display.Image object>
+
+Time taken to extract lstar-dfa: 1.7471070289611816
+number of states of the dfa: 2
+returned flag: True
+transitions:->
+{'': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}, 'a': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}}
+target  query explanation status  test accuracy rnn score explanation score explanation score on ground truth  extraction time revised delta revised epsilon counterexamples train size test size ltl_depth lstar_states lstar explanation score lstar explanation score on ground truth  lstar extraction time lstar_status  epsilon  delta
+email match  false       false   True          100.0      None              None                              None         0.410245          None            None              []          0         0         0            2                    None                                    None               1.747107         True      0.1   0.01
+target: email match
+query: false
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.10316991806030273  s
+EQ test took  0.0006186962127685547  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.11533355712890625  s
+EQ test took  0.2283627986907959  s
+
+
+epsilon= 0.05 delta= 0.1 max_trace_length= 50
+query: false
+final ltl:  false
+
+Time taken to extract ltl: 0.451371431350708
+overall guided extraction time took: 0.12000000000000455
+generated counterexamples were: (format: (counterexample, counterexample generation time))
+('', 0.0)
+<IPython.core.display.Image object>
+
+Time taken to extract lstar-dfa: 0.11225271224975586
+number of states of the dfa: 2
+returned flag: True
+transitions:->
+{'': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}, 'a': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}}
+target  query explanation status  test accuracy rnn score explanation score explanation score on ground truth  extraction time revised delta revised epsilon counterexamples train size test size ltl_depth lstar_states lstar explanation score lstar explanation score on ground truth  lstar extraction time lstar_status  epsilon  delta
+email match  false       false   True          100.0      None              None                              None         0.451371          None            None              []          0         0         0            2                    None                                    None               0.112253         True     0.05    0.1
+target: email match
+query: false
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.11006641387939453  s
+EQ test took  0.0006124973297119141  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.1229863166809082  s
+EQ test took  0.27237462997436523  s
+
+
+epsilon= 0.05 delta= 0.05 max_trace_length= 50
+query: false
+final ltl:  false
+
+Time taken to extract ltl: 0.5099215507507324
+overall guided extraction time took: 0.2699999999999818
+generated counterexamples were: (format: (counterexample, counterexample generation time))
+('', 0.0)
+<IPython.core.display.Image object>
+
+Time taken to extract lstar-dfa: 0.26523780822753906
+number of states of the dfa: 2
+returned flag: True
+transitions:->
+{'': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}, 'a': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}}
+target  query explanation status  test accuracy rnn score explanation score explanation score on ground truth  extraction time revised delta revised epsilon counterexamples train size test size ltl_depth lstar_states lstar explanation score lstar explanation score on ground truth  lstar extraction time lstar_status  epsilon  delta
+email match  false       false   True          100.0      None              None                              None         0.509922          None            None              []          0         0         0            2                    None                                    None               0.265238         True     0.05   0.05
+target: email match
+query: false
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.1079721450805664  s
+EQ test took  0.0005991458892822266  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.10518360137939453  s
+EQ test took  0.3599381446838379  s
+
+
+epsilon= 0.05 delta= 0.01 max_trace_length= 50
+query: false
+final ltl:  false
+
+Time taken to extract ltl: 0.5768463611602783
+overall guided extraction time took: 1.740000000000009
+generated counterexamples were: (format: (counterexample, counterexample generation time))
+('', 0.0)
+<IPython.core.display.Image object>
+
+Time taken to extract lstar-dfa: 1.7342240810394287
+number of states of the dfa: 2
+returned flag: True
+transitions:->
+{'': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}, 'a': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}}
+target  query explanation status  test accuracy rnn score explanation score explanation score on ground truth  extraction time revised delta revised epsilon counterexamples train size test size ltl_depth lstar_states lstar explanation score lstar explanation score on ground truth  lstar extraction time lstar_status  epsilon  delta
+email match  false       false   True          100.0      None              None                              None         0.576846          None            None              []          0         0         0            2                    None                                    None               1.734224         True     0.05   0.01
+target: email match
+query: false
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.11202597618103027  s
+EQ test took  0.0006048679351806641  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.12116003036499023  s
+EQ test took  1.0844762325286865  s
+
+
+epsilon= 0.01 delta= 0.1 max_trace_length= 50
+query: false
+final ltl:  false
+
+Time taken to extract ltl: 1.3213481903076172
+overall guided extraction time took: 0.10999999999989996
+generated counterexamples were: (format: (counterexample, counterexample generation time))
+('', 0.0)
+<IPython.core.display.Image object>
+
+Time taken to extract lstar-dfa: 0.10887455940246582
+number of states of the dfa: 2
+returned flag: True
+transitions:->
+{'': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}, 'a': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}}
+target  query explanation status  test accuracy rnn score explanation score explanation score on ground truth  extraction time revised delta revised epsilon counterexamples train size test size ltl_depth lstar_states lstar explanation score lstar explanation score on ground truth  lstar extraction time lstar_status  epsilon  delta
+email match  false       false   True          100.0      None              None                              None         1.321348          None            None              []          0         0         0            2                    None                                    None               0.108875         True     0.01    0.1
+target: email match
+query: false
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.11700963973999023  s
+EQ test took  0.0006084442138671875  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.11388063430786133  s
+EQ test took  1.286635160446167  s
+
+
+epsilon= 0.01 delta= 0.05 max_trace_length= 50
+query: false
+final ltl:  false
+
+Time taken to extract ltl: 1.5219061374664307
+overall guided extraction time took: 0.25
+generated counterexamples were: (format: (counterexample, counterexample generation time))
+('', 0.0)
+<IPython.core.display.Image object>
+
+Time taken to extract lstar-dfa: 0.255542516708374
+number of states of the dfa: 2
+returned flag: True
+transitions:->
+{'': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}, 'a': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}}
+target  query explanation status  test accuracy rnn score explanation score explanation score on ground truth  extraction time revised delta revised epsilon counterexamples train size test size ltl_depth lstar_states lstar explanation score lstar explanation score on ground truth  lstar extraction time lstar_status  epsilon  delta
+email match  false       false   True          100.0      None              None                              None         1.521906          None            None              []          0         0         0            2                    None                                    None               0.255543         True     0.01   0.05
+target: email match
+query: false
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.11614871025085449  s
+EQ test took  0.0006182193756103516  s
+new counterexample:   should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.12205028533935547  s
+EQ test took  1.8125956058502197  s
+
+
+epsilon= 0.01 delta= 0.01 max_trace_length= 50
+query: false
+final ltl:  false
+
+Time taken to extract ltl: 2.055203914642334
+overall guided extraction time took: 1.7999999999999545
+generated counterexamples were: (format: (counterexample, counterexample generation time))
+('', 0.0)
+<IPython.core.display.Image object>
+
+Time taken to extract lstar-dfa: 1.8035593032836914
+number of states of the dfa: 2
+returned flag: True
+transitions:->
+{'': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}, 'a': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}}
+target  query explanation status  test accuracy rnn score explanation score explanation score on ground truth  extraction time revised delta revised epsilon counterexamples train size test size ltl_depth lstar_states lstar explanation score lstar explanation score on ground truth  lstar extraction time lstar_status  epsilon  delta
+email match  false       false   True          100.0      None              None                              None         2.055204          None            None              []          0         0         0            2                    None                                    None               1.803559         True     0.01   0.01
+target: email match
+query: true
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.11166000366210938  s
+No positive counterexample found
+EQ test took  0.011583328247070312  s
+new counterexample: m  should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['m']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.11586499214172363  s
+EQ test took  0.001508474349975586  s
+new counterexample:   should be accepted by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['m']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+increasing formula depth to  2
+Before normalization: (! x2)
+Learning formula with depth 1
+learned LTL formula: (~ m)
+Learning took:  0.18143057823181152  s
+No positive counterexample found
+EQ test took  0.04738306999206543  s
+new counterexample: a  should be rejected by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['m', 'a']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 2
+increasing formula depth to  3
+increasing formula depth to  4
+Before normalization: (! (x0 | x2))
+Learning formula with depth 2
+learned LTL formula: (~ (a | m))
+Learning took:  0.35133934020996094  s
+No positive counterexample found
+EQ test took  0.0666353702545166  s
+new counterexample: p  should be rejected by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['m', 'a', 'p']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 4
+increasing formula depth to  5
+increasing formula depth to  6
+Before normalization: (! (x3 | (x2 | x0)))
+Learning formula with depth 3
+learned LTL formula: (~ (p | (a | m)))
+Learning took:  1.1368598937988281  s
+EQ test took  0.033537864685058594  s
+new counterexample: pppdp  should be accepted by implementation
+
+
+positive traces---> 
+['', 'pppdp']
+
+
+negative traces---> 
+['m', 'a', 'p']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 6
+increasing formula depth to  7
+Before normalization: (x3 U (! (x3 | (x0 | x2))))
+Learning formula with depth 4
+learned LTL formula: (p U (~ (p | (a | m))))
+Learning took:  2.8358047008514404  s
+EQ test took  0.029447555541992188  s
+new counterexample: d  should be rejected by implementation
+
+
+positive traces---> 
+['', 'pppdp']
+
+
+negative traces---> 
+['m', 'a', 'p', 'd']
+
+
+
+5  iteration complete
+
+
+
+start formula depth: 7
+increasing formula depth to  8
+increasing formula depth to  9
+Before normalization: ((x2 | (x0 | (x3 | x1))) -> (X (x0 | (x3 | x1))))
+Learning formula with depth 4
+learned LTL formula: ((m | (a | (d | p))) -> (X (a | (d | p))))
+Learning took:  63.996628284454346  s
+EQ test took  0.07471990585327148  s
+new counterexample: pmpmmpmmpdp  should be accepted by implementation
+
+
+positive traces---> 
+['', 'pppdp', 'pmpmmpmmpdp']
+
+
+negative traces---> 
+['m', 'a', 'p', 'd']
+
+
+
+6  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: (((x3 | x2) | (x1 | x0)) -> (X (x3 | x2)))
+Learning formula with depth 3
+learned LTL formula: (((a | d) | (m | p)) -> (X (m | p)))
+Learning took:  8.856950283050537  s
+EQ test took  0.027019500732421875  s
+new counterexample: dp  should be rejected by implementation
+
+
+positive traces---> 
+['', 'pppdp', 'pmpmmpmmpdp']
+
+
+negative traces---> 
+['m', 'a', 'p', 'd', 'dp']
+
+
+
+7  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: (! ((x1 | x2) | (G (x3 | x0))))
+Learning formula with depth 4
+learned LTL formula: (~ ((d | m) | (G (a | p))))
+Learning took:  8.488220453262329  s
+No positive counterexample found
+EQ test took  0.160628080368042  s
+new counterexample: pd  should be rejected by implementation
+
+
+positive traces---> 
+['', 'pppdp', 'pmpmmpmmpdp']
+
+
+negative traces---> 
+['m', 'a', 'p', 'd', 'dp', 'pd']
+
+
+
+8  iteration complete
+
+
+
+
+
+epsilon= 0.1 delta= 0.1 max_trace_length= 50
+query: true
+final ltl:  (~ ((d | m) | (G (a | p))))
+incomplete formula
+Number of samples: 86
+Number of counterexamples returned: 40
+5.424153502095218e+22 1.2880504128181407
+
+Time taken to extract ltl: 401.1142518520355
+overall guided extraction time took: 0.10000000000002274
+generated counterexamples were: (format: (counterexample, counterexample generation time))
+
+<IPython.core.display.Image object>
+
+Time taken to extract lstar-dfa: 0.10414814949035645
+number of states of the dfa: 2
+returned flag: True
+transitions:->
+{'': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}, 'a': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}}
+Explanation matches RNN: 75.59
+RNN matches ground truth: 99.98
+Explanation matches ground truth: 75.57
+Lstar matches RNN: 49.44
+Lstar matches ground truth: 49.45
+target query                  explanation status  test accuracy  rnn score  explanation score  explanation score on ground truth  extraction time  revised delta  revised epsilon                             counterexamples train size test size ltl_depth lstar_states  lstar explanation score  lstar explanation score on ground truth  lstar extraction time lstar_status  epsilon  delta
+email match  true  (~ ((d | m) | (G (a | p))))  False          100.0      99.98              75.59                              75.57       401.114252   5.424154e+22          1.28805  [m, , a, p, pppdp, d, pmpmmpmmpdp, dp, pd]          0         0         4            2                    49.44                                    49.45               0.104148         True      0.1    0.1
+target: email match
+query: true
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.10788965225219727  s
+No positive counterexample found
+EQ test took  0.013508081436157227  s
+new counterexample: p  should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['p']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.11480593681335449  s
+EQ test took  0.0015201568603515625  s
+new counterexample:   should be accepted by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['p']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+increasing formula depth to  2
+Before normalization: (! x3)
+Learning formula with depth 1
+learned LTL formula: (~ p)
+Learning took:  0.1800072193145752  s
+EQ test took  0.02721858024597168  s
+new counterexample: pmdpp  should be accepted by implementation
+
+
+positive traces---> 
+['', 'pmdpp']
+
+
+negative traces---> 
+['p']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 2
+increasing formula depth to  3
+Before normalization: (x3 U (! x3))
+Learning formula with depth 2
+learned LTL formula: (p U (~ p))
+Learning took:  0.27634525299072266  s
+EQ test took  0.015305280685424805  s
+new counterexample: d  should be rejected by implementation
+
+
+positive traces---> 
+['', 'pmdpp']
+
+
+negative traces---> 
+['p', 'd']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 3
+increasing formula depth to  4
+increasing formula depth to  5
+Before normalization: (! ((G x3) | x1))
+Learning formula with depth 3
+learned LTL formula: (~ (d | (G p)))
+Learning took:  0.8866977691650391  s
+No positive counterexample found
+EQ test took  0.06158566474914551  s
+new counterexample: m  should be rejected by implementation
+
+
+positive traces---> 
+['', 'pmdpp']
+
+
+negative traces---> 
+['p', 'd', 'm']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 5
+increasing formula depth to  6
+increasing formula depth to  7
+Before normalization: ((x2 | (x3 | x1)) -> (X x2))
+Learning formula with depth 3
+learned LTL formula: ((m | (d | p)) -> (X m))
+Learning took:  3.196002721786499  s
+EQ test took  0.05194735527038574  s
+new counterexample: ppdpp  should be accepted by implementation
+
+
+positive traces---> 
+['', 'pmdpp', 'ppdpp']
+
+
+negative traces---> 
+['p', 'd', 'm']
+
+
+
+5  iteration complete
+
+
+
+start formula depth: 7
+Before normalization: (((x3 | x2) | x1) -> (X (x3 | x2)))
+Learning formula with depth 3
+learned LTL formula: ((d | (m | p)) -> (X (m | p)))
+Learning took:  2.3361332416534424  s
+EQ test took  0.09659576416015625  s
+new counterexample: a  should be rejected by implementation
+
+
+positive traces---> 
+['', 'pmdpp', 'ppdpp']
+
+
+negative traces---> 
+['p', 'd', 'm', 'a']
+
+
+
+6  iteration complete
+
+
+
+start formula depth: 7
+increasing formula depth to  8
+increasing formula depth to  9
+Before normalization: (! (x2 | (x0 | ((G x3) | x1))))
+Learning formula with depth 5
+learned LTL formula: (~ (m | (a | (d | (G p)))))
+Learning took:  90.11459445953369  s
+No positive counterexample found
+EQ test took  0.1992506980895996  s
+new counterexample: pm  should be rejected by implementation
+
+
+positive traces---> 
+['', 'pmdpp', 'ppdpp']
+
+
+negative traces---> 
+['p', 'd', 'm', 'a', 'pm']
+
+
+
+7  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: (! ((G (x3 | x2)) | (x1 | x0)))
+Learning formula with depth 4
+learned LTL formula: (~ ((a | d) | (G (m | p))))
+Learning took:  18.15854787826538  s
+No positive counterexample found
+EQ test took  0.16156578063964844  s
+new counterexample: ma  should be rejected by implementation
+
+
+positive traces---> 
+['', 'pmdpp', 'ppdpp']
+
+
+negative traces---> 
+['p', 'd', 'm', 'a', 'pm', 'ma']
+
+
+
+8  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: (! (x1 | (G ((x3 | x2) | x0))))
+Learning formula with depth 5
+learned LTL formula: (~ (d | (G (a | (m | p)))))
+Learning took:  12.991811513900757  s
+No positive counterexample found
+EQ test took  0.11739516258239746  s
+new counterexample: pd  should be rejected by implementation
+
+
+positive traces---> 
+['', 'pmdpp', 'ppdpp']
+
+
+negative traces---> 
+['p', 'd', 'm', 'a', 'pm', 'ma', 'pd']
+
+
+
+9  iteration complete
+
+
+
+
+
+epsilon= 0.1 delta= 0.05 max_trace_length= 50
+query: true
+final ltl:  (~ (d | (G (a | (m | p)))))
+incomplete formula
+Number of samples: 100
+Number of counterexamples returned: 73
+1.2885670496165004e+23 2.1818044518195716
+
+Time taken to extract ltl: 401.1132459640503
+overall guided extraction time took: 0.9500000000000455
+generated counterexamples were: (format: (counterexample, counterexample generation time))
+('ppadp', 0.21000000000003638)
+('ppppmammdp', 0.2700000000000955)
+<IPython.core.display.Image object>
+
+Time taken to extract lstar-dfa: 0.9509725570678711
+number of states of the dfa: 19
+returned flag: True
+transitions:->
+{'': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'p'}, 'pa': {'a': 'a', 'd': 'a', 'm': 'pam', 'p': 'ppa'}, 'ppa': {'a': 'ppaa', 'd': 'ppad', 'm': 'ppa', 'p': 'ppa'}, 'ppppmammdp': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'ppppmammdp'}, 'ppp': {'a': 'ppa', 'd': 'ppad', 'm': 'ppp', 'p': 'ppp'}, 'ppppmam': {'a': 'ppaa', 'd': 'ppad', 'm': 'ppa', 'p': 'ppa'}, 'pam': {'a': 'ppaa', 'd': 'ppad', 'm': 'pamm', 'p': 'ppa'}, 'pppp': {'a': 'ppa', 'd': 'ppad', 'm': 'ppp', 'p': 'ppp'}, 'a': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'a'}, 'p': {'a': 'pa', 'd': 'a', 'm': 'pp', 'p': 'pp'}, 'ppppma': {'a': 'ppaa', 'd': 'ppad', 'm': 'ppa', 'p': 'ppa'}, 'pamm': {'a': 'a', 'd': 'ppad', 'm': 'ppa', 'p': 'ppa'}, 'ppad': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'ppppmammdp'}, 'ppppmammd': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'ppppmammdp'}, 'pp': {'a': 'ppa', 'd': 'a', 'm': 'ppp', 'p': 'ppp'}, 'ppppm': {'a': 'ppa', 'd': 'ppad', 'm': 'ppp', 'p': 'ppp'}, 'ppaa': {'a': 'a', 'd': 'ppad', 'm': 'a', 'p': 'ppaa'}, 'ppppmamm': {'a': 'ppaa', 'd': 'ppad', 'm': 'ppa', 'p': 'ppa'}, 'ppadp': {'a': 'a', 'd': 'a', 'm': 'a', 'p': 'ppppmammdp'}}
+Explanation matches RNN: 64.42
+RNN matches ground truth: 99.98
+Explanation matches ground truth: 64.4
+Lstar matches RNN: 99.98
+Lstar matches ground truth: 99.97
+target query                  explanation status  test accuracy  rnn score  explanation score  explanation score on ground truth  extraction time  revised delta  revised epsilon                           counterexamples train size test size ltl_depth lstar_states  lstar explanation score  lstar explanation score on ground truth  lstar extraction time lstar_status  epsilon  delta
+email match  true  (~ (d | (G (a | (m | p)))))  False          100.0      99.98              64.42                               64.4       401.113246   1.288567e+23         2.181804  [p, , pmdpp, d, m, ppdpp, a, pm, ma, pd]          0         0         5           19                    99.98                                    99.97               0.950973         True      0.1   0.05
+target: email match
+query: true
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+[]
+
+
+
+Learning formula with depth 0
+learned LTL formula: true
+Learning took:  0.10944318771362305  s
+No positive counterexample found
+EQ test took  0.017717838287353516  s
+new counterexample: a  should be rejected by implementation
+
+
+positive traces---> 
+[]
+
+
+negative traces---> 
+['a']
+
+
+
+0  iteration complete
+
+
+
+Learning formula with depth 0
+learned LTL formula: false
+Learning took:  0.11150407791137695  s
+EQ test took  0.0014679431915283203  s
+new counterexample:   should be accepted by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['a']
+
+
+
+1  iteration complete
+
+
+
+start formula depth: 1
+increasing formula depth to  2
+Before normalization: (! x0)
+Learning formula with depth 1
+learned LTL formula: (~ a)
+Learning took:  0.16720843315124512  s
+No positive counterexample found
+EQ test took  0.06476998329162598  s
+new counterexample: d  should be rejected by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['a', 'd']
+
+
+
+2  iteration complete
+
+
+
+start formula depth: 2
+increasing formula depth to  3
+increasing formula depth to  4
+Before normalization: (! (x1 | x0))
+Learning formula with depth 2
+learned LTL formula: (~ (a | d))
+Learning took:  0.33313441276550293  s
+No positive counterexample found
+EQ test took  0.12248706817626953  s
+new counterexample: m  should be rejected by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['a', 'd', 'm']
+
+
+
+3  iteration complete
+
+
+
+start formula depth: 4
+increasing formula depth to  5
+increasing formula depth to  6
+Before normalization: (! ((x0 | x1) | x2))
+Learning formula with depth 3
+learned LTL formula: (~ (m | (a | d)))
+Learning took:  1.049109935760498  s
+No positive counterexample found
+EQ test took  0.18645739555358887  s
+new counterexample: p  should be rejected by implementation
+
+
+positive traces---> 
+['']
+
+
+negative traces---> 
+['a', 'd', 'm', 'p']
+
+
+
+4  iteration complete
+
+
+
+start formula depth: 6
+increasing formula depth to  7
+increasing formula depth to  8
+Before normalization: (! ((x1 | (x3 | x2)) | x0))
+Learning formula with depth 4
+learned LTL formula: (~ (a | (d | (m | p))))
+Learning took:  7.779494285583496  s
+EQ test took  0.27613401412963867  s
+new counterexample: papmdp  should be accepted by implementation
+
+
+positive traces---> 
+['', 'papmdp']
+
+
+negative traces---> 
+['a', 'd', 'm', 'p']
+
+
+
+5  iteration complete
+
+
+
+start formula depth: 8
+increasing formula depth to  9
+Before normalization: (! ((x0 | ((G x3) | x1)) | x2))
+Learning formula with depth 5
+learned LTL formula: (~ (m | (a | (d | (G p)))))
+Learning took:  60.87404131889343  s
+EQ test took  0.2229764461517334  s
+new counterexample: pd  should be rejected by implementation
+
+
+positive traces---> 
+['', 'papmdp']
+
+
+negative traces---> 
+['a', 'd', 'm', 'p', 'pd']
+
+
+
+6  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: (((x0 | x3) | (x2 | x1)) -> (X x0))
+Learning formula with depth 3
+learned LTL formula: (((a | p) | (d | m)) -> (X a))
+Learning took:  6.402159690856934  s
+EQ test took  0.08890748023986816  s
+new counterexample: pmpdp  should be accepted by implementation
+
+
+positive traces---> 
+['', 'papmdp', 'pmpdp']
+
+
+negative traces---> 
+['a', 'd', 'm', 'p', 'pd']
+
+
+
+7  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: ((x3 | ((x0 | x2) | x1)) -> (X (x0 | x2)))
+Learning formula with depth 4
+learned LTL formula: ((p | (d | (a | m))) -> (X (a | m)))
+Learning took:  15.25334882736206  s
+EQ test took  0.04258847236633301  s
+new counterexample: mm  should be rejected by implementation
+
+
+positive traces---> 
+['', 'papmdp', 'pmpdp']
+
+
+negative traces---> 
+['a', 'd', 'm', 'p', 'pd', 'mm']
+
+
+
+8  iteration complete
+
+
+
+start formula depth: 9
+Before normalization: (! (x0 | ((G (x1 | x3)) | x2)))
+Learning formula with depth 5
+learned LTL formula: (~ (a | (m | (G (d | p)))))
+Learning took:  14.82411813735962  s
+No positive counterexample found
+EQ test took  0.19056487083435059  s
+new counterexample: dm  should be rejected by implementation
+
+
+positive traces---> 
+['', 'papmdp', 'pmpdp']
+
+
+negative traces---> 
+['a', 'd', 'm', 'p', 'pd', 'mm', 'dm']
+
+
+
+9  iteration complete
+
+
+
+
+
+epsilon= 0.1 delta= 0.01 max_trace_length= 50
+query: true
+final ltl:  (~ (a | (m | (G (d | p)))))
+incomplete formula
+Number of samples: 116
+Number of counterexamples returned: 59
+2.0200030773628868e+31 1.4454106509414462
+
+Time taken to extract ltl: 401.1140031814575
+Interrupted due to time limit

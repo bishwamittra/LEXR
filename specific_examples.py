@@ -23,16 +23,20 @@ class Alternating_Bit_Protocol:
         self.query_formulas = [
             "false",  # rejects everything
             "true",  # accepts everything
-            "a & X(c) & X(X(b)) & X(X(Xd))",
             "~F(a)",
             "~F(b)",
             "~F(c)",
             "~F(d)",
-            "F(a & ~(X(c|a))) & F(b & ~(X(b|d))) &  F(c & ~(X(c|b))) &  F(d & ~(X(d|a)))",
-            "F(a & X(c|a)) & F(b & X(b|d)) &  F(c & X(c|b)) &  F(d & X(d|a))",
-            "a -> (F(a & X(c|a)) & F(b & X(b|d)) &  F(c & X(c|b)) &  F(d & X(d|a)))",
-            "F(a U c) & F(c U b) & F(b U d) & F(d U a)",
-            "~(F(a U c) & F(c U b) & F(b U d) & F(d U a))"
+            "G(d)",
+
+            "G( (a->F(c)) & (c->F(b)) & (b->F(d)) )",
+
+            "F(a U (b|d)) | F(b U (a|c)) |  F(c U (a|d)) ",
+            
+            
+            "F(a U c) & F(c U b) & F(b U d) ",
+            
+            "~(F(a U c) & F(c U b) & F(b U d))"
         ]
 
     def construct_dfa(self):
@@ -135,23 +139,29 @@ class Email():
             "true",  # accepts everything
             "(m)",  # email starts with numeric symbols
             "~F(a)",  # there is no '@'
-            "~F(a | m)",
             "~F(d)",  # there is no '.'
-            "~F(a | d | m)",
-            "F(a & X(d))",
+            "~F(p)",
+            "~F(m)",
             "F(a & X(Fa))",
             "F(d & X(Fd))",
-            "F(d & X(F(m)))",
-            "F(~p)",
-            "F(m & X(F(a & X(F(m)))))",
+            "F(d & X(Fm))",
+            "F(d & X(Gp))",
+            "F(a & X(G(~d)))",
+            "~F(m) & F(p U a) & F(a & X(p U d)) & F(d & X(Gp))",
+            "F(a & X(d))",
             "G(m)",  
-            "~F(d & X(Gp))",
             "~p",
             "a", 
             "d", 
-            "F(d & X(Gp))",
-            "F(a & X(G(~d)))"
-
+            "F((p|m) U a) & F(a & X((p|m) U d)) & F(d & X(Gp))",
+            
+            
+            "F(a & X(d))",
+            # "~F(a | m)",
+            # "~F(d)",  # there is no '.'
+            # "~F(a | d | m)",
+            # "F(m & X(F(a & X(F(m)))))",
+            
         ]
 
     def _construct_regex(self):
@@ -275,19 +285,18 @@ class Balanced_Parentheses:
         self.target_formula = "balanced parentheses"
 
         self.query_formulas = [
-            "false",  # rejects everything
-            "~F(l|r)",  # no parenthesis (both left and right)
-            # globally it is true that if there is a left parenthesis, then there is a
-            "G( (l & (X(~l))) | (~l) )",
-            "G(l)",
-            "G(l->(X(~l)))",
-            "F(l & X(G(~r)))",
-            "true",  # accepts everything
-            "G(~l)",  # globally ~l is true
-            "G(~r)",
+            "false",  
+            "true",
+            "~F(l|r)", 
+            "G(l -> F(r))",
+            "G(l -> ~(F(r)))",
+            "G(l -> F(a | r))",
+            "G(l -> ~(F(a | r)))",
+            "G(a)",
             "r",  # starts with right parenthesis
             "a U r", 
-            "F(l) & F(r)",
+            "F(l & X(G(~r)))",
+            "G(l)",
             "F(l) & F(r) & F( (l|a) U r )",
             "F(l) & F(r) & ~(F( (l|a) U r ))"
         ]

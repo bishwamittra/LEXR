@@ -1,8 +1,5 @@
-import dynet_config
-# Set some parameters manualy
-dynet_config.set(mem=4000, random_seed=9)
-# from GRU import GRUNetwork
 from RNN2DFA.LSTM import LSTMNetwork
+from RNN2DFA.Extraction import extract
 from RNN2DFA.RNNClassifier import RNNClassifier
 from RNN2DFA.Training_Functions import mixed_curriculum_train
 import Tomita_Grammars
@@ -16,12 +13,25 @@ import specific_examples
 import argparse
 
 
+# parameters
+
+timeout = 400
+maximum_sequence_length = 50
+maximum_formula_depth = 50
+epsilons = [0.1, 0.05, 0.01]
+deltas = [0.1, 0.05, 0.01]
+
+# network parameters:
+num_layers = 3
+num_hidden_dim = 10
+
+
 def dict2lists(dictionary):
     X, y = [], []
     for key in dictionary:
         X.append(key)
         y.append(dictionary[key])
-    return X, y 
+    return X, y
 
 
 def lists2dict(x, y):
@@ -44,14 +54,24 @@ thread = args.thread
 # get example to test
 generator_dfa = None
 try:
-    generator_dfa = eval("specific_examples.Example" +
-                         str(thread+1)+"(token="+str(thread)+")")
+    # generator_dfa = eval("specific_examples.Example" +
+    #                      str(thread+1)+"(token="+str(thread)+")")
     if(thread == 0):
         generator_dfa = specific_examples.Email()
     elif(thread == 1):
         generator_dfa = specific_examples.Balanced_Parentheses()
     elif(thread == 2):
         generator_dfa = specific_examples.Alternating_Bit_Protocol()
+    elif(thread == 3):
+        generator_dfa = eval("specific_examples.Example" +
+                             str(4)+"(token="+str(thread)+")")
+    elif(thread == 4):
+        generator_dfa = eval("specific_examples.Example" +
+                             str(5)+"(token="+str(thread)+")")
+    elif(thread == 5):
+        generator_dfa = eval("specific_examples.Example" +
+                             str(6)+"(token="+str(thread)+")")
+
 
 except:
     exit()
@@ -60,19 +80,16 @@ alphabet = generator_dfa.alphabet
 query_formulas = generator_dfa.query_formulas
 
 
-timeout = 400
-
-
 # for each example, specify a different generating function
 
 
 if(target_formula == "balanced parentheses"):
     train_set = generator_dfa.get_balanced_parantheses_train_set(8000, 2, 50, max_train_samples_per_length=3000,
-                                                                 search_size_per_length=2000, lengths=[i+1 for i in range(50)])
+                                                                 search_size_per_length=2000, lengths=[i+1 for i in range(maximum_sequence_length)])
 
 
 elif(target_formula == "email match"):
-    train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i+1 for i in range(50)],
+    train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i+1 for i in range(maximum_sequence_length)],
                                           max_train_samples_per_length=1000,
                                           search_size_per_length=3000, deviation=200)
 
@@ -84,7 +101,7 @@ elif(target_formula == "email match"):
 
 
 elif(target_formula == "alternating bit protocol"):
-    train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i+1 for i in range(50)],
+    train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i+1 for i in range(maximum_sequence_length)],
                                           max_train_samples_per_length=1000,
                                           search_size_per_length=3000, deviation=250)
 
@@ -95,9 +112,9 @@ elif(target_formula == "alternating bit protocol"):
         train_set[string] = True
 
 else:
-    train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i+1 for i in range(50)],
-                                          max_train_samples_per_length=100,
-                                          search_size_per_length=300, deviation=20)
+    train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i+1 for i in range(maximum_sequence_length)],
+                                          max_train_samples_per_length=10000,
+                                          search_size_per_length=30000, deviation=20)
 
 
 # print ratio
@@ -106,7 +123,9 @@ examples_per_length = [0 for i in range(51)]
 for key in train_set:
     if(train_set[key]):
         cnt += 1
+
     examples_per_length[len(key)] += 1
+
 
 total_samples = len(train_set)
 print("out of ", total_samples, " sequences", cnt,
@@ -129,8 +148,8 @@ print("size of test set:", test_set_size)
 
 
 # define rnn
-rnn = RNNClassifier(alphabet, num_layers=3,
-                    hidden_dim=10, RNNClass=LSTMNetwork)
+rnn = RNNClassifier(alphabet, num_layers=num_layers,
+                    hidden_dim=num_hidden_dim, RNNClass=LSTMNetwork)
 
 
 # train the model
@@ -167,136 +186,199 @@ print("rnn score against target on test set:                             ",
 test_set = {}
 
 for query_formula in query_formulas:
+    for epsilon in epsilons:
+        for delta in deltas:
+            dfa_from_rnn.renew()
 
-    print("query:", query_formula)
+            print("target:", target_formula)
+            print("query:", query_formula)
 
-    # use a query LTL formula
-    query_dfa = ltlf2dfa.translate_ltl2dfa(
-        alphabet=[character for character in alphabet], formula=query_formula, token=str(thread))
+            # use a query LTL formula
+            query_dfa = ltlf2dfa.translate_ltl2dfa(
+                alphabet=[character for character in alphabet], formula=query_formula, token=str(thread))
 
-    """  
-    Create initial samples
-    """
+            """  
+            Create initial samples
+            """
 
-    from RNNexplainer import Traces
-    traces = Traces(rnn, alphabet, token=str(thread))
-    traces.label_from_network([])
-    traces.write_in_file(location='dummy.trace')
+            from RNNexplainer import Traces
+            traces = Traces(rnn, alphabet, token=str(thread))
+            traces.label_from_network([])
+            traces.write_in_file(location='dummy.trace')
 
-    from PACTeacher.pac_teacher import PACTeacher as Teacher
-    explainer = Explainer(
-        alphabet=[character for character in alphabet], token=str(thread))
-    teacher = Teacher(dfa_from_rnn, epsilon=.05, delta=.05,
-                      max_trace_length=50, max_formula_depth=50, query_dfa=query_dfa)
+            from PACTeacher.pac_teacher import PACTeacher as Teacher
+            explainer = Explainer(
+                alphabet=[character for character in alphabet], token=str(thread))
+            teacher = Teacher(dfa_from_rnn, epsilon=epsilon, delta=delta,
+                              max_trace_length=maximum_sequence_length, max_formula_depth=maximum_formula_depth, query_dfa=query_dfa)
 
-    start_time = time.time()
-    from multiprocessing import Process, Queue
-    explainer, flag = teacher.teach(explainer, traces, timeout=timeout)
-    end_time = time.time()
-    print("\n\nepsilon=", teacher.epsilon, "delta=", teacher.delta,
-          "max_trace_length=", teacher.max_trace_length)
-    print("query:", query_formula)
-    print("final ltl: ", explainer.ltl)
+            start_time = time.time()
+            from multiprocessing import Process, Queue
+            explainer, flag = teacher.teach(explainer, traces, timeout=timeout)
+            end_time = time.time()
+            print("\n\nepsilon=", teacher.epsilon, "delta=", teacher.delta,
+                  "max_trace_length=", teacher.max_trace_length)
+            print("query:", query_formula)
+            print("final ltl: ", explainer.ltl)
 
-    fout = open("output/log.txt", "a")
-    fout.write("\n\nquery: "+query_formula)
-    fout.write("\nfinal LTL: " + explainer.ltl)
-    new_delta = None
-    new_epsilon = None
-    if(not flag):
-        fout.write(" [incomplete]")
-        print("incomplete formula")
-        new_delta, new_epsilon = teacher.calculate_revised_delta_and_epsilon()
-        print(new_delta, new_epsilon)
+            fout = open("output/log.txt", "a")
+            fout.write("\n\nquery: "+query_formula)
+            fout.write("\nfinal LTL: " + explainer.ltl)
+            new_delta = None
+            new_epsilon = None
+            if(not flag):
+                fout.write(" [incomplete]")
+                print("incomplete formula")
+                new_delta, new_epsilon = teacher.calculate_revised_delta_and_epsilon()
+                print(new_delta, new_epsilon)
 
-    print("\nTime taken:", end_time-start_time)
-    fout.close()
-    fout = open("output/log.txt", "a")
+            print("\nTime taken to extract ltl:", end_time-start_time)
+            fout.close()
+            fout = open("output/log.txt", "a")
 
-    performance_explanation_with_rnn = performance_rnn_with_groundtruth = performance_explanation_with_groundtruth = 0
+            # compare with dfa from lstar_algorithm
+            dfa_from_rnn.renew()
+            start_time_lstar = time.time()
+            dfa_lstar, lstar_flag = extract(rnn, query=query_dfa, max_trace_length=maximum_sequence_length, epsilon=delta,
+                                            delta=delta, time_limit=timeout, initial_split_depth=10, starting_examples=[])
+            end_time_lstar = time.time()
 
-    test_set_size = 0
+            dfa_lstar.draw_nicely(
+                filename=target_formula+":"+query_formula+"_"+str(epsilon)+"_"+str(delta))
+            print("\nTime taken to extract lstar-dfa:",
+                  end_time_lstar-start_time_lstar)
+            print("number of states of the dfa:", len(dfa_lstar.Q))
+            print("returned flag:", lstar_flag)
+            print("transitions:->")
+            print(dfa_lstar.delta)
 
-    for w in saved_sequences:
-        if(query_dfa.classify_word(w)):
-            test_set_size += 1
-            verdict_rnn = dfa_from_rnn.classify_word(w)
-            verdict_target = generator_dfa.classify_word(w)
-            verdict_ltl = explainer.dfa.classify_word(w)
+            performance_explanation_with_rnn = performance_rnn_with_groundtruth = performance_explanation_with_groundtruth = 0
+            lstar_performance_explanation_with_rnn = lstar_performance_explanation_with_groundtruth = 0
 
-            if verdict_rnn == verdict_ltl:
-                performance_explanation_with_rnn += 1
-            if verdict_rnn == verdict_target:
-                performance_rnn_with_groundtruth += 1
-            if verdict_ltl == verdict_target:
-                performance_explanation_with_groundtruth += 1
+            test_set_size = 0
+            for w in saved_sequences:
 
-    if(test_set_size != 0):
-        print("Explanation matches RNN:", str(
-            percent(performance_explanation_with_rnn/test_set_size)))
+                if(query_dfa.classify_word(w)):
+                    dfa_from_rnn.renew()
+                    test_set_size += 1
+                    verdict_rnn = dfa_from_rnn.classify_word(w)
+                    verdict_target = generator_dfa.classify_word(w)
+                    verdict_ltl = explainer.dfa.classify_word(w)
+                    verdict_lstar = dfa_lstar.classify_word(w)
 
-        print("RNN matches ground truth:", str(
-            percent(performance_rnn_with_groundtruth/test_set_size)))
+                    if verdict_rnn == verdict_ltl:
+                        performance_explanation_with_rnn += 1
+                    if verdict_rnn == verdict_target:
+                        performance_rnn_with_groundtruth += 1
+                    if verdict_ltl == verdict_target:
+                        performance_explanation_with_groundtruth += 1
 
-        print("Explanation matches ground truth:", str(
-            percent(performance_explanation_with_groundtruth/test_set_size)))
+                    if verdict_rnn == verdict_lstar:
+                        lstar_performance_explanation_with_rnn += 1
+                    if verdict_lstar == verdict_target:
+                        lstar_performance_explanation_with_groundtruth += 1
 
-    fout.close()
+            if(test_set_size != 0):
+                print("Explanation matches RNN:", str(
+                    percent(performance_explanation_with_rnn/test_set_size)))
 
-    # report in a pandas file
-    result = pd.DataFrame(columns=['target',
-                                   'query',
-                                   'explanation',
-                                   'status',
-                                   'test accuracy',
-                                   'rnn score',
-                                   'explanation score',
-                                   'explanation score on ground truth',
-                                   'extraction time',
-                                   'revised delta',
-                                   'revised epsilon',
-                                   'counterexamples',
-                                   'train size',
-                                   'test size'
-                                   ])
+                print("RNN matches ground truth:", str(
+                    percent(performance_rnn_with_groundtruth/test_set_size)))
 
-    if(test_set_size != 0):
-        result = result.append(
-            {
-                'target': target_formula,
-                'query': query_formula,
-                'explanation': explainer.ltl,
-                'status': flag,
-                'test accuracy': test_acc,
-                'rnn score': percent(performance_rnn_with_groundtruth/test_set_size),
-                'explanation score': percent(performance_explanation_with_rnn/test_set_size),
-                'explanation score on ground truth': percent(performance_explanation_with_groundtruth/test_set_size),
-                'extraction time': end_time-start_time,
-                'revised delta': new_delta,
-                'revised epsilon': new_epsilon,
-                'counterexamples': teacher.returned_counterexamples,
-                'train size': len(train_set),
-                'test size': len(test_set)
-            }, ignore_index=True
-        )
-    else:
-        result = result.append(
-            {
-                'target': target_formula,
-                'query': query_formula,
-                'explanation': explainer.ltl,
-                'status': flag,
-                'test accuracy': test_acc,
-                'rnn score': None,
-                'explanation score': None,
-                'explanation score on ground truth': None,
-                'extraction time': end_time-start_time,
-                'revised delta': new_delta,
-                'revised epsilon': new_epsilon,
-                'counterexamples': teacher.returned_counterexamples,
-                'train size': len(train_set),
-                'test size': len(test_set)
-            }, ignore_index=True
-        )
-    print(result.to_string(index=False))
-    result.to_csv('output/result.csv', header=False, index=False, mode='a')
+                print("Explanation matches ground truth:", str(
+                    percent(performance_explanation_with_groundtruth/test_set_size)))
+
+                print("Lstar matches RNN:", str(
+                    percent(lstar_performance_explanation_with_rnn/test_set_size)))
+
+                print("Lstar matches ground truth:", str(
+                    percent(lstar_performance_explanation_with_groundtruth/test_set_size)))
+
+            fout.close()
+
+            # report in a pandas file
+            result = pd.DataFrame(columns=['target',
+                                           'query',
+                                           'explanation',
+                                           'status',
+                                           'test accuracy',
+                                           'rnn score',
+                                           'explanation score',
+                                           'explanation score on ground truth',
+                                           'extraction time',
+                                           'revised delta',
+                                           'revised epsilon',
+                                           'counterexamples',
+                                           'train size',
+                                           'test size',
+                                           'ltl_depth',
+                                           'lstar_states',
+                                           'lstar explanation score',
+                                           'lstar explanation score on ground truth',
+                                           'lstar extraction time',
+                                           'lstar_status',
+                                           'epsilon',
+                                           'delta'
+                                           ])
+
+            if(test_set_size != 0):
+                result = result.append(
+                    {
+                        'target': target_formula,
+                        'query': query_formula,
+                        'explanation': explainer.ltl,
+                        'status': flag,
+                        'test accuracy': test_acc,
+                        'rnn score': percent(performance_rnn_with_groundtruth/test_set_size),
+                        'explanation score': percent(performance_explanation_with_rnn/test_set_size),
+                        'explanation score on ground truth': percent(performance_explanation_with_groundtruth/test_set_size),
+                        'extraction time': end_time-start_time,
+                        'revised delta': new_delta,
+                        'revised epsilon': new_epsilon,
+                        'counterexamples': teacher.returned_counterexamples,
+                        'train size': len(train_set),
+                        'test size': len(test_set),
+                        "ltl_depth": explainer.formula_depth,
+                        "lstar_states": len(dfa_lstar.Q),
+                        'lstar explanation score': percent(lstar_performance_explanation_with_rnn/test_set_size),
+                        'lstar explanation score on ground truth': percent(lstar_performance_explanation_with_groundtruth/test_set_size),
+                        'lstar extraction time': end_time_lstar - start_time_lstar,
+                        'lstar_status': lstar_flag,
+                        'epsilon': epsilon,
+                        'delta': delta
+
+                    }, ignore_index=True
+                )
+            else:
+                result = result.append(
+                    {
+                        'target': target_formula,
+                        'query': query_formula,
+                        'explanation': explainer.ltl,
+                        'status': flag,
+                        'test accuracy': test_acc,
+                        'rnn score': None,
+                        'explanation score': None,
+                        'explanation score on ground truth': None,
+                        'extraction time': end_time-start_time,
+                        'revised delta': new_delta,
+                        'revised epsilon': new_epsilon,
+                        'counterexamples': teacher.returned_counterexamples,
+                        'train size': len(train_set),
+                        'test size': len(test_set),
+                        'train size': len(train_set),
+                        'test size': len(test_set),
+                        "ltl_depth": explainer.formula_depth,
+                        "lstar_states": len(dfa_lstar.Q),
+                        'lstar explanation score': None,
+                        'lstar explanation score on ground truth': None,
+                        'lstar extraction time': end_time_lstar - start_time_lstar,
+                        'lstar_status': lstar_flag,
+                        'epsilon': epsilon,
+                        'delta': delta
+
+                    }, ignore_index=True
+                )
+            print(result.to_string(index=False))
+            result.to_csv('output/result.csv', header=False,
+                          index=False, mode='a')

@@ -40,7 +40,7 @@ class Teacher:
         self.dfas.append(dfa)
         start = clock()
         # call pac equivalence query
-        counterexample = self.pac_teacher.equivalence_query(dfa, verbose=True)
+        counterexample = self.pac_teacher.equivalence_query(dfa, verbose=False)
         self.pac_teacher.returned_counterexamples.append(counterexample)
         
         
@@ -48,7 +48,7 @@ class Teacher:
         counterexample_time = clock() - start
         # print("equivalence checking took: " + str(counterexample_time))
         if not None is counterexample:
-            print("Returned counterexample is:", counterexample, " which should be classified: ", self.classify_word(counterexample))
+            # print("Returned counterexample is:", counterexample, " which should be classified: ", self.classify_word(counterexample))
             self.counterexamples_with_times.append(
                 (counterexample, counterexample_time))
             return counterexample

@@ -77,6 +77,7 @@ class RNNClassifier:
         return self._state_accept_probability(s)
 
     def classify_word(self,word):
+        self.renew()
         return self._probability_word_in_language(word).value()>0.5
 
     def loss_on_word(self, word, label):

@@ -6,7 +6,7 @@ from RNN2DFA.Lstar import run_lstar
 
 
 def extract(rnn, query = None , max_trace_length=20, epsilon=.05, delta=.05, time_limit=50, initial_split_depth=10, starting_examples=None):
-    print("provided counterexamples are:", starting_examples)
+    # print("provided counterexamples are:", starting_examples)
     guided_teacher = Teacher(
         rnn, query, num_dims_initial_split=initial_split_depth, starting_examples=starting_examples, epsilon=epsilon, delta = delta, max_trace_length=max_trace_length)
 

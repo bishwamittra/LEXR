@@ -15,12 +15,21 @@ df.columns = ['target',
               'revised epsilon',
               'counterexamples',
               'train size',
-              'test size'
+              'test size',
+              'ltl_depth',
+            'lstar states',
+            'lstar explanation score',
+            'lstar explanation score on ground truth',
+            'lstar extraction time',
+            'lstar status', 
+            'epsilon', 
+            'delta'
               ]
 
+
 # read email_match
-email_df = df[df['target'] == "email match"][[
-    'query', 'explanation', 'status','explanation score', 'extraction time']]
+email_df = df[(df['target'] == "email match") & (df['query'] != "false")][[
+    'query', 'explanation', 'explanation score', 'extraction time', 'lstar states', 'lstar explanation score', 'lstar extraction time']]
 replace_dict = dict(zip([
     "X",
     '\|',
@@ -35,12 +44,12 @@ replace_dict = dict(zip([
     "->",
     "true",
 ], [
-    "\\\\X",
+    "\\\\X ",
     "\\\\vee ",
-    "\\\\U",
-    "\\\\F",
-    "\\\\G",
-    "\\\\circ",
+    "\\\\U ",
+    "\\\\F ",
+    "\\\\G ",
+    "\\\\circ ",
     " \\\\wedge ",
     " \\\\neg ",
     "\\\\bot",
@@ -53,23 +62,34 @@ email_df['query'] = '$ ' + email_df['query'].str.strip().replace(replace_dict,
 email_df['explanation'] = '$ ' + \
     email_df['explanation'].str.strip().replace(
         replace_dict, regex=True) + ' $  &'
-email_df['status'] = email_df['status'].astype(str) + ' &'
+# email_df['status'] = email_df['status'].astype(str) + ' &'
 mask = pd.to_numeric(email_df['explanation score']).notnull()
 email_df['explanation score'].loc[mask] = email_df['explanation score'].loc[mask].astype(np.int64)
 
 email_df['explanation score'] = '$ ' + \
     email_df['explanation score'].round(2).astype(str) + ' $  &'
 email_df['extraction time'] = '$ ' + \
-    email_df['extraction time'].round(2).astype(str) + ' $  \\\\'
+    email_df['extraction time'].round(2).astype(str) + ' $  &'
+mask = pd.to_numeric(email_df['lstar explanation score']).notnull()
+email_df['lstar explanation score'].loc[mask] = email_df['lstar explanation score'].loc[mask].astype(np.int64)
+email_df['lstar states'] = '$ ' + \
+    email_df['lstar states'].round(2).astype(str) + ' $ &'
+
+email_df['lstar explanation score'] = '$ ' + \
+    email_df['lstar explanation score'].round(2).astype(str) + ' $  &'
+email_df['lstar extraction time'] = '$ ' + \
+    email_df['lstar extraction time'].round(2).astype(str) + ' $  \\\\'
+
 pd.options.display.max_colwidth = 400
 
 
 print("""  
    \\begin{table}
       \\begin{center}
-         \\begin{tabular}{llcrr}
+         \\begin{tabular}{llrr@{\\hskip 0.4in}rrr}
             \\toprule
-            Query & Explanation & Completeness & Acc(\%) &  Time(s)\\\\
+            Query& \\multicolumn{3}{c}{LTL} & \\multicolumn{3}{c}{DFA} \\\\
+			& Explanation  & Acc(\%) &  Time(s) & |Q| & Acc(\%) &  Time(s)\\\\
             \\midrule
    """)
 
@@ -96,8 +116,9 @@ print("\n\n")
 
 
 
-bp_df = df[df['target'] == "balanced parentheses"][[
-    'query', 'explanation', 'status', 'explanation score', 'extraction time']]
+bp_df = df[(df['target'] == "balanced parentheses") & (df['query'] != "false")][[
+    'query', 'explanation', 'explanation score', 'extraction time', 'lstar states', 'lstar explanation score', 'lstar extraction time']]
+
 replace_dict = dict(zip([
     #    "d",
     "X",
@@ -130,23 +151,34 @@ bp_df['query'] = '$ ' + bp_df['query'].str.strip().replace(replace_dict,
                                                            regex=True) + ' $  &'
 bp_df['explanation'] = '$ ' + \
     bp_df['explanation'].str.strip().replace(replace_dict, regex=True) + ' $ &'
-bp_df['status'] = bp_df['status'].astype(str) + ' &'
+# bp_df['status'] = bp_df['status'].astype(str) + ' &'
 mask = pd.to_numeric(bp_df['explanation score']).notnull()
 bp_df['explanation score'].loc[mask] = bp_df['explanation score'].loc[mask].astype(np.int64)
 
 bp_df['explanation score'] = '$ ' + \
     bp_df['explanation score'].round(2).astype(str) + ' $  &'
 bp_df['extraction time'] = '$ ' + \
-    bp_df['extraction time'].round(2).astype(str) + ' $  \\\\'
+    bp_df['extraction time'].round(2).astype(str) + ' $ &'
+mask = pd.to_numeric(bp_df['lstar explanation score']).notnull()
+bp_df['lstar explanation score'].loc[mask] = bp_df['lstar explanation score'].loc[mask].astype(np.int64)
+bp_df['lstar states'] = '$ ' + \
+    bp_df['lstar states'].round(2).astype(str) + ' $ &'
+
+bp_df['lstar explanation score'] = '$ ' + \
+    bp_df['lstar explanation score'].round(2).astype(str) + ' $  &'
+bp_df['lstar extraction time'] = '$ ' + \
+    bp_df['lstar extraction time'].round(2).astype(str) + ' $  \\\\'
+
 pd.options.display.max_colwidth = 400
 
 
 print("""  
    \\begin{table}
       \\begin{center}
-         \\begin{tabular}{llcrr}
+         \\begin{tabular}{llrr@{\\hskip 0.4in}rrr}
             \\toprule
-            Query & Explanation & Completeness & Acc(\%) &  Time(s)\\\\
+            Query& \\multicolumn{3}{c}{LTL} & \\multicolumn{3}{c}{DFA} \\\\
+			& Explanation  & Acc(\%) &  Time(s) & |Q| & Acc(\%) &  Time(s)\\\\
             \\midrule
    """)
 
@@ -171,8 +203,8 @@ print("\n\n")
 
 
 
-abp_df = df[df['target'] == "alternating bit protocol"][[
-    'query', 'explanation', 'status', 'explanation score', 'extraction time']]
+abp_df = df[(df['target'] == "alternating bit protocol") &  (df['query'] != "false")][[
+    'query', 'explanation', 'explanation score', 'extraction time', 'lstar states', 'lstar explanation score', 'lstar extraction time']]
 replace_dict = dict(zip([
     #    "d",
     "b",
@@ -215,14 +247,24 @@ abp_df['query'] = '$ ' + abp_df['query'].str.strip().replace(replace_dict,
 abp_df['explanation'] = '$ ' + \
     abp_df['explanation'].str.strip().replace(
         replace_dict, regex=True) + ' $ &'
-abp_df['status'] = abp_df['status'].astype(str) + ' &'
+# abp_df['status'] = abp_df['status'].astype(str) + ' &'
 mask = pd.to_numeric(abp_df['explanation score']).notnull()
 abp_df['explanation score'].loc[mask] = abp_df['explanation score'].loc[mask].astype(np.int64)
 
 abp_df['explanation score'] = '$ ' + \
     abp_df['explanation score'].round(2).astype(str) + ' $  &'
 abp_df['extraction time'] = '$ ' + \
-    abp_df['extraction time'].round(2).astype(str) + ' $  \\\\'
+    abp_df['extraction time'].round(2).astype(str) + ' $  &'
+mask = pd.to_numeric(abp_df['lstar explanation score']).notnull()
+abp_df['lstar explanation score'].loc[mask] = abp_df['lstar explanation score'].loc[mask].astype(np.int64)
+abp_df['lstar states'] = '$ ' + \
+    abp_df['lstar states'].round(2).astype(str) + ' $ &'
+
+abp_df['lstar explanation score'] = '$ ' + \
+    abp_df['lstar explanation score'].round(2).astype(str) + ' $  &'
+abp_df['lstar extraction time'] = '$ ' + \
+    abp_df['lstar extraction time'].round(2).astype(str) + ' $  \\\\ \\rule{0pt}{3ex}'
+
 pd.options.display.max_colwidth = 400
 
 
@@ -231,9 +273,10 @@ pd.options.display.max_colwidth = 400
 print("""  
    \\begin{table}
       \\begin{center}
-         \\begin{tabular}{llcrr}
+         \\begin{tabular}{p{5 cm}@{\\hskip 0.2in}p{5 cm}rr@{\\hskip 0.4in}rrr}
             \\toprule
-            Query & Explanation & Completeness & Acc(\%) &  Time(s)\\\\
+            Query& \\multicolumn{3}{c}{LTL} & \\multicolumn{3}{c}{DFA} \\\\
+			& Explanation  & Acc(\%) &  Time(s) & |Q| & Acc(\%) &  Time(s)\\\\
             \\midrule
    """)
 
@@ -264,7 +307,8 @@ print("\n\n")
 # for the other examples
 other_examples_df = df[(df['target'] != "email match") &
                        (df['target'] != "alternating bit protocol") &
-                       (df['target'] != "balanced parentheses")]
+                       (df['target'] != "balanced parentheses") & 
+                       (df['query'] != "false")]
 
 cnt = 0
 for formula, each_df in other_examples_df.groupby(['target']):
@@ -299,7 +343,7 @@ for formula, each_df in other_examples_df.groupby(['target']):
     each_df['explanation'] = '$ ' + \
         each_df['explanation'].str.strip().replace(
         replace_dict, regex=True) + ' $ &'
-    each_df['status'] = each_df['status'].astype(str) + ' &'
+    # each_df['status'] = each_df['status'].astype(str) + ' &'
    #  each_df['explanation score'] = each_df['explanation score'].apply(lambda x : '{0:,}'.format(x))
     mask = pd.to_numeric(each_df['explanation score']).notnull()
     each_df['explanation score'].loc[mask] = each_df['explanation score'].loc[mask].astype(np.int64)
@@ -307,19 +351,32 @@ for formula, each_df in other_examples_df.groupby(['target']):
     each_df['explanation score'] = '$ ' + \
         each_df['explanation score'].round(2).astype(str) + ' $  &'
     each_df['extraction time'] = '$ ' + \
-        each_df['extraction time'].round(2).astype(str) + ' $  \\\\'
+        each_df['extraction time'].round(2).astype(str) + ' $  &'
+    mask = pd.to_numeric(each_df['lstar explanation score']).notnull()
+    each_df['lstar explanation score'].loc[mask] = each_df['lstar explanation score'].loc[mask].astype(np.int64)
+    each_df['lstar states'] = '$ ' + \
+        each_df['lstar states'].round(2).astype(str) + ' $ &'
+
+    each_df['lstar explanation score'] = '$ ' + \
+        each_df['lstar explanation score'].round(2).astype(str) + ' $  &'
+    each_df['lstar extraction time'] = '$ ' + \
+        each_df['lstar extraction time'].round(2).astype(str) + ' $  \\\\'
+
+    
     
     print("""  
    \\begin{table}
       \\begin{center}
-         \\begin{tabular}{llcrr}
+         \\begin{tabular}{llrr@{\\hskip 0.4in}rrr}
             \\toprule
-            Query & Explanation & Completeness & Acc(\%) &  Time(s)\\\\
+            Query& \\multicolumn{3}{c}{LTL} & \\multicolumn{3}{c}{DFA} \\\\
+			& Explanation  & Acc(\%) &  Time(s) & |Q| & Acc(\%) &  Time(s)\\\\
             \\midrule
    """)
 
-    print(each_df[['query', 'explanation', 'status', 'explanation score',
-                   'extraction time']].to_string(index=False, header=None))
+    print(each_df[['query', 'explanation',  'explanation score',
+                   'extraction time', 'lstar states', 'lstar explanation score',
+                   'lstar extraction time']].to_string(index=False, header=None))
     print("\n\n\n")
 
     print(""" 
@@ -359,3 +416,10 @@ for formula, each_df in other_examples_df.groupby(['target']):
     print("      \\caption{Explanation of $ " + str(formula) + " $.}")
     print("      \\label{tab:example"+str(cnt)+"}")
     print("\\end{table} ")
+
+
+
+print("\n\n\n\n")
+target="F(aUb)"
+print(target)
+print(df[df['target']==target][['query','explanation', 'extraction time','explanation score','lstar states','lstar extraction time','lstar explanation score','epsilon', 'delta']])
