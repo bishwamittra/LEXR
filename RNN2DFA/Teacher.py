@@ -3,6 +3,7 @@ from RNN2DFA.WhiteboxRNNCounterexampleGenerator import WhiteboxRNNCounterexample
 from time import clock
 import numpy as np
 from PACTeacher import pac_teacher
+from multiprocessing import Process, Queue
 
 
 class Teacher:

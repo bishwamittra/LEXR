@@ -7,6 +7,12 @@ query: true
 final LTL: ((b | c) U (~ (b | c)))
 
 query: true
+final LTL: (~ (G (a | c)))
+
+query: true
+final LTL: (c U (~ c))
+
+query: true
 final LTL: ((a | c) U (~ (a | c)))
 
 query: true
@@ -20,6 +26,18 @@ final LTL: ((b | c) U (~ (b | c)))
 
 query: true
 final LTL: ((a | c) U (~ (a | c)))
+
+query: true
+final LTL: ((b | c) U (~ (b | c)))
+
+query: true
+final LTL: (~ (G (a | c)))
+
+query: true
+final LTL: ((b | c) U (~ (b | c)))
+
+query: true
+final LTL: (F (~ (a | c)))
 
 query: true
 final LTL: (~ (G (a | c)))
@@ -34,17 +52,44 @@ query: true
 final LTL: ((b | c) U (~ (b | c)))
 
 query: true
+final LTL: (~ (G (a | c)))
+
+query: true
 final LTL: ((b | c) U (~ (b | c)))
 
 query: true
 final LTL: ((a | c) U (~ (a | c)))
 
 query: true
-final LTL: ((a | c) U (~ (a | c)))
+final LTL: ((b | c) U (~ (b | c)))
 
 query: true
 final LTL: (~ (G (a | c)))
 
+query: true
+final LTL: ((b | c) U (~ (b | c)))
+
+query: true
+final LTL: ((a | c) U (~ (a | c)))
+
+query: true
+final LTL: ((b | c) U (~ (b | c)))
+
+query: true
+final LTL: ((a | c) U (~ (a | c)))
+
+query: true
+final LTL: ((b | c) U (~ (b | c)))
+
+query: true
+final LTL: ((a | c) U (~ (a | c)))
+
+query: true
+final LTL: ((b | c) U (~ (b | c)))
+
+query: true
+final LTL: ((a | c) U (~ (a | c)))
+
 query: false
 final LTL: false
 
@@ -93,8 +138,68 @@ final LTL: false
 query: false
 final LTL: false
 
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
 query: true
-final LTL: ((b | (X b)) U (c U (~ (b | c)))) [incomplete]
+final LTL: (~ (a | (d | (m | p))))
 
 query: false
 final LTL: false
@@ -102,14 +207,53 @@ final LTL: false
 query: false
 final LTL: false
 
+query: true
+final LTL: (~ (d | (a | (m | p))))
+
+query: true
+final LTL: (~ (a | d))
+
+query: true
+final LTL: (~ (d | (p | (a | m))))
+
+query: true
+final LTL: (~ ((~ c) U (b | (G (a | c))))) [incomplete]
+
+query: true
+final LTL: (G (~ (b | (a | c))))
+
 query: false
 final LTL: false
+
+query: true
+final LTL: (~ (a | (b | c)))
+
+query: false
+final LTL: false
+
+query: true
+final LTL: (~ (F (a | (b | c))))
+
+query: true
+final LTL: (~ (m | (G (a | (d | p))))) [incomplete]
+
+query: true
+final LTL: ((c | (a | b)) -> ((c | (a | b)) U (a & (X b))))
 
 query: false
 final LTL: false
 
 query: false
 final LTL: false
+
+query: true
+final LTL: (((F a) | (c | (F b))) -> ((F a) & (F b))) [incomplete]
+
+query: true
+final LTL: (G (~ (a | (b | c))))
+
+query: true
+final LTL: (~ ((a | m) | (G (d | p)))) [incomplete]
 
 query: false
 final LTL: false
@@ -121,16 +265,7 @@ query: false
 final LTL: false
 
 query: true
-final LTL: (~ ((d | m) | (G (a | p)))) [incomplete]
-
-query: false
-final LTL: false
-
-query: true
-final LTL: ((F b) U (G (~ (b | (a | c))))) [incomplete]
-
-query: true
-final LTL: ((b | (a | c)) -> ((b | (a | c)) U (a & (X b))))
+final LTL: ((c | (a | b)) -> ((F b) U (a & (F b)))) [incomplete]
 
 query: false
 final LTL: false
@@ -139,13 +274,28 @@ query: false
 final LTL: false
 
 query: true
-final LTL: (~ (d | (G (a | (m | p))))) [incomplete]
+final LTL: ((F b) U (~ (F (c | (a | b))))) [incomplete]
+
+query: true
+final LTL: (~ (d | (G (m | (a | p))))) [incomplete]
+
+query: true
+final LTL: (F ((b -> (a | c)) & (a U (~ (a | c)))))
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
 
 query: false
 final LTL: false
 
 query: true
-final LTL: (((c | (a | b)) | (X (c | (a | b)))) -> (X (X (c | (a | b))))) [incomplete]
+final LTL: (((b | (a | c)) | (X (b | (a | c)))) -> (X (X (b | (a | c))))) [incomplete]
+
+query: true
+final LTL: (~ (d | (m | (a | (G p))))) [incomplete]
 
 query: true
 final LTL: ((b | (a | c)) -> (F (a & (X b))))
@@ -159,11 +309,26 @@ final LTL: false
 query: false
 final LTL: false
 
-query: true
-final LTL: (~ (a | (m | (G (d | p))))) [incomplete]
+query: false
+final LTL: false
+
+query: false
+final LTL: false
 
 query: true
-final LTL: (~ (b | (G (b | (F (a | c)))))) [incomplete]
+final LTL: ((a | (F (b | c))) -> ((a | (F (b | c))) U (a & (F (b | c))))) [incomplete]
+
+query: true
+final LTL: (~ (d | (G (p | (a | m))))) [incomplete]
+
+query: true
+final LTL: (~ (p | (a | (d | m))))
+
+query: true
+final LTL: (~ (d | (p | (a | m))))
+
+query: false
+final LTL: false
 
 query: true
 final LTL: ((c | (a | b)) -> (F (a & (a U b))))
@@ -174,11 +339,8 @@ final LTL: false
 query: false
 final LTL: false
 
-query: false
-final LTL: false
-
 query: true
-final LTL: ((c | (a | b)) -> (F (a & (X b)))) [incomplete]
+final LTL: ((F (b | (a | c))) -> (X (X (a | c)))) [incomplete]
 
 query: false
 final LTL: false
@@ -190,112 +352,532 @@ query: false
 final LTL: false
 
 query: true
+final LTL: (~ (d | (G (a | (m | p))))) [incomplete]
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: true
+final LTL: (F ((a | (b | c)) -> (a & (a U b))))
+
+query: true
+final LTL: ((F (c | (a | b))) -> (X (X (c | (a | b))))) [incomplete]
+
+query: false
+final LTL: false
+
+query: true
+final LTL: ((d | (p | (a | m))) -> (X (p | (a | m)))) [incomplete]
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: true
+final LTL: (b U (~ (b | (G (a | c))))) [incomplete]
+
+query: true
+final LTL: ((F (c | (a | b))) -> (a & ((c | (a | b)) U b))) [incomplete]
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: true
+final LTL: (~ (a | (G (d | (m | p))))) [incomplete]
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: true
+final LTL: (F ((b | (a | c)) -> (a & (X b))))
+
+query: false
+final LTL: false
+
+query: true
+final LTL: (~ ((~ c) U (b | (G (a | c))))) [incomplete]
+
+query: true
+final LTL: (~ (d | (a | (G (m | p))))) [incomplete]
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: true
+final LTL: ((c | (a | (a U b))) -> (F (a & (a U b))))
+
+query: false
+final LTL: false
+
+query: true
+final LTL: (((b | (a | c)) | (X (b | (a | c)))) -> (X (X (b | (a | c))))) [incomplete]
+
+query: true
+final LTL: (~ (m | (d | (a | (G p))))) [incomplete]
+
+query: false
+final LTL: false
+
+query: (m)
+final LTL: false
+
+query: (m)
+final LTL: false
+
+query: (m)
+final LTL: false
+
+query: (m)
+final LTL: false
+
+query: (m)
+final LTL: false
+
+query: (m)
+final LTL: false
+
+query: (m)
+final LTL: false
+
+query: true
+final LTL: ((c | (a | b)) -> (F (a & (a U b))))
+
+query: (m)
+final LTL: false
+
+query: (m)
+final LTL: false
+
+query: (m)
+final LTL: false
+
+query: (m)
+final LTL: false
+
+query: (m)
+final LTL: false
+
+query: (m)
+final LTL: false
+
+query: (m)
+final LTL: false
+
+query: (m)
+final LTL: false
+
+query: (m)
+final LTL: false
+
+query: ~F(a)
+final LTL: (~ ((a | m) | (d | p)))
+
+query: ~F(a)
+final LTL: (~ (d | (a | (m | p))))
+
+query: ~F(a)
+final LTL: (~ (d | (a | (m | p))))
+
+query: ~F(a)
+final LTL: (~ (a | (d | (m | p))))
+
+query: ~F(a)
+final LTL: (~ (m | (p | (a | d))))
+
+query: ~F(a)
+final LTL: (~ ((a | m) | (d | p)))
+
+query: true
+final LTL: (~ ((~ l) U (((X (~ l)) U (~ l)) -> r))) [incomplete]
+
+query: true
+final LTL: ((c | (a | b)) -> (F (a & (X b))))
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: true
+final LTL: (((F b) | (F (a | c))) -> ((F b) & (F (a | c)))) [incomplete]
+
+query: ~F(a)
+final LTL: (~ (m | (G (p | (a | d))))) [incomplete]
+
+query: true
+final LTL: (((F l) | (F r)) -> ((F l) & (F r))) [incomplete]
+
+query: false
+final LTL: false
+
+query: false
+final LTL: false
+
+query: true
+final LTL: ((a | (b | c)) U ((a | (b | c)) -> (a & (X b))))
+
+query: true
+final LTL: ((F (a | (b | c))) -> (X (X (a | (b | c))))) [incomplete]
+
+query: ~F(a)
+final LTL: (~ (a | (b | c)))
+
+query: ~F(a)
+final LTL: (~ (F (a | (b | c))))
+
+query: ~F(a)
+final LTL: (~ (F (a | (b | c))))
+
+query: ~F(a)
+final LTL: (~ (F (a | (b | c))))
+
+query: ~F(a)
+final LTL: (~ (F (a | (b | c))))
+
+query: ~F(a)
+final LTL: (G (~ (a | (b | c))))
+
+query: ~F(a)
+final LTL: (~ (F (b | (a | c))))
+
+query: ~F(a)
+final LTL: (~ (F (a | (b | c))))
+
+query: ~F(a)
+final LTL: (~ (F (c | (a | b))))
+
+query: ~F(a)
+final LTL: (~ (m | (G (p | (a | d))))) [incomplete]
+
+query: ~F(a)
+final LTL: (~ (F (c | (a | b))))
+
+query: ~F(a)
+final LTL: (~ (F (c | (a | b))))
+
+query: ~F(a)
+final LTL: (~ (F (a | (b | c))))
+
+query: ~F(a)
+final LTL: (~ (F (a | (b | c))))
+
+query: ~F(a)
+final LTL: (~ (F (c | (a | b))))
+
+query: ~F(a)
+final LTL: (~ (F (c | (a | b))))
+
+query: ~F(a)
+final LTL: (G (~ (a | (b | c))))
+
+query: ~F(b)
+final LTL: (~ (F (a | (b | c))))
+
+query: ~F(b)
+final LTL: (G (~ (c | (a | b))))
+
+query: ~F(b)
+final LTL: (G (~ (b | (a | c))))
+
+query: ~F(b)
+final LTL: (G (~ (a | (b | c))))
+
+query: ~F(b)
+final LTL: (~ (F (b | (a | c))))
+
+query: ~F(b)
+final LTL: (G (~ (a | (b | c))))
+
+query: ~F(b)
+final LTL: (~ (F (b | (a | c))))
+
+query: ~F(b)
+final LTL: (~ (F (c | (a | b))))
+
+query: ~F(b)
+final LTL: (G (~ (b | (a | c))))
+
+query: ~F(b)
+final LTL: (~ (F (c | (a | b))))
+
+query: ~F(b)
+final LTL: (~ (F (a | (b | c))))
+
+query: ~F(b)
+final LTL: (~ (F (c | (a | b))))
+
+query: ~F(b)
+final LTL: (~ (F (a | (b | c))))
+
+query: ~F(b)
+final LTL: (~ (F (a | (b | c))))
+
+query: ~F(b)
+final LTL: (G (~ (b | (a | c))))
+
+query: ~F(b)
+final LTL: (~ (F (a | (b | c))))
+
+query: ~F(c)
+final LTL: (~ (a | (c | (F b))))
+
+query: ~F(c)
+final LTL: (G (~ (a | (b | c))))
+
+query: ~F(c)
+final LTL: (~ (b | (F (a | c))))
+
+query: ~F(c)
+final LTL: (G (~ (a | (b | c))))
+
+query: ~F(c)
+final LTL: (~ (F (c | (a | b))))
+
+query: ~F(c)
+final LTL: (G (~ (a | (b | c))))
+
+query: ~F(c)
+final LTL: (~ (F (c | (a | b))))
+
+query: true
+final LTL: ((F (l | r)) -> (F (l & (F r)))) [incomplete]
+
+query: ~F(c)
+final LTL: (~ (F (c | (a | b))))
+
+query: ~F(c)
+final LTL: (~ (F (c | (a | b))))
+
+query: ~F(c)
+final LTL: (~ (F (a | (b | c))))
+
+query: false
+final LTL: false
+
+query: true
+final LTL: ((a | (b | c)) -> ((a | (b | c)) U (a & (a U b))))
+
+query: ~F(c)
+final LTL: (G (~ (b | (a | c))))
+
+query: ~F(c)
+final LTL: (G (~ (b | (a | c))))
+
+query: false
+final LTL: false
+
+query: ~F(c)
+final LTL: (G (~ (a | (b | c))))
+
+query: true
+final LTL: (F ((b | (a | c)) -> (a & (X b))))
+
+query: F(a)
+final LTL: ((F a) & (F b))
+
+query: true
+final LTL: (((F r) -> l) & ((((F r) -> l) U l) -> (F r))) [incomplete]
+
+query: F(a)
+final LTL: ((F a) & (F b))
+
+query: ~F(c)
 final LTL: ((F b) U (G (~ (b | (a | c))))) [incomplete]
 
-query: false
-final LTL: false
+query: F(b)
+final LTL: ((F b) & ((F b) U a))
 
-query: true
-final LTL: ((a | (b | c)) -> ((b | c) U (a & (X b)))) [incomplete]
+query: ~F(c)
+final LTL: (G (~ (a | (b | c))))
 
-query: false
-final LTL: false
+query: ~F(c)
+final LTL: (G (~ (b | (a | c))))
 
-query: false
-final LTL: false
+query: ~F(d)
+final LTL: (~ (b | (a | (c | d))))
 
-query: true
-final LTL: ((F (a | (b | c))) -> (X (X (b | c)))) [incomplete]
-
-query: false
-final LTL: false
-
-query: false
-final LTL: false
-
-query: false
-final LTL: false
-
-query: true
-final LTL: ((c | (a | b)) -> (F (a & (a U b)))) [incomplete]
-
-query: true
-final LTL: (~ ((b | c) | (F (G (a | (b | c)))))) [incomplete]
-
-query: F(a)
+query: F(b)
 final LTL: ((F a) & (F b))
 
-query: false
-final LTL: false
-
-query: false
-final LTL: false
-
-query: F(a)
-final LTL: ((F a) & (F b))
-
-query: F(a)
-final LTL: ((F a) & (F b))
-
-query: false
-final LTL: false
+query: ~F(d)
+final LTL: (~ ((a | d) | (b | c)))
 
 query: F(b)
 final LTL: ((F a) & (F b))
 
 query: true
-final LTL: (((F a) | (F (b | c))) -> ((F a) & (F (b | c)))) [incomplete]
+final LTL: ((c | (a | b)) -> (F (a & (a U b))))
 
 query: F(a)
 final LTL: ((F a) & (F b))
 
-query: F(a)
+query: ~F(d)
+final LTL: (~ (b | (G (c | (a | d))))) [incomplete]
+
+query: ~F(d)
+final LTL: (~ (b | (a | (c | d))))
+
+query: F(b)
 final LTL: ((F a) & (F b))
+
+query: ~F(d)
+final LTL: (~ (c | (d | (a | b))))
+
+query: ~F(d)
+final LTL: (~ (c | (d | (a | b))))
+
+query: ~F(d)
+final LTL: (~ ((a | b) | (c | d)))
+
+query: ~F(d)
+final LTL: (~ (c | (d | (a | b))))
+
+query: ~F(d)
+final LTL: (~ (c | (a | (b | d))))
+
+query: ~F(d)
+final LTL: (~ ((a | c) | (b | d)))
+
+query: ~F(d)
+final LTL: (~ (d | (a | (b | c))))
+
+query: true
+final LTL: (G a)
 
 query: false
 final LTL: false
 
+query: F(a)
+final LTL: (G a)
+
 query: F(b)
-final LTL: ((F a) & (F b))
+final LTL: false
+
+query: F(a|b)
+final LTL: (G a)
+
+query: F(aUb)
+final LTL: false
 
 query: true
-final LTL: ((F (c | (a | b))) -> (a & (F b))) [incomplete]
+final LTL: (G a)
+
+query: false
+final LTL: false
 
 query: F(a)
-final LTL: ((F a) & (F b))
+final LTL: (G a)
+
+query: F(b)
+final LTL: false
+
+query: F(a|b)
+final LTL: (G a)
+
+query: F(aUb)
+final LTL: false
+
+query: true
+final LTL: (G a)
+
+query: false
+final LTL: false
 
 query: F(a)
-final LTL: ((F a) & (F b))
+final LTL: (G a)
+
+query: F(b)
+final LTL: false
+
+query: F(a|b)
+final LTL: (G a)
+
+query: F(aUb)
+final LTL: false
+
+query: true
+final LTL: (G a)
+
+query: false
+final LTL: false
 
 query: F(a)
-final LTL: ((F a) & (F b))
-
-query: true
-final LTL: (((F b) | (c | (F a))) -> ((F a) & (F b))) [incomplete]
-
-query: true
-final LTL: (((F r) | (a U l)) -> ((F r) & (a U l))) [incomplete]
+final LTL: (G a)
 
 query: F(b)
-final LTL: ((F b) & (b U ((~ b) U a))) [incomplete]
+final LTL: false
+
+query: F(a|b)
+final LTL: (G a)
+
+query: F(aUb)
+final LTL: false
+
+query: true
+final LTL: (G a)
+
+query: false
+final LTL: false
 
 query: F(a)
-final LTL: (((~ (F c)) & (X (~ (F c)))) | (X (X (~ (F c))))) [incomplete]
-
-query: true
-final LTL: ((F (l | r)) -> ((F r) U (l & (F r)))) [incomplete]
+final LTL: (G a)
 
 query: F(b)
-final LTL: ((F a) & (F b))
+final LTL: false
 
-query: F(b)
-final LTL: ((F a) & (F b))
+query: F(a|b)
+final LTL: (G a)
 
-query: true
-final LTL: (((F l) | (F r)) -> ((F l) & (X (F r)))) [incomplete]
-
-query: F(b)
-final LTL: ((F a) & (F b))
+query: F(aUb)
+final LTL: false
 
 query: true
-final LTL: (((F r) -> (F l)) & ((F r) U (~ (F l)))) [incomplete]
+final LTL: (G a)
+
+query: false
+final LTL: false
+
+query: F(a)
+final LTL: (G a)
+
+query: F(b)
+final LTL: false
+
+query: F(a|b)
+final LTL: (G a)
+
+query: F(aUb)
+final LTL: false
+
+query: true
+final LTL: (G a)
+
+query: false
+final LTL: false
+
+query: F(a)
+final LTL: (G a)
+
+query: F(b)
+final LTL: false
+
+query: true
+final LTL: (G a)

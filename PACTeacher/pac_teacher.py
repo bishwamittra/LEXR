@@ -65,7 +65,7 @@ class PACTeacher():
             if dfa.is_word_in("") != self.specification_dfa.is_word_in(""):
                 return ""
         else:
-            if ( dfa.is_word_in("") != (self.query_dfa.is_word_in("") and self.specification_dfa.is_word_in(""))) and "" not in self.returned_counterexamples:
+            if (dfa.is_word_in("") != (self.query_dfa.is_word_in("") and self.specification_dfa.is_word_in(""))) and "" not in self.returned_counterexamples:
                 return ""
 
         positive_counterexample = None
@@ -94,7 +94,7 @@ class PACTeacher():
             # renew rnn (applicable for dynet package)
             self.specification_dfa.renew()
             self.specification_dfa.reset_current_to_init()
-            
+
             if(self.query_dfa is not None):
                 self.query_dfa.reset_current_to_init()
             word = ""
@@ -177,8 +177,11 @@ class PACTeacher():
             print("Number of counterexamples returned:",
                   self._num_counterexamples_in_EQ)
 
-        _computed_combination = self._ncr(
-            self._number_of_samples, self._num_counterexamples_in_EQ)
+        try:
+            _computed_combination = self._ncr(
+                self._number_of_samples, self._num_counterexamples_in_EQ)
+        except:
+            return None, None
 
         try:
             _new_delta = _computed_combination * \
@@ -260,14 +263,14 @@ class PACTeacher():
 
                             print("new counterexample:", counterexample,
                                   " should be accepted by implementation")
-                            
+
                         traces.add_positive_example(counterexample)
                     else:
                         if(verbose):
 
                             print("new counterexample:", counterexample,
                                   " should be rejected by implementation")
-                            
+
                         traces.add_negative_example(counterexample)
             else:
                 return learner, False

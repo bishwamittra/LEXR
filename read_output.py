@@ -308,7 +308,9 @@ print("\n\n")
 other_examples_df = df[(df['target'] != "email match") &
                        (df['target'] != "alternating bit protocol") &
                        (df['target'] != "balanced parentheses") & 
-                       (df['query'] != "false")]
+                    #    (df['query'] != "false") &
+                       (df['epsilon'] == 0.05) &
+                       (df['delta'] == 0.05)]
 
 cnt = 0
 for formula, each_df in other_examples_df.groupby(['target']):
@@ -347,11 +349,13 @@ for formula, each_df in other_examples_df.groupby(['target']):
    #  each_df['explanation score'] = each_df['explanation score'].apply(lambda x : '{0:,}'.format(x))
     mask = pd.to_numeric(each_df['explanation score']).notnull()
     each_df['explanation score'].loc[mask] = each_df['explanation score'].loc[mask].astype(np.int64)
-
     each_df['explanation score'] = '$ ' + \
         each_df['explanation score'].round(2).astype(str) + ' $  &'
     each_df['extraction time'] = '$ ' + \
         each_df['extraction time'].round(2).astype(str) + ' $  &'
+    each_df['ltl_depth'] = '$ ' + \
+        each_df['ltl_depth'].round(2).astype(str) + ' $  &'
+    
     mask = pd.to_numeric(each_df['lstar explanation score']).notnull()
     each_df['lstar explanation score'].loc[mask] = each_df['lstar explanation score'].loc[mask].astype(np.int64)
     each_df['lstar states'] = '$ ' + \
@@ -367,14 +371,14 @@ for formula, each_df in other_examples_df.groupby(['target']):
     print("""  
    \\begin{table}
       \\begin{center}
-         \\begin{tabular}{llrr@{\\hskip 0.4in}rrr}
+         \\begin{tabular}{llrrr@{\\hskip 0.4in}rrr}
             \\toprule
-            Query& \\multicolumn{3}{c}{LTL} & \\multicolumn{3}{c}{DFA} \\\\
-			& Explanation  & Acc(\%) &  Time(s) & |Q| & Acc(\%) &  Time(s)\\\\
+            Query& \\multicolumn{4}{c}{LTL} & \\multicolumn{3}{c}{DFA} \\\\
+			& Explanation & Depth & Acc(\%) &  Time(s) & |Q| & Acc(\%) &  Time(s)\\\\
             \\midrule
    """)
 
-    print(each_df[['query', 'explanation',  'explanation score',
+    print(each_df[['query', 'explanation', 'ltl_depth',  'explanation score',
                    'extraction time', 'lstar states', 'lstar explanation score',
                    'lstar extraction time']].to_string(index=False, header=None))
     print("\n\n\n")
@@ -419,7 +423,3 @@ for formula, each_df in other_examples_df.groupby(['target']):
 
 
 
-print("\n\n\n\n")
-target="F(aUb)"
-print(target)
-print(df[df['target']==target][['query','explanation', 'extraction time','explanation score','lstar states','lstar extraction time','lstar explanation score','epsilon', 'delta']])

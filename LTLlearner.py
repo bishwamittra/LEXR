@@ -86,13 +86,15 @@ def learnLTL(tracesFileName="dummy.trace", startDepth=1, optimization = False):
     
     if(not optimization):
 
+       
         # consistency check
         for formula in formulas:
             # print("consistency check: ",traces.isFormulaConsistent(formula))
             if(not traces.isFormulaConsistent(formula)):
                 print("probably wrong formula:", formula.prettyPrint())
-                print(traces)
-                raise ArgumentError
+                print(traces) 
+            
+                
     else:
         print("\nlist of formulas ->")
         for formula in formulas:

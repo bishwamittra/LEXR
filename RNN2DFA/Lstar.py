@@ -1,6 +1,9 @@
 from RNN2DFA.ObservationTable import ObservationTable
 import RNN2DFA.DFA as DFA
 from time import clock
+from multiprocessing import Process, Queue
+
+
 
 
 def run_lstar(teacher, time_limit):
@@ -12,16 +15,23 @@ def run_lstar(teacher, time_limit):
     complete_before_timeout = False
     while True:
         while True:
+            if(clock()-start > time_limit):
+                print("Interrupted due to time limit")
+                break
+    
             while table.find_and_handle_inconsistency():
+                if(clock()-start > time_limit):
+                    print("Interrupted due to time limit")
+                    break
+            
                 pass
             if table.find_and_close_row():
                 continue
             else:
                 break
+
         dfa = DFA.DFA(obs_table=table)
-        # print("obs table refinement took " +
-        #       str(int(1000*(clock()-start))/1000.0))
-        # print("\n")
+
         counterexample = teacher.equivalence_query(dfa)
         if None is counterexample:
             complete_before_timeout = True
@@ -32,7 +42,5 @@ def run_lstar(teacher, time_limit):
         if(clock()-start > time_limit):
             print("Interrupted due to time limit")
             break
-    # this is pure hacking, might be false
-    dfa = DFA.DFA(obs_table=table, apply_whatever_equal_cache_is_doing= True)
     
     return dfa, complete_before_timeout

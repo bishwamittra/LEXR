@@ -11,15 +11,18 @@ import time
 from sklearn.model_selection import train_test_split
 import specific_examples
 import argparse
-
+import os.path
+import pickle
 
 # parameters
 
 timeout = 400
 maximum_sequence_length = 50
 maximum_formula_depth = 50
-epsilons = [0.1, 0.05, 0.01]
-deltas = [0.1, 0.05, 0.01]
+epsilons = [ 0.05, 0.1, 0.25, 0.5]
+deltas = [ 0.05, 0.1, 0.25, 0.5]
+
+run_lstar = True
 
 # network parameters:
 num_layers = 3
@@ -83,38 +86,56 @@ query_formulas = generator_dfa.query_formulas
 # for each example, specify a different generating function
 
 
-if(target_formula == "balanced parentheses"):
-    train_set = generator_dfa.get_balanced_parantheses_train_set(8000, 2, 50, max_train_samples_per_length=3000,
-                                                                 search_size_per_length=2000, lengths=[i+1 for i in range(maximum_sequence_length)])
+file_name =  "benchmarks/"+ target_formula.replace(" ","_")+".pkl"
+
+if not os.path.isfile(file_name):
 
 
-elif(target_formula == "email match"):
-    train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i+1 for i in range(maximum_sequence_length)],
-                                          max_train_samples_per_length=1000,
-                                          search_size_per_length=3000, deviation=200)
-
-    # generate more examples that match the regular expression
-    matching_strings = generator_dfa.generate_matching_strings(
-        n=10800, max_length=50)
-    for string in matching_strings:
-        train_set[string] = True
+    if(target_formula == "balanced parentheses"):
+        train_set = generator_dfa.get_balanced_parantheses_train_set(8000, 2, 50, max_train_samples_per_length=3000,
+                                                                    search_size_per_length=2000, lengths=[i for i in range(maximum_sequence_length+1)])
 
 
-elif(target_formula == "alternating bit protocol"):
-    train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i+1 for i in range(maximum_sequence_length)],
-                                          max_train_samples_per_length=1000,
-                                          search_size_per_length=3000, deviation=250)
+    elif(target_formula == "email match"):
+        train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i for i in range(maximum_sequence_length+1)],
+                                            max_train_samples_per_length=1000,
+                                            search_size_per_length=3000, deviation=200)
 
-    # generate more examples that match the regular expression
-    matching_strings = generator_dfa.generate_matching_strings(
-        n=105000, max_sequence_length=50)
-    for string in matching_strings:
-        train_set[string] = True
+        # generate more examples that match the regular expression
+        matching_strings = generator_dfa.generate_matching_strings(
+            n=10800, max_length=50)
+        for string in matching_strings:
+            train_set[string] = True
+
+
+    elif(target_formula == "alternating bit protocol"):
+        train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i for i in range(maximum_sequence_length+1)],
+                                            max_train_samples_per_length=1000,
+                                            search_size_per_length=3000, deviation=250)
+
+        # generate more examples that match the regular expression
+        matching_strings = generator_dfa.generate_matching_strings(
+            n=105000, max_sequence_length=50)
+        for string in matching_strings:
+            train_set[string] = True
+
+    else:
+        train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i for i in range(maximum_sequence_length+1)],
+                                            max_train_samples_per_length=10000,
+                                            search_size_per_length=30000, deviation=20)
+
+    # now save the dataset to file
+    with open(file_name, "wb") as f:
+        pickle.dump(train_set, f, pickle.HIGHEST_PROTOCOL)
 
 else:
-    train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i+1 for i in range(maximum_sequence_length)],
-                                          max_train_samples_per_length=10000,
-                                          search_size_per_length=30000, deviation=20)
+    # load the dataset
+    print("loading from previously stored benchmarks")
+    def load_obj(name ):
+        with open(name, "rb") as f:
+            return pickle.load(f)
+    train_set = load_obj(file_name)
+    
 
 
 # print ratio
@@ -143,6 +164,11 @@ train_set = lists2dict(X_train, y_train)
 test_set = lists2dict(X_test, y_test)
 train_set_size = len(train_set)
 test_set_size = len(test_set)
+
+# intentionally pushing "" (empty string) in train_set
+if('' not in train_set):
+    train_set['']=test_set['']
+
 print("size of train set:", train_set_size)
 print("size of test set:", test_set_size)
 
@@ -185,9 +211,9 @@ print("rnn score against target on test set:                             ",
 
 test_set = {}
 
-for query_formula in query_formulas:
-    for epsilon in epsilons:
-        for delta in deltas:
+for epsilon in epsilons:
+    for delta in deltas:
+        for query_formula in query_formulas:
             dfa_from_rnn.renew()
 
             print("target:", target_formula)
@@ -236,21 +262,29 @@ for query_formula in query_formulas:
             fout.close()
             fout = open("output/log.txt", "a")
 
-            # compare with dfa from lstar_algorithm
-            dfa_from_rnn.renew()
-            start_time_lstar = time.time()
-            dfa_lstar, lstar_flag = extract(rnn, query=query_dfa, max_trace_length=maximum_sequence_length, epsilon=delta,
-                                            delta=delta, time_limit=timeout, initial_split_depth=10, starting_examples=[])
-            end_time_lstar = time.time()
+            
+            lstar_run_without_error = True
+            if(run_lstar):
+                # compare with dfa from lstar_algorithm
+                dfa_from_rnn.renew()
+                start_time_lstar = time.time()
+                try:
+                    dfa_lstar, lstar_flag = extract(rnn, query=query_dfa, max_trace_length=maximum_sequence_length, epsilon=delta,
+                                                delta=delta, time_limit=timeout, initial_split_depth=10, starting_examples=[])
+                except:
+                    lstar_run_without_error = False
+                end_time_lstar = time.time()
 
-            dfa_lstar.draw_nicely(
-                filename=target_formula+":"+query_formula+"_"+str(epsilon)+"_"+str(delta))
-            print("\nTime taken to extract lstar-dfa:",
-                  end_time_lstar-start_time_lstar)
-            print("number of states of the dfa:", len(dfa_lstar.Q))
-            print("returned flag:", lstar_flag)
-            print("transitions:->")
-            print(dfa_lstar.delta)
+                if(lstar_run_without_error):
+                    dfa_lstar.draw_nicely(
+                        filename=target_formula+":"+query_formula+"_"+str(epsilon)+"_"+str(delta))
+                    print("\nTime taken to extract lstar-dfa:",
+                        end_time_lstar-start_time_lstar)
+                    print("number of states of the dfa:", len(dfa_lstar.Q))
+                    print("returned flag:", lstar_flag)
+                    print("transitions:->")
+                    print(dfa_lstar.delta)
+                    num_lstar_states = len(dfa_lstar.Q)
 
             performance_explanation_with_rnn = performance_rnn_with_groundtruth = performance_explanation_with_groundtruth = 0
             lstar_performance_explanation_with_rnn = lstar_performance_explanation_with_groundtruth = 0
@@ -264,7 +298,8 @@ for query_formula in query_formulas:
                     verdict_rnn = dfa_from_rnn.classify_word(w)
                     verdict_target = generator_dfa.classify_word(w)
                     verdict_ltl = explainer.dfa.classify_word(w)
-                    verdict_lstar = dfa_lstar.classify_word(w)
+                    if(run_lstar and lstar_run_without_error):
+                        verdict_lstar = dfa_lstar.classify_word(w)
 
                     if verdict_rnn == verdict_ltl:
                         performance_explanation_with_rnn += 1
@@ -272,11 +307,11 @@ for query_formula in query_formulas:
                         performance_rnn_with_groundtruth += 1
                     if verdict_ltl == verdict_target:
                         performance_explanation_with_groundtruth += 1
-
-                    if verdict_rnn == verdict_lstar:
-                        lstar_performance_explanation_with_rnn += 1
-                    if verdict_lstar == verdict_target:
-                        lstar_performance_explanation_with_groundtruth += 1
+                    if(run_lstar and lstar_run_without_error):
+                        if verdict_rnn == verdict_lstar:
+                            lstar_performance_explanation_with_rnn += 1
+                        if verdict_lstar == verdict_target:
+                            lstar_performance_explanation_with_groundtruth += 1
 
             if(test_set_size != 0):
                 print("Explanation matches RNN:", str(
@@ -288,13 +323,23 @@ for query_formula in query_formulas:
                 print("Explanation matches ground truth:", str(
                     percent(performance_explanation_with_groundtruth/test_set_size)))
 
-                print("Lstar matches RNN:", str(
-                    percent(lstar_performance_explanation_with_rnn/test_set_size)))
+                if(run_lstar and lstar_run_without_error):
+                    print("Lstar matches RNN:", str(
+                        percent(lstar_performance_explanation_with_rnn/test_set_size)))
 
-                print("Lstar matches ground truth:", str(
-                    percent(lstar_performance_explanation_with_groundtruth/test_set_size)))
+                    print("Lstar matches ground truth:", str(
+                        percent(lstar_performance_explanation_with_groundtruth/test_set_size)))
 
             fout.close()
+
+            if(not run_lstar and lstar_run_without_error):
+                num_lstar_states = None
+                start_time_lstar = 0
+                end_time_lstar = 0
+                lstar_performance_explanation_with_rnn = 0
+                lstar_performance_explanation_with_groundtruth = 0
+                lstar_flag = False
+
 
             # report in a pandas file
             result = pd.DataFrame(columns=['target',
@@ -339,7 +384,7 @@ for query_formula in query_formulas:
                         'train size': len(train_set),
                         'test size': len(test_set),
                         "ltl_depth": explainer.formula_depth,
-                        "lstar_states": len(dfa_lstar.Q),
+                        "lstar_states":num_lstar_states,
                         'lstar explanation score': percent(lstar_performance_explanation_with_rnn/test_set_size),
                         'lstar explanation score on ground truth': percent(lstar_performance_explanation_with_groundtruth/test_set_size),
                         'lstar extraction time': end_time_lstar - start_time_lstar,
@@ -369,7 +414,7 @@ for query_formula in query_formulas:
                         'train size': len(train_set),
                         'test size': len(test_set),
                         "ltl_depth": explainer.formula_depth,
-                        "lstar_states": len(dfa_lstar.Q),
+                        "lstar_states": num_lstar_states,
                         'lstar explanation score': None,
                         'lstar explanation score on ground truth': None,
                         'lstar extraction time': end_time_lstar - start_time_lstar,
