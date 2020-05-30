@@ -9,6 +9,7 @@ from random import randint, shuffle
 import random
 from time import clock
 import string
+from pythomata import SimpleDFA
 
 digraph = functools.partial(gv.Digraph, format='png')
 graph = functools.partial(gv.Graph, format='png')
@@ -31,6 +32,19 @@ class DFA:
         self.F = [s for s in self.Q if obs_table.T[s]== 1]
         self._make_transition_function(obs_table)
 
+    def minimize_(self):
+        _dfa = SimpleDFA(set(self.Q), set(self.alphabet), self.q0, set(self.F), self.delta)
+        _minimized = _dfa.minimize()
+        # _minimized = _minimized.trim()
+        print("doing minimization from ", len(self.Q), " states to ", len(_minimized.states), " states")
+        self.F = _minimized.accepting_states
+        self.Q = _minimized.states
+        self.q0 = _minimized.initial_state
+        self.delta = _minimized.transition_function
+
+        return self
+        
+
     def _make_transition_function(self,obs_table):
         self.delta = {}
         for s in self.Q:
@@ -45,7 +59,7 @@ class DFA:
             q = self.delta[q][a]
         return q in self.F
 
-    def draw_nicely(self,force=False,maximum=60, filename="temp"): #todo: if two edges are identical except for letter, merge them and note both the letters
+    def draw_nicely(self,force=False,maximum=100, filename="temp"): #todo: if two edges are identical except for letter, merge them and note both the letters
         if (not force) and len(self.Q) > maximum:
             return
 
@@ -198,3 +212,5 @@ class DFA:
     def reset_current_to_init(self):
         self.current_state = self.q0
 
+
+ 

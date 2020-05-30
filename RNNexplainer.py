@@ -122,9 +122,10 @@ class Explainer:
         learned_formulas, self.current_formula_depth = LTL_learner.learnLTL(
             self.traces, startDepth=self.current_formula_depth)
 
-        self.formula_depth = learned_formulas[0].getDepth()
+        self.formula_depth = learned_formulas[0].getNumberOfSubformulas()
             
         print("Learning formula with depth", learned_formulas[0].getDepth())
+        print("Number of subformulas:", learned_formulas[0].getNumberOfSubformulas())
         formulas = self._convert_formula(learned_formulas)
 
         try:

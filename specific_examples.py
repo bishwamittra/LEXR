@@ -147,7 +147,7 @@ class Email():
             "F(d & X(Fm))",
             "F(d & X(Gp))",
             "F(a & X(G(~d)))",
-            "~F(m) & F(p U a) & F(a & X(p U d)) & F(d & X(Gp))",
+            "(~F(m)) & F(p U a) & F(a & X(p U d)) & F(d & X(Gp))",
             "F(a & X(d))",
             "G(m)",  
             "~p",
@@ -532,7 +532,7 @@ class Example8(Example):
 class Example9(Example):
 
     def __init__(self, token=""):
-        super().__init__(alphabet="abc", target_formula="G(b -> G(a))", token=token)
+        super().__init__(alphabet="abc", target_formula="(G(a -> (Xb))) & (G((Xb) -> a))", token=token)
 
         self.query_formulas = [
             "true",

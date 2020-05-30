@@ -21,6 +21,7 @@ def extract(rnn, query = None , max_trace_length=20, epsilon=.05, delta=.05, tim
     extraction_time = end-start
 
     dfa = guided_teacher.dfas[-1]
+    dfa = dfa.minimize_()
 
     print("overall guided extraction time took: " + str(extraction_time))
 
