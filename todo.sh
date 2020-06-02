@@ -10,4 +10,4 @@ memlimit="16000000"
 ulimit -v $memlimit
 
 
-python test.py --thread=$mythread > output/$(date +"%d-%m-%Y-%T"-$mythread.txt)
+python test.py --thread=$mythread --random > output/$(date +"%d-%m-%Y-%T"-$mythread.txt)

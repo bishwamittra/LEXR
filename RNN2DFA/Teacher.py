@@ -49,7 +49,7 @@ class Teacher:
         counterexample_time = clock() - start
         # print("equivalence checking took: " + str(counterexample_time))
         if not None is counterexample:
-            # print("Returned counterexample is:", counterexample, " which should be classified: ", self.classify_word(counterexample))
+            print("Returned counterexample is:", counterexample, " which should be classified: ", self.classify_word(counterexample))
             self.counterexamples_with_times.append(
                 (counterexample, counterexample_time))
             return counterexample

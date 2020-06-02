@@ -4,6 +4,10 @@ from ltlf2dfa.Parser import MyParser
 from ltlf2dfa.Translator import Translator
 from ltlf2dfa.DotHandler import DotHandler
 from ltlf2dfa.DFA import DFA
+import graphviz
+from IPython.display import display
+from IPython.display import Image
+import pydotplus
 
 
 def parseFormula():
@@ -13,7 +17,7 @@ def parseFormula():
     print(parsed_formula)
 
 
-def translate_ltl2dfa(alphabet, formula=None, token=""):
+def translate_ltl2dfa(alphabet, formula=None, token="", show = False):
     if(formula is None):
         formula = "F(a)"
     declare_flag = False  # True if you want to compute DECLARE assumption for the formula
@@ -37,6 +41,12 @@ def translate_ltl2dfa(alphabet, formula=None, token=""):
     dotHandler.output_dot(result_path='./ltlf2dfa/automa'+token)
 
     # dotHandler.extractDFA()
+
+    if(show):
+        print(dfa)
+        pydot_graph = pydotplus.graph_from_dot_file("./ltlf2dfa/automa"+token)
+        display(Image(pydot_graph.create_png()))
+
 
     return dfa
 

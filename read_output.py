@@ -100,14 +100,14 @@ email_df['ltl_depth'] = '$ ' + \
          
 # email_df['status'] = email_df['status'].astype(str) + ' &'
 mask = pd.to_numeric(email_df['explanation score']).notnull()
-email_df['explanation score'].loc[mask] = email_df['explanation score'].loc[mask].astype(np.int64)
+# email_df['explanation score'].loc[mask] = email_df['explanation score'].loc[mask].astype(np.int64)
 
 email_df['explanation score'] = '$ ' + \
     email_df['explanation score'].round(2).astype(str) + ' $  &'
 email_df['extraction time'] = '$ ' + \
     email_df['extraction time'].round(2).astype(str) + ' $  &'
 mask = pd.to_numeric(email_df['lstar explanation score']).notnull()
-email_df['lstar explanation score'].loc[mask] = email_df['lstar explanation score'].loc[mask].astype(np.int64)
+# email_df['lstar explanation score'].loc[mask] = email_df['lstar explanation score'].loc[mask].astype(np.int64)
 email_df['lstar states'] = '$ ' + \
     email_df['lstar states'].round(2).astype(str) + ' $ &'
 
@@ -186,14 +186,14 @@ bp_df['ltl_depth'] = '$ ' + \
            
 # bp_df['status'] = bp_df['status'].astype(str) + ' &'
 mask = pd.to_numeric(bp_df['explanation score']).notnull()
-bp_df['explanation score'].loc[mask] = bp_df['explanation score'].loc[mask].astype(np.int64)
+# bp_df['explanation score'].loc[mask] = bp_df['explanation score'].loc[mask].astype(np.int64)
 
 bp_df['explanation score'] = '$ ' + \
     bp_df['explanation score'].round(2).astype(str) + ' $  &'
 bp_df['extraction time'] = '$ ' + \
     bp_df['extraction time'].round(2).astype(str) + ' $ &'
 mask = pd.to_numeric(bp_df['lstar explanation score']).notnull()
-bp_df['lstar explanation score'].loc[mask] = bp_df['lstar explanation score'].loc[mask].astype(np.int64)
+# bp_df['lstar explanation score'].loc[mask] = bp_df['lstar explanation score'].loc[mask].astype(np.int64)
 bp_df['lstar states'] = '$ ' + \
     bp_df['lstar states'].round(2).astype(str) + ' $ &'
 
@@ -280,14 +280,14 @@ abp_df['ltl_depth'] = '$ ' + \
     
 # abp_df['status'] = abp_df['status'].astype(str) + ' &'
 mask = pd.to_numeric(abp_df['explanation score']).notnull()
-abp_df['explanation score'].loc[mask] = abp_df['explanation score'].loc[mask].astype(np.int64)
+# abp_df['explanation score'].loc[mask] = abp_df['explanation score'].loc[mask].astype(np.int64)
 
 abp_df['explanation score'] = '$ ' + \
     abp_df['explanation score'].round(2).astype(str) + ' $  &'
 abp_df['extraction time'] = '$ ' + \
     abp_df['extraction time'].round(2).astype(str) + ' $  &'
 mask = pd.to_numeric(abp_df['lstar explanation score']).notnull()
-abp_df['lstar explanation score'].loc[mask] = abp_df['lstar explanation score'].loc[mask].astype(np.int64)
+# abp_df['lstar explanation score'].loc[mask] = abp_df['lstar explanation score'].loc[mask].astype(np.int64)
 abp_df['lstar states'] = '$ ' + \
     abp_df['lstar states'].round(2).astype(str) + ' $ &'
 
@@ -354,6 +354,7 @@ if(True):
     other_examples_df = df[(df['target'] != "email match") &
                         (df['target'] != "alternating bit protocol") &
                         (df['target'] != "balanced parentheses") & 
+                        (df['target'] != "F(aUb)") & 
                         #    (df['query'] != "false") &
                         (df['epsilon'] == 0.05) &
                         (df['delta'] == 0.05)]
@@ -435,7 +436,7 @@ if(True):
         each_df.loc[each_df['extraction time'] > 400, 'extraction time'] = 400
         each_df.loc[each_df['lstar extraction time'] > 400, 'lstar extraction time'] = 400
         mask = pd.to_numeric(each_df['explanation score']).notnull()
-        each_df['explanation score'].loc[mask] = each_df['explanation score'].loc[mask].astype(np.int64)
+        # each_df['explanation score'].loc[mask] = each_df['explanation score'].loc[mask].astype(np.int64)
         each_df['explanation score'] = '$ ' + \
             each_df['explanation score'].round(2).astype(str) + ' $  &'
         each_df['extraction time'] = '$ ' + \
@@ -444,7 +445,7 @@ if(True):
             each_df['ltl_depth'].round(2).astype(str) + ' $  &'
         
         mask = pd.to_numeric(each_df['lstar explanation score']).notnull()
-        each_df['lstar explanation score'].loc[mask] = each_df['lstar explanation score'].loc[mask].astype(np.int64)
+        # each_df['lstar explanation score'].loc[mask] = each_df['lstar explanation score'].loc[mask].astype(np.int64)
         each_df['lstar states'] = '$ ' + \
             each_df['lstar states'].round(2).astype(str) + ' $ &'
 
@@ -471,6 +472,8 @@ if(True):
     print("      \\caption{Explanation of synthetic problems.}")
     print("      \\label{tab:example-synthetic}")
     print("\\end{table} ")
+
+
 
 
 

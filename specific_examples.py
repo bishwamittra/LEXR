@@ -425,7 +425,7 @@ class Example1(Example):
 class Example2(Example):
 
     def __init__(self, token=""):
-        super().__init__(alphabet="abc", target_formula="G(b->X(~a))", token=token)
+        super().__init__(alphabet="abc", target_formula="G(a->X(b))", token=token)
 
         self.query_formulas = [
             "true",
@@ -465,7 +465,11 @@ class Example4(Example):
             "F(~a)",
             "F(~b)",
             'F(aUb)',
-            'F(bUa)'
+            'F(bUa)',
+            "G(a)",
+            "G(c)",
+            "F(c)",
+            "F(a & X(b))"
         ]
 
 

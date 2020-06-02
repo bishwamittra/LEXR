@@ -11,7 +11,7 @@
 
 
 #PBS -l walltime=0002:00:00
-#PBS -l select=01:ncpus=24:mpiprocs=6:mem=96G
+#PBS -l select=02:ncpus=24:mpiprocs=6:mem=96G
 
 
 

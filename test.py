@@ -63,6 +63,25 @@ thread = args.thread
 random_run = args.random
 
 
+# if(random_run):
+#     num_layers = random.randint(1, 4)
+#     num_hidden_dim = random.randint(1, 30)
+#     input_dim = random.randint(1, 6)
+#     network = random.random()
+#     stop_threshold = random.randint(1, 100)/10000
+#     if(network >= 0.5):
+#         RNNClass = LSTMNetwork
+#     else:
+#         RNNClass = GRUNetwork
+
+print("configurations: layers: ", num_layers,
+          "hidden dimension: ", num_hidden_dim,
+          "input dim: ", input_dim,
+          "network: ", RNNClass,
+          "stop threshold: ", stop_threshold)
+
+
+
 if(random_run):
     print("Running in random mode")
     iterations = 100
@@ -77,19 +96,19 @@ try:
         generator_dfa = eval("specific_examples.Example" +
                              str(thread+1)+"(token="+str(thread)+")")
     else:
-        if(thread == 0):
+        if(thread % 6 == 0):
             generator_dfa = specific_examples.Email()
-        elif(thread == 1):
+        elif(thread % 6 == 1):
             generator_dfa = specific_examples.Balanced_Parentheses()
-        elif(thread == 2):
+        elif(thread % 6 == 2):
             generator_dfa = specific_examples.Alternating_Bit_Protocol()
-        elif(thread == 3):
+        elif(thread % 6 == 3):
             generator_dfa = eval("specific_examples.Example" +
                                  str(4)+"(token="+str(thread)+")")
-        elif(thread == 4):
+        elif(thread % 6 == 4):
             generator_dfa = eval("specific_examples.Example" +
-                                 str(5)+"(token="+str(thread)+")")
-        elif(thread == 5):
+                                 str(2)+"(token="+str(thread)+")")
+        elif(thread % 6 == 5):
             generator_dfa = eval("specific_examples.Example" +
                                  str(6)+"(token="+str(thread)+")")
 
@@ -100,151 +119,135 @@ target_formula = generator_dfa.target_formula
 alphabet = generator_dfa.alphabet
 query_formulas = generator_dfa.query_formulas
 
+# for each example, specify a different generating function
+file_name = "benchmarks/" + target_formula.replace(" ", "_")+".pkl"
+
+if not os.path.isfile(file_name):
+
+    if(target_formula == "balanced parentheses"):
+
+        train_set = generator_dfa.get_balanced_parantheses_train_set(8000, 2, 50, max_train_samples_per_length=3000,
+                                                                     search_size_per_length=2000, lengths=[i for i in range(maximum_sequence_length+1)])
+
+    elif(target_formula == "email match"):
+
+        train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i for i in range(maximum_sequence_length+1)],
+                                              max_train_samples_per_length=1000,
+                                              search_size_per_length=3000, deviation=200)
+
+        # generate more examples that match the regular expression
+        matching_strings = generator_dfa.generate_matching_strings(
+            n=10800, max_length=50)
+        for string in matching_strings:
+            train_set[string] = True
+
+    elif(target_formula == "alternating bit protocol"):
+
+        train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i for i in range(maximum_sequence_length+1)],
+                                              max_train_samples_per_length=1000,
+                                              search_size_per_length=3000, deviation=250)
+
+        # generate more examples that match the regular expression
+        matching_strings = generator_dfa.generate_matching_strings(
+            n=105000, max_sequence_length=50)
+        for string in matching_strings:
+            train_set[string] = True
+    elif(target_formula == 'G(a->X(b))'):
+        train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i for i in range(maximum_sequence_length+1)],
+                                              max_train_samples_per_length=1000,
+                                              search_size_per_length=3000, deviation=20)
+
+    else:
+        train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i for i in range(maximum_sequence_length+1)],
+                                              max_train_samples_per_length=10000,
+                                              search_size_per_length=30000, deviation=20)
+
+    # now save the dataset to file
+    with open(file_name, "wb") as f:
+        pickle.dump(train_set, f, pickle.HIGHEST_PROTOCOL)
+
+else:
+    # load the dataset
+    print("loading from previously stored benchmarks")
+
+    def load_obj(name):
+        with open(name, "rb") as f:
+            return pickle.load(f)
+    train_set = load_obj(file_name)
+
+# print ratio
+cnt = 0
+examples_per_length = [0 for i in range(51)]
+for key in train_set:
+    if(train_set[key]):
+        cnt += 1
+
+    examples_per_length[len(key)] += 1
+
+total_samples = len(train_set)
+print("out of ", total_samples, " sequences", cnt,
+      " are positive. (percent: ", float(cnt/total_samples), ")")
+print("examples per length:", examples_per_length)
+
+# split train:test
+X, y = dict2lists(train_set)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42)
+train_set = lists2dict(X_train, y_train)
+test_set = lists2dict(X_test, y_test)
+train_set_size = len(train_set)
+test_set_size = len(test_set)
+
+# intentionally pushing "" (empty string) in train_set
+if('' not in train_set):
+    train_set[''] = test_set['']
+    print("Empty string status:", train_set[''])
+else:
+    print("Empty string was already included in train set")
+    print("Empty string status:", train_set[''])
+
+print("size of train set:", train_set_size)
+print("size of test set:", test_set_size)
+
+# define rnn
+rnn = RNNClassifier(alphabet, num_layers=num_layers,
+                    hidden_dim=num_hidden_dim, RNNClass=RNNClass, input_dim=input_dim)
+
+# train the model
+mixed_curriculum_train(rnn, train_set, stop_threshold=stop_threshold)
+rnn.renew()
+dfa_from_rnn = rnn
+# statistics
+
+def percent(num, digits=2):
+    tens = pow(10, digits)
+    return int(100*num*tens)/tens
+
+print("testing on train set, i.e. test set is train set")
+# we're printing stats on the train set for now, but you can define other test sets by using
+# make_train_set_for_target
+
+pos = 0
+rnn_target = 0
+for w in test_set:
+    if generator_dfa.classify_word(w):
+        pos += 1
+
+    if dfa_from_rnn.classify_word(w) == generator_dfa.classify_word(w):
+        rnn_target += 1
+test_acc = percent(rnn_target/test_set_size)
+print("rnn score against target on test set:                             ",
+        rnn_target, "("+str(test_acc)+")")
+
+
 
 for iteration in range(iterations):
     print("##################################### iteration",
           iteration, "     ######################")
 
-    if(random_run):
-        num_layers = random.randint(1, 5)
-        num_hidden_dim = random.randint(1, 30)
-        input_dim = random.randint(1, 6)
-        network = random.random()
-        stop_threshold = random.randint(1, 100)/10000
-        if(network >= 0.5):
-            RNNClass = LSTMNetwork
-        else:
-            RNNClass = GRUNetwork
-
-    print("configurations: layers: ", num_layers,
-          "hidden dimension: ", num_hidden_dim,
-          "input dim: ", input_dim,
-          "network: ", RNNClass,
-          "stop threshold: ", stop_threshold)
-
-    # for each example, specify a different generating function
-    file_name = "benchmarks/" + target_formula.replace(" ", "_")+".pkl"
-
-    if not os.path.isfile(file_name):
-
-        if(target_formula == "balanced parentheses"):
-
-            train_set = generator_dfa.get_balanced_parantheses_train_set(8000, 2, 50, max_train_samples_per_length=3000,
-                                                                         search_size_per_length=2000, lengths=[i for i in range(maximum_sequence_length+1)])
-
-        elif(target_formula == "email match"):
-
-            train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i for i in range(maximum_sequence_length+1)],
-                                                  max_train_samples_per_length=1000,
-                                                  search_size_per_length=3000, deviation=200)
-
-            # generate more examples that match the regular expression
-            matching_strings = generator_dfa.generate_matching_strings(
-                n=10800, max_length=50)
-            for string in matching_strings:
-                train_set[string] = True
-
-        elif(target_formula == "alternating bit protocol"):
-
-            train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i for i in range(maximum_sequence_length+1)],
-                                                  max_train_samples_per_length=1000,
-                                                  search_size_per_length=3000, deviation=250)
-
-            # generate more examples that match the regular expression
-            matching_strings = generator_dfa.generate_matching_strings(
-                n=105000, max_sequence_length=50)
-            for string in matching_strings:
-                train_set[string] = True
-        elif(target_formula == 'F(a & X(b))'):
-            train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i for i in range(maximum_sequence_length+1)],
-                                                  max_train_samples_per_length=1000,
-                                                  search_size_per_length=3000, deviation=20)
-
-        else:
-            train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i for i in range(maximum_sequence_length+1)],
-                                                  max_train_samples_per_length=10000,
-                                                  search_size_per_length=30000, deviation=20)
-
-        # now save the dataset to file
-        with open(file_name, "wb") as f:
-            pickle.dump(train_set, f, pickle.HIGHEST_PROTOCOL)
-
-    else:
-        # load the dataset
-        print("loading from previously stored benchmarks")
-
-        def load_obj(name):
-            with open(name, "rb") as f:
-                return pickle.load(f)
-        train_set = load_obj(file_name)
-
-    # print ratio
-    cnt = 0
-    examples_per_length = [0 for i in range(51)]
-    for key in train_set:
-        if(train_set[key]):
-            cnt += 1
-
-        examples_per_length[len(key)] += 1
-
-    total_samples = len(train_set)
-    print("out of ", total_samples, " sequences", cnt,
-          " are positive. (percent: ", float(cnt/total_samples), ")")
-    print("examples per length:", examples_per_length)
-
-    # split train:test
-    X, y = dict2lists(train_set)
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42)
-    train_set = lists2dict(X_train, y_train)
-    test_set = lists2dict(X_test, y_test)
-    train_set_size = len(train_set)
-    test_set_size = len(test_set)
-
-    # intentionally pushing "" (empty string) in train_set
-    if('' not in train_set):
-        train_set[''] = test_set['']
-        print("Empty string status:", train_set[''])
-    else:
-        print("Empty string was already included in train set")
-        print("Empty string status:", train_set[''])
-
-    print("size of train set:", train_set_size)
-    print("size of test set:", test_set_size)
-
-    # define rnn
-    rnn = RNNClassifier(alphabet, num_layers=num_layers,
-                        hidden_dim=num_hidden_dim, RNNClass=RNNClass, input_dim=input_dim)
-
-    # train the model
-    mixed_curriculum_train(rnn, train_set, stop_threshold=stop_threshold)
-    rnn.renew()
-    dfa_from_rnn = rnn
-    # statistics
-
-    # free train_set
-    train_set = {}
-
-    def percent(num, digits=2):
-        tens = pow(10, digits)
-        return int(100*num*tens)/tens
-
-    print("testing on train set, i.e. test set is train set")
-    # we're printing stats on the train set for now, but you can define other test sets by using
-    # make_train_set_for_target
-
-    pos = 0
-    rnn_target = 0
-    for w in test_set:
-        if generator_dfa.classify_word(w):
-            pos += 1
-
-        if dfa_from_rnn.classify_word(w) == generator_dfa.classify_word(w):
-            rnn_target += 1
-    test_acc = percent(rnn_target/test_set_size)
-    print("rnn score against target on test set:                             ",
-          rnn_target, "("+str(test_acc)+")")
-
+    
+    
+    
     for epsilon in epsilons:
         for delta in deltas:
             for query_formula in query_formulas:
@@ -311,7 +314,7 @@ for iteration in range(iterations):
 
                     if(lstar_run_without_error):
                         dfa_lstar.draw_nicely(
-                            filename=str(iteration)+"_" + target_formula+":"+query_formula+"_"+str(epsilon)+"_"+str(delta))
+                            filename=str(thread)+"_" + str(iteration)+"_" + target_formula+":"+query_formula+"_"+str(epsilon)+"_"+str(delta))
                         print("\nTime taken to extract lstar-dfa:",
                               end_time_lstar-start_time_lstar)
                         print("number of states of the dfa:", len(dfa_lstar.Q))
@@ -368,7 +371,7 @@ for iteration in range(iterations):
 
                 fout.close()
 
-                if(not run_lstar and lstar_run_without_error):
+                if(not (run_lstar and lstar_run_without_error)):
                     num_lstar_states = None
                     start_time_lstar = 0
                     end_time_lstar = 0
@@ -416,8 +419,8 @@ for iteration in range(iterations):
                             'revised delta': new_delta,
                             'revised epsilon': new_epsilon,
                             'counterexamples': teacher.returned_counterexamples,
-                            'train size': len(train_set),
-                            'test size': len(test_set),
+                            'train size': train_set_size,
+                            'test size': test_set_size,
                             "ltl_depth": explainer.formula_depth,
                             "lstar_states": num_lstar_states,
                             'lstar explanation score': percent(lstar_performance_explanation_with_rnn/test_set_size),
@@ -444,10 +447,8 @@ for iteration in range(iterations):
                             'revised delta': new_delta,
                             'revised epsilon': new_epsilon,
                             'counterexamples': teacher.returned_counterexamples,
-                            'train size': len(train_set),
-                            'test size': len(test_set),
-                            'train size': len(train_set),
-                            'test size': len(test_set),
+                            'train size': train_set_size,
+                            'test size': test_set_size,
                             "ltl_depth": explainer.formula_depth,
                             "lstar_states": num_lstar_states,
                             'lstar explanation score': None,
