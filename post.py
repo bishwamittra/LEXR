@@ -1,17 +1,21 @@
 import os
-path="nscc:/home/projects/11000744/bishwa/xRNN/"
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--token", help="token of dir", default="", type=str)
+parser.add_argument("--mpi", action='store_true')
+args = parser.parse_args()
 
-# choose files/folder to copy to cluster
-# os.system("rsync -vap lstar_extraction/ "+path+"lstar_extraction/")
+
 os.system("./clean.sh")
-os.system("rsync -vap ltlf2dfa/ "+path+"ltlf2dfa/")
-os.system("rsync -vap RNN2DFA/ "+path+"RNN2DFA/")
-os.system("rsync -vap PACTeacher/ "+path+"PACTeacher/")
-os.system("rsync -vap samples2ltl/ "+path+"samples2ltl/")
-os.system("rsync -vap *.py "+path)
-os.system("rsync -vap *.sh "+path)
-os.system("rsync -vap *.ipynb "+path)
-os.system("rsync -vap *.pbs "+path)
+
+if(args.mpi):
+    path="bghosh@contact.mpi-sws.org:/home/bghosh/Desktop/xRNN/"
+    os.system("tar -czvf file_to_send.tar.gz ltlf2dfa/* RNN2DFA/* PACTeacher/* samples2ltl/* *.py  *.ipynb")
+    os.system("rsync -vaP file_to_send.tar.gz "+path)
+else:
+    path="nscc:/home/projects/11000744/bishwa/xRNN" +args.token+"/" 
+    os.system("tar -czvf file_to_send.tar.gz ltlf2dfa/* RNN2DFA/* PACTeacher/* samples2ltl/* *.py *.sh *.ipynb *.pbs")
+    os.system("rsync -vaP file_to_send.tar.gz "+path)
 
 
-
+os.system("rm file_to_send.tar.gz")

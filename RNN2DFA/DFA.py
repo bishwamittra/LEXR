@@ -27,6 +27,8 @@ class DFA:
             """
     
             self.Q = [s for s in obs_table.S]
+       
+        # self.Q = [s for s in obs_table.S if s==obs_table.minimum_matching_row(s)]
     
         self.q0 = obs_table.minimum_matching_row("")
         self.F = [s for s in self.Q if obs_table.T[s]== 1]

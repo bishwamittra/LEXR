@@ -11,7 +11,7 @@
 
 
 #PBS -l walltime=0002:00:00
-#PBS -l select=02:ncpus=24:mpiprocs=6:mem=96G
+#PBS -l select=01:ncpus=24:mpiprocs=6:mem=96G
 
 
 
@@ -19,6 +19,9 @@
 # description of my job
 module load openmpi/intel/1.10.2
 cd ${PBS_O_WORKDIR}
+# make ready of received files
+tar -xvf file_to_send.tar.gz
+rm file_to_send.tar.gz
 rm output/img/*
 rm output/*
 mpirun bash todo.sh

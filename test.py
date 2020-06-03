@@ -32,7 +32,7 @@ num_layers = 2
 num_hidden_dim = 10
 input_dim = 3
 iterations = 1
-stop_threshold = 0.001
+stop_threshold = 0.0005
 
 
 def dict2lists(dictionary):
@@ -74,11 +74,6 @@ random_run = args.random
 #     else:
 #         RNNClass = GRUNetwork
 
-print("configurations: layers: ", num_layers,
-          "hidden dimension: ", num_hidden_dim,
-          "input dim: ", input_dim,
-          "network: ", RNNClass,
-          "stop threshold: ", stop_threshold)
 
 
 
@@ -97,10 +92,13 @@ try:
                              str(thread+1)+"(token="+str(thread)+")")
     else:
         if(thread % 6 == 0):
+            num_layers = 3
             generator_dfa = specific_examples.Email()
         elif(thread % 6 == 1):
+            num_layers = 3
             generator_dfa = specific_examples.Balanced_Parentheses()
         elif(thread % 6 == 2):
+            num_layers = 3
             generator_dfa = specific_examples.Alternating_Bit_Protocol()
         elif(thread % 6 == 3):
             generator_dfa = eval("specific_examples.Example" +
@@ -209,12 +207,28 @@ else:
 print("size of train set:", train_set_size)
 print("size of test set:", test_set_size)
 
+print("configurations: layers: ", num_layers,
+          "hidden dimension: ", num_hidden_dim,
+          "input dim: ", input_dim,
+          "network: ", RNNClass,
+          "stop threshold: ", stop_threshold)
+
+
 # define rnn
 rnn = RNNClassifier(alphabet, num_layers=num_layers,
-                    hidden_dim=num_hidden_dim, RNNClass=RNNClass, input_dim=input_dim)
+                    hidden_dim=num_hidden_dim, RNNClass=RNNClass, input_dim=input_dim, target=target_formula)
 
-# train the model
-mixed_curriculum_train(rnn, train_set, stop_threshold=stop_threshold)
+try:
+    # train the model
+    if not os.path.isfile("model/"+target_formula+".model"):
+        mixed_curriculum_train(rnn, train_set, stop_threshold=stop_threshold)
+        rnn.save_model()
+    else:
+        print("loading already saved model")
+        rnn.load_model()
+except:
+    print("Training error: however moving on as life also goes on" )
+    
 rnn.renew()
 dfa_from_rnn = rnn
 # statistics
@@ -300,28 +314,29 @@ for iteration in range(iterations):
                 fout.close()
                 fout = open("output/log.txt", "a")
 
-                lstar_run_without_error = True
+                # lstar_run_without_error = True
                 if(run_lstar):
+                    print("\n\n\n\n\n")
                     # compare with dfa from lstar_algorithm
                     dfa_from_rnn.renew()
                     start_time_lstar = time.time()
-                    try:
-                        dfa_lstar, lstar_flag = extract(rnn, query=query_dfa, max_trace_length=maximum_sequence_length, epsilon=delta,
+                    # try:
+                    dfa_lstar, lstar_flag = extract(rnn, query=query_dfa, max_trace_length=maximum_sequence_length, epsilon=delta,
                                                         delta=delta, time_limit=timeout, initial_split_depth=10, starting_examples=[])
-                    except:
-                        lstar_run_without_error = False
+                    # except:
+                        # lstar_run_without_error = False
                     end_time_lstar = time.time()
 
-                    if(lstar_run_without_error):
-                        dfa_lstar.draw_nicely(
-                            filename=str(thread)+"_" + str(iteration)+"_" + target_formula+":"+query_formula+"_"+str(epsilon)+"_"+str(delta))
-                        print("\nTime taken to extract lstar-dfa:",
-                              end_time_lstar-start_time_lstar)
-                        print("number of states of the dfa:", len(dfa_lstar.Q))
-                        print("returned flag:", lstar_flag)
-                        print("transitions:->")
-                        print(dfa_lstar.delta)
-                        num_lstar_states = len(dfa_lstar.Q)
+                    # if(lstar_run_without_error):
+                    dfa_lstar.draw_nicely(
+                        filename=str(thread)+"_" + str(iteration)+"_" + target_formula+":"+query_formula+"_"+str(epsilon)+"_"+str(delta))
+                    print("\nTime taken to extract lstar-dfa:",
+                            end_time_lstar-start_time_lstar)
+                    print("number of states of the dfa:", len(dfa_lstar.Q))
+                    print("returned flag:", lstar_flag)
+                    print("transitions:->")
+                    print(dfa_lstar.delta)
+                    num_lstar_states = len(dfa_lstar.Q)
 
                 performance_explanation_with_rnn = performance_rnn_with_groundtruth = performance_explanation_with_groundtruth = 0
                 lstar_performance_explanation_with_rnn = lstar_performance_explanation_with_groundtruth = 0
@@ -362,7 +377,7 @@ for iteration in range(iterations):
                     print("Explanation matches ground truth:", str(
                         percent(performance_explanation_with_groundtruth/test_set_size)))
 
-                    if(run_lstar and lstar_run_without_error):
+                    if(run_lstar):
                         print("Lstar matches RNN:", str(
                             percent(lstar_performance_explanation_with_rnn/test_set_size)))
 
@@ -371,7 +386,7 @@ for iteration in range(iterations):
 
                 fout.close()
 
-                if(not (run_lstar and lstar_run_without_error)):
+                if(not (run_lstar)):
                     num_lstar_states = None
                     start_time_lstar = 0
                     end_time_lstar = 0
@@ -380,7 +395,8 @@ for iteration in range(iterations):
                     lstar_flag = False
 
                 # report in a pandas file
-                result = pd.DataFrame(columns=['target',
+                result = pd.DataFrame(columns=['thread',
+                                                'target',
                                                'query',
                                                'explanation',
                                                'status',
@@ -407,6 +423,7 @@ for iteration in range(iterations):
                 if(test_set_size != 0):
                     result = result.append(
                         {
+                            'thread':thread,
                             'target': target_formula,
                             'query': query_formula,
                             'explanation': explainer.ltl,
@@ -435,6 +452,7 @@ for iteration in range(iterations):
                 else:
                     result = result.append(
                         {
+                            'thread':thread,
                             'target': target_formula,
                             'query': query_formula,
                             'explanation': explainer.ltl,

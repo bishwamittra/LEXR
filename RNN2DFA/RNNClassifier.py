@@ -8,8 +8,7 @@ import matplotlib.pyplot as plt
 from math import ceil
 
 class RNNClassifier:
-    def __init__(self,alphabet,num_layers=2,input_dim=3,hidden_dim=5,RNNClass=LSTMNetwork):
-
+    def __init__(self,alphabet,num_layers=2,input_dim=3,hidden_dim=5,RNNClass=LSTMNetwork, target="empty"):
         self.alphabet = list(alphabet)
         self.int2char = self.alphabet
         self.char2int = {c:i for i,c in enumerate(self.int2char)}
@@ -25,7 +24,15 @@ class RNNClassifier:
         self.all_losses = []
         self.finish_signal = "Finished"
         self.keep_going = "Keep Going"
+        self.target=target
 
+
+    def save_model(self):
+        self.pc.save("model/"+self.target+".model")
+        pass
+
+    def load_model(self):
+        self.pc.populate("model/"+self.target+".model")
 
     def renew(self):
         dy.renew_cg()

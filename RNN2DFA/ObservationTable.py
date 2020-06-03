@@ -69,7 +69,16 @@ class ObservationTable:
     def minimum_matching_row(self, t):  # doesn't modify
         # to be used by automaton constructor once the table is closed
         # not actually minimum length but so long as we're all sorting them by something then whatever
-        return next(s for s in self.S if (t, s) in self.equal_cache)
+        try:
+            return next(s for s in self.S if (t, s) in self.equal_cache)
+        except:
+            print(self.S)
+            print(t)
+            # print(self.equal_cache)
+            # print(s for s in self.S if (t, s) in self.equal_cache)
+            raise ValueError
+
+
 
     def timed_out(self):
         if not None is self.time_limit:

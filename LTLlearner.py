@@ -57,10 +57,10 @@ def learnLTL(tracesFileName="dummy.trace", startDepth=1, optimization = False):
     
 
     # default formulas
+    if(len(traces.acceptedTraces)==0):
+        return [Formula(formulaArg='false')],1
     if(len(traces.rejectedTraces)==0):
         return [Formula(formulaArg='true')],1
-    elif(len(traces.acceptedTraces)==0):
-        return [Formula(formulaArg='false')],1
     
     
     solvingTimeout = int(args.timeout)

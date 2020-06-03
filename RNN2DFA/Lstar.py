@@ -12,16 +12,18 @@ def run_lstar(teacher, time_limit):
     # teacher.counterexample_generator.set_time_limit(time_limit, start)
     # table.set_time_limit(time_limit, start)
 
-    complete_before_timeout = False
+    complete_before_timeout = True
     while True:
         while True:
             if(clock()-start > time_limit):
-                print("Interrupted due to time limit")
+                print("1 Interrupted due to time limit")
+                complete_before_timeout = False
                 break
     
             while table.find_and_handle_inconsistency():
                 if(clock()-start > time_limit):
-                    print("Interrupted due to time limit")
+                    print("2 Interrupted due to time limit")
+                    complete_before_timeout = False
                     break
             
                 pass
@@ -29,18 +31,21 @@ def run_lstar(teacher, time_limit):
                 continue
             else:
                 break
+        
+        if(not complete_before_timeout):
+            break
 
         dfa = DFA.DFA(obs_table=table)
 
         counterexample = teacher.equivalence_query(dfa)
         if None is counterexample:
-            complete_before_timeout = True
             break
         table.add_counterexample(
             counterexample, teacher.classify_word(counterexample))
         # check timeout
         if(clock()-start > time_limit):
-            print("Interrupted due to time limit")
+            print("3 Interrupted due to time limit")
+            complete_before_timeout = False
             break
     
     return dfa, complete_before_timeout
