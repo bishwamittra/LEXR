@@ -1,3 +1,4 @@
 output/*
 backup_output/*
 rnn_vary_backup_output/*
+.DS_Store

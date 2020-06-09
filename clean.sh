@@ -6,3 +6,5 @@ rm -rf __pycache__/
 rm -rf */__pycache__/
 rm -rf */*/__pycache__/
 rm -rf */*/*/__pycache__/
+rm -rf .vscode
+rm .DS_Store
