@@ -3,7 +3,6 @@ from RNN2DFA.GRU import GRUNetwork
 from RNN2DFA.Extraction import extract
 from RNN2DFA.RNNClassifier import RNNClassifier
 from RNN2DFA.Training_Functions import mixed_curriculum_train
-import Tomita_Grammars
 from RNN2DFA.Training_Functions import make_test_set, make_train_set_for_target
 from RNNexplainer import Explainer
 import pandas as pd
@@ -22,8 +21,8 @@ import random
 timeout = 400
 maximum_sequence_length = 50
 maximum_formula_depth = 50
-epsilons = [0.05, 0.1, 0.25, 0.5]
-deltas = [0.05, 0.1, 0.25, 0.5]
+epsilons = [0.05]
+deltas = [0.05]
 RNNClass = LSTMNetwork
 run_lstar = True
 
@@ -63,23 +62,12 @@ thread = args.thread
 random_run = args.random
 
 
-# if(random_run):
-#     num_layers = random.randint(1, 4)
-#     num_hidden_dim = random.randint(1, 30)
-#     input_dim = random.randint(1, 6)
-#     network = random.random()
-#     stop_threshold = random.randint(1, 100)/10000
-#     if(network >= 0.5):
-#         RNNClass = LSTMNetwork
-#     else:
-#         RNNClass = GRUNetwork
-
 
 
 
 if(random_run):
     print("Running in random mode")
-    iterations = 100
+    iterations = 5
     epsilons = [0.05]
     deltas = [0.05]
 
@@ -117,7 +105,7 @@ target_formula = generator_dfa.target_formula
 alphabet = generator_dfa.alphabet
 query_formulas = generator_dfa.query_formulas
 
-# for each example, specify a different generating function
+# for each example, specify different parameters random words generating function
 file_name = "benchmarks/" + target_formula.replace(" ", "_")+".pkl"
 
 if not os.path.isfile(file_name):
@@ -283,6 +271,7 @@ for iteration in range(iterations):
                 traces.label_from_network([])
                 traces.write_in_file(location='dummy.trace')
 
+                # LTL learner
                 from PACTeacher.pac_teacher import PACTeacher as Teacher
                 explainer = Explainer(
                     alphabet=[character for character in alphabet], token=str(thread))
@@ -291,7 +280,7 @@ for iteration in range(iterations):
 
                 start_time = time.time()
                 from multiprocessing import Process, Queue
-                explainer, flag = teacher.teach(
+                explainer, flag, learner_time, verifier_time = teacher.teach(
                     explainer, traces, timeout=timeout)
                 end_time = time.time()
                 print("\n\nepsilon=", teacher.epsilon, "delta=", teacher.delta,
@@ -299,35 +288,30 @@ for iteration in range(iterations):
                 print("query:", query_formula)
                 print("final ltl: ", explainer.ltl)
 
-                fout = open("output/log.txt", "a")
-                fout.write("\n\nquery: "+query_formula)
-                fout.write("\nfinal LTL: " + explainer.ltl)
                 new_delta = None
                 new_epsilon = None
                 if(not flag):
-                    fout.write(" [incomplete]")
                     print("incomplete formula")
                     new_delta, new_epsilon = teacher.calculate_revised_delta_and_epsilon()
                     print(new_delta, new_epsilon)
 
-                print("\nTime taken to extract ltl:", end_time-start_time)
-                fout.close()
-                fout = open("output/log.txt", "a")
+                print("time learner:", learner_time)
+                print('time verifier:', verifier_time)
+                print("Random words:", teacher.number_of_words_checked)
 
-                # lstar_run_without_error = True
+
+                print("\nTime taken to extract ltl:", end_time-start_time)
+                
+                # DFA learner
                 if(run_lstar):
                     print("\n\n\n\n\n")
-                    # compare with dfa from lstar_algorithm
                     dfa_from_rnn.renew()
                     start_time_lstar = time.time()
                     # try:
                     dfa_lstar, lstar_flag = extract(rnn, query=query_dfa, max_trace_length=maximum_sequence_length, epsilon=delta,
                                                         delta=delta, time_limit=timeout, initial_split_depth=10, starting_examples=[])
-                    # except:
-                        # lstar_run_without_error = False
                     end_time_lstar = time.time()
 
-                    # if(lstar_run_without_error):
                     dfa_lstar.draw_nicely(
                         filename=str(thread)+"_" + str(iteration)+"_" + target_formula+":"+query_formula+"_"+str(epsilon)+"_"+str(delta))
                     print("\nTime taken to extract lstar-dfa:",
@@ -341,6 +325,9 @@ for iteration in range(iterations):
                 performance_explanation_with_rnn = performance_rnn_with_groundtruth = performance_explanation_with_groundtruth = 0
                 lstar_performance_explanation_with_rnn = lstar_performance_explanation_with_groundtruth = 0
 
+                num_positive_examples = 0
+                num_negative_examples = 0
+                
                 test_set_size = 0
                 for w in test_set:
 
@@ -351,6 +338,8 @@ for iteration in range(iterations):
                     verdict_target = generator_dfa.classify_word(w)
                     verdict_ltl = explainer.dfa.classify_word(w)
                     verdict_query = query_dfa.classify_word(w)
+
+
 
                     if(run_lstar):
                         verdict_lstar = dfa_lstar.classify_word(w)
@@ -384,8 +373,7 @@ for iteration in range(iterations):
                         print("Lstar matches ground truth:", str(
                             percent(lstar_performance_explanation_with_groundtruth/test_set_size)))
 
-                fout.close()
-
+                
                 if(not (run_lstar)):
                     num_lstar_states = None
                     start_time_lstar = 0
@@ -417,7 +405,10 @@ for iteration in range(iterations):
                                                'lstar extraction time',
                                                'lstar_status',
                                                'epsilon',
-                                               'delta'
+                                               'delta', 
+                                               'learner time', 
+                                               'verifier time', 
+                                               'random words'
                                                ])
 
                 if(test_set_size != 0):
@@ -445,7 +436,11 @@ for iteration in range(iterations):
                             'lstar extraction time': end_time_lstar - start_time_lstar,
                             'lstar_status': lstar_flag,
                             'epsilon': epsilon,
-                            'delta': delta
+                            'delta': delta,
+                            'learner time': learner_time, 
+                            'verifier time': verifier_time, 
+                            'random words': teacher.number_of_words_checked
+
 
                         }, ignore_index=True
                     )
@@ -474,7 +469,11 @@ for iteration in range(iterations):
                             'lstar extraction time': end_time_lstar - start_time_lstar,
                             'lstar_status': lstar_flag,
                             'epsilon': epsilon,
-                            'delta': delta
+                            'delta': delta,
+                            'learner time': learner_time, 
+                            'verifier time': verifier_time, 
+                            'random words': teacher.number_of_words_checked
+
 
                         }, ignore_index=True
                     )

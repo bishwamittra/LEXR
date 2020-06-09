@@ -49,6 +49,7 @@ class PACTeacher():
         self.returned_counterexamples = []
         self._num_counterexamples_in_EQ = None
         self._number_of_samples = None
+        self.number_of_words_checked = 0
 
     def equivalence_query(self, dfa, verbose=False):
 
@@ -62,9 +63,11 @@ class PACTeacher():
         self._num_equivalence_asked = self._num_equivalence_asked + 1
 
         if(self.query_dfa is None):
+            self.number_of_words_checked += 1
             if dfa.is_word_in("") != self.specification_dfa.is_word_in(""):
                 return ""
         else:
+            self.number_of_words_checked += 1
             if (dfa.is_word_in("") != (self.query_dfa.is_word_in("") and self.specification_dfa.is_word_in(""))) and "" not in self.returned_counterexamples:
                 return ""
 
@@ -76,6 +79,9 @@ class PACTeacher():
         self._number_of_samples = int(
             math.ceil((self._num_equivalence_asked*0.693147-self._log_delta)/self.epsilon))
         for i in range(self._number_of_samples):
+
+            self.number_of_words_checked += 1
+
 
             """  
             # when both positive and negative counterexamples are found, one can safely decrease the max_trace_length for the current 
@@ -204,7 +210,9 @@ class PACTeacher():
     # @profile
     def teach(self, learner, traces, timeout=20, verbose=True):
         # with timeout(time):
-
+        
+        verifier_time = 0
+        learner_time = 0
         start_time = time.time()
 
         for i in range(300):
@@ -212,7 +220,7 @@ class PACTeacher():
             if(learner.current_formula_depth > self.max_formula_depth):
                 if(verbose):
                     print("Max formula depth achieved")
-                return learner, False
+                return learner, False, learner_time, verifier_time
             """  
                 For LTL learning, initialize  a process
                 """
@@ -228,6 +236,7 @@ class PACTeacher():
 
                 if(verbose):
                     equivalence_test_start_time = time.time()
+                    learner_time += equivalence_test_start_time - learning_start_time
                     print("Learning took: ", equivalence_test_start_time -
                           learning_start_time, " s")
                 [learner] = q.get()
@@ -237,10 +246,11 @@ class PACTeacher():
                     learner.dfa, verbose=verbose)
 
                 if(verbose):
+                    verifier_time += time.time() - equivalence_test_start_time
                     print("EQ test took ", time.time() -
                           equivalence_test_start_time, " s")
                 if counterexample is None:
-                    return learner,  True
+                    return learner,  True, learner_time, verifier_time
                 else:
                     self.returned_counterexamples.append(counterexample)
 
@@ -273,11 +283,11 @@ class PACTeacher():
 
                         traces.add_negative_example(counterexample)
             else:
-                return learner, False
+                return learner, False, learner_time, verifier_time
 
             print(i, " iteration complete\n\n\n")
 
-        return learner, False
+        return learner, False, learner_time, verifier_time
 
         # break
 
