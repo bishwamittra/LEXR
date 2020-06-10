@@ -4,8 +4,7 @@ LEXR is a formal description language based framework for explaining recurrent n
 
 ## Install
 The source code is tested in Python 3.7.4 and has following dependencies.
- - [Dynet](https://dynet.readthedocs.io/en/latest/python.html)
- - [Mona](http://www.brics.dk/mona/)
+ - [Mona](http://www.brics.dk/mona/): add mona to the system path using `export PATH=$PATH:"/path/to/mona/bin/"`
  - [Z3 solver](https://github.com/Z3Prover/z3) python binding
  - run `pip install -r requirements.txt` to install all necessary python packages available from pip
 
