@@ -36,6 +36,8 @@ def run_lstar(teacher, time_limit):
             break
 
         dfa = DFA.DFA(obs_table=table)
+        
+    
 
         counterexample = teacher.equivalence_query(dfa)
         if None is counterexample:
@@ -47,5 +49,5 @@ def run_lstar(teacher, time_limit):
             print("3 Interrupted due to time limit")
             complete_before_timeout = False
             break
-    
+        
     return dfa, complete_before_timeout

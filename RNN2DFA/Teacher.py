@@ -31,7 +31,7 @@ class Teacher:
         # need this to avoid answering same thing twice, which may happen a lot now with optimistic querying...
         words = set(words) - seen
         self.recorded_words.update(
-            {w: self.network.classify_word(w) for w in words})
+            {w: self.classify_word(w) for w in words})
 
     def classify_word(self, w):
         # this is modified to incorporate query

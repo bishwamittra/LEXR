@@ -24,8 +24,8 @@ def random_word(alphabet):
 def random_word_by_letter(alphabet, p=0.1):
     nums_of_letters = len(alphabet)
     while True:
-        # if np.random.randint(0, int(1 / p)) == 0:
-        #     break
+        if random.uniform(0, 1) <= p:
+            break
         letter = np.random.randint(0, nums_of_letters)
         yield alphabet[letter] 
 

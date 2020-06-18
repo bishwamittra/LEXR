@@ -17,7 +17,7 @@ graph = functools.partial(gv.Graph, format='png')
 separator = "_"
 
 class DFA:
-    def __init__(self,obs_table, apply_whatever_equal_cache_is_doing=False):
+    def __init__(self,obs_table, apply_whatever_equal_cache_is_doing = True):
         self.alphabet = obs_table.A #alphabet
         if(apply_whatever_equal_cache_is_doing):
             self.Q = [s for s in obs_table.S if s==obs_table.minimum_matching_row(s)] #avoid duplicate states
@@ -33,6 +33,7 @@ class DFA:
         self.q0 = obs_table.minimum_matching_row("")
         self.F = [s for s in self.Q if obs_table.T[s]== 1]
         self._make_transition_function(obs_table)
+        # self.draw_nicely()
 
     def minimize_(self):
         _dfa = SimpleDFA(set(self.Q), set(self.alphabet), self.q0, set(self.F), self.delta)

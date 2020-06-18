@@ -1,4 +1,4 @@
 output/*
 backup_output/*
-rnn_vary_backup_output/*
+cluster_results/*
 .DS_Store

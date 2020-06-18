@@ -67,7 +67,7 @@ random_run = args.random
 
 if(random_run):
     print("Running in random mode")
-    iterations = 5
+    iterations = 100
     epsilons = [0.05]
     deltas = [0.05]
 
