@@ -2,7 +2,7 @@ from RNN2DFA.LSTM import LSTMNetwork
 from RNN2DFA.GRU import GRUNetwork
 from RNN2DFA.LinearTransform import LinearTransform
 import dynet as dy
-from time import clock
+from time import time
 import random
 import matplotlib.pyplot as plt
 from math import ceil
@@ -113,7 +113,7 @@ class RNNClassifier:
                     batch_size=20,show=True,print_time=True,stop_threshold=0):
         if iterations == 0:
             return
-        start = clock()
+        start = time()
         trainer = trainer_class(self.pc)
         if not None is learning_rate:
             trainer.learning_rate = learning_rate
@@ -138,7 +138,7 @@ class RNNClassifier:
 
         self.all_losses += loss_values
         if print_time:
-            print("total time:",clock()-start)
+            print("total time:",time()-start)
         if show:
             plt.scatter(range(len(loss_values)),loss_values,label="classification loss for these epochs")
             plt.legend()

@@ -7,7 +7,7 @@ import itertools
 import RNN2DFA.Lstar
 from random import randint, shuffle
 import random
-from time import clock
+from time import time
 import string
 from pythomata import SimpleDFA
 

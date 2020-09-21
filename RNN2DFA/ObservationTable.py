@@ -1,4 +1,4 @@
-from time import clock
+from time import time
 
 
 class TableTimedOut(Exception):
@@ -82,7 +82,7 @@ class ObservationTable:
 
     def timed_out(self):
         if not None is self.time_limit:
-            time_taken = clock()-self.start
+            time_taken = time()-self.start
             if time_taken > self.time_limit:
                 print("obs table timed out")
                 print("Total time taken:", time_taken)

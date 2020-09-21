@@ -1,6 +1,6 @@
 from RNN2DFA.Quantisations import SVMDecisionTreeQuantisation
 from RNN2DFA.WhiteboxRNNCounterexampleGenerator import WhiteboxRNNCounterexampleGenerator
-from time import clock
+from time import time
 import numpy as np
 from PACTeacher import pac_teacher
 from multiprocessing import Process, Queue
@@ -39,14 +39,14 @@ class Teacher:
 
     def equivalence_query(self, dfa):
         self.dfas.append(dfa)
-        start = clock()
+        start = time()
         # call pac equivalence query
         counterexample = self.pac_teacher.equivalence_query(dfa, verbose=False)
         self.pac_teacher.returned_counterexamples.append(counterexample)
         
         
         # counterexample,message = self.counterexample_generator.counterexample(dfa)
-        counterexample_time = clock() - start
+        counterexample_time = time() - start
         # print("equivalence checking took: " + str(counterexample_time))
         if not None is counterexample:
             print("Returned counterexample is:", counterexample, " which should be classified: ", self.classify_word(counterexample))

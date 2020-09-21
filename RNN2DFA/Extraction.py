@@ -1,4 +1,4 @@
-from time import clock
+from time import time
 from RNN2DFA.ObservationTable import TableTimedOut
 from RNN2DFA.DFA import DFA
 from RNN2DFA.Teacher import Teacher
@@ -10,14 +10,14 @@ def extract(rnn, query = None , max_trace_length=20, epsilon=.05, delta=.05, tim
     guided_teacher = Teacher(
         rnn, query, num_dims_initial_split=initial_split_depth, starting_examples=starting_examples, epsilon=epsilon, delta = delta, max_trace_length=max_trace_length)
 
-    start = clock()
+    start = time()
     try:
         _, flag =run_lstar(guided_teacher, time_limit)
     except KeyboardInterrupt:  # you can press the stop button in the notebook to stop the extraction any time
         print("lstar extraction terminated by user")
     except TableTimedOut:
         print("observation table timed out during refinement")
-    end = clock()
+    end = time()
     extraction_time = end-start
 
     dfa = guided_teacher.dfas[-1]

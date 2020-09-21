@@ -1,5 +1,5 @@
 from copy import deepcopy
-from time import clock
+from time import time
 
 class WhiteboxRNNCounterexampleGenerator:
     def __init__(self,network,partitioning,starting_examples):
@@ -94,7 +94,7 @@ class WhiteboxRNNCounterexampleGenerator:
 
     def _out_of_time(self):
         if not None is self.time_limit:
-            if (clock() - self.start_time) > self.time_limit:
+            if (time() - self.start_time) > self.time_limit:
                 return True
         return False
 
