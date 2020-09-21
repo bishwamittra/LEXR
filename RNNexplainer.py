@@ -60,7 +60,7 @@ class Traces:
             print("\n\nnegative traces---> ")
             print(self.negative_example)
             print("\n\n")
-
+       
         self.location = location + self.token
 
         # write positive and negative examples as a traces in a file
@@ -114,11 +114,11 @@ class Explainer:
         self.alphabet = alphabet
         self.current_formula_depth = 1
         self.token = token
+        self.formula = None
 
     def learn_ltlf_and_dfa(self, queue, show_dfa=False):
 
         # print(self.token)
-
         learned_formulas, self.current_formula_depth = LTL_learner.learnLTL(
             self.traces, startDepth=self.current_formula_depth)
 
@@ -127,22 +127,23 @@ class Explainer:
         print("Learning formula with depth", learned_formulas[0].getDepth())
         print("Number of subformulas:", learned_formulas[0].getNumberOfSubformulas())
         formulas = self._convert_formula(learned_formulas)
-
+        
         try:
             self.ltl = formulas[0]
+            self.formula = learned_formulas[0]
         except:
             self.ltl = "false"
 
-        self.dfa = DFA_learner.translate_ltl2dfa(
-            alphabet=self.alphabet, formula=self.ltl, token=self.token)
+        # self.dfa = DFA_learner.translate_ltl2dfa(
+        #     alphabet=self.alphabet, formula=self.ltl, token=self.token)
 
         print("learned LTL formula:", self.ltl)
-        # print(self.dfa)
+        # # print(self.dfa)
 
-        if(show_dfa):
-            print(self.dfa)
-            pydot_graph = pydotplus.graph_from_dot_file("automa.dot")
-            display(Image(pydot_graph.create_png()))
+        # if(show_dfa):
+        #     print(self.dfa)
+        #     pydot_graph = pydotplus.graph_from_dot_file("automa.dot")
+        #     display(Image(pydot_graph.create_png()))
 
         queue.put([self])
 

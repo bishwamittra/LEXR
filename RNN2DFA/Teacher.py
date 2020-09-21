@@ -41,7 +41,7 @@ class Teacher:
         self.dfas.append(dfa)
         start = time()
         # call pac equivalence query
-        counterexample = self.pac_teacher.equivalence_query(dfa, verbose=False)
+        counterexample = self.pac_teacher.equivalence_query(dfa, verbose=False, evaluate_DFA=True)
         self.pac_teacher.returned_counterexamples.append(counterexample)
         
         

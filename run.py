@@ -15,7 +15,7 @@ import os.path
 import pickle
 from pythomata import SimpleDFA
 import random
-
+from samples2ltl.utils.Traces import Trace
 # parameters
 
 timeout = 400
@@ -330,16 +330,20 @@ for iteration in range(iterations):
                 
                 test_set_size = 0
                 for w in test_set:
-
+                    
                     dfa_from_rnn.renew()
 
                     test_set_size += 1
                     verdict_rnn = dfa_from_rnn.classify_word(w)
                     verdict_target = generator_dfa.classify_word(w)
-                    verdict_ltl = explainer.dfa.classify_word(w)
+                    trace_vector = []
+                    for letter in w:
+                        trace_vector.append([alphabet[i] == letter for i in range(len(alphabet))])
+                        trace = Trace(trace_vector)
+                    if(len(w) == 0):
+                        trace = Trace([[False for _ in alphabet]])
+                    verdict_ltl = trace.evaluateFormulaOnTrace(explainer.formula)
                     verdict_query = query_dfa.classify_word(w)
-
-
 
                     if(run_lstar):
                         verdict_lstar = dfa_lstar.classify_word(w)

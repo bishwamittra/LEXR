@@ -19,7 +19,6 @@ def helper(m, d, vars):
  
 def learnLTL(tracesFileName="dummy.trace", startDepth=1, optimization = False):
     
-    
     parser = argparse.ArgumentParser()
     # parser.add_argument("--traces", dest="tracesFileName", default="samples2ltl/traces/dummy.trace")
     parser.add_argument("--max_depth", dest="maxDepth", default='50')
@@ -54,7 +53,6 @@ def learnLTL(tracesFileName="dummy.trace", startDepth=1, optimization = False):
     iterationStep = int(args.iterationStep)
     traces.readTracesFromFile(tracesFileName)
     finalDepth = int(args.maxDepth)
-    
 
     # default formulas
     if(len(traces.acceptedTraces)==0):
@@ -64,10 +62,9 @@ def learnLTL(tracesFileName="dummy.trace", startDepth=1, optimization = False):
     
     
     solvingTimeout = int(args.timeout)
-    #print(traces)
     timeout = int(args.timeout)
 
-
+    
     # print("\n\nLearning LTL: (start) ")
     # if args.testSatMethod == True:
     [formulas , formula_depth, timePassed] = run_solver(finalDepth=maxDepth, traces=traces, maxNumOfFormulas = numFormulas, startValue=startDepth, step=iterationStep, optimization=optimization)
@@ -84,24 +81,6 @@ def learnLTL(tracesFileName="dummy.trace", startDepth=1, optimization = False):
         
     
     
-    # if(not optimization):
-
-       
-    #     # consistency check
-    #     for formula in formulas:
-    #         # print("consistency check: ",traces.isFormulaConsistent(formula))
-    #         if(not traces.isFormulaConsistent(formula)):
-    #             print("probably wrong formula:", formula.prettyPrint())
-    #             print(traces) 
-            
-                
-    # else:
-    #     print("\nlist of formulas ->")
-    #     for formula in formulas:
-    #         print(formula.prettyPrint())
-            
-    
-    # print(formulas, formula_depth)
     return formulas, formula_depth
 
 if __name__ == "__main__":

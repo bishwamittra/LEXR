@@ -50,8 +50,7 @@ class Trace:
 
         self.lengthOfTrace = len(traceVector)
         self.intendedEvaluation = intendedEvaluation
-
-        assert self.lengthOfTrace > 0
+        assert self.lengthOfTrace > 0, str(self.lengthOfTrace) + " is not a valid length"
         self.numVariables = len(traceVector[0])
         self.traceVector = traceVector
         if literals == None:
@@ -103,7 +102,6 @@ class Trace:
 
         nodes = list(set(formula.getAllNodes()))
         self.truthAssignmentTable = {node: [None for _ in range(self.lengthOfTrace)] for node in nodes}
-
         for i in range(self.numVariables):
             literalFormula = Formula(self.literals[i])
 
@@ -147,7 +145,10 @@ class Trace:
                     return False
                 else:
                     return self.truthValue(formula.left, self.nextPos(timestep))
-
+            elif label == "false":
+                return False
+            elif label == "true":
+                return True
 
 
 

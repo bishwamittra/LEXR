@@ -9,7 +9,7 @@ from contextlib import contextmanager
 from multiprocessing import Process, Queue
 import operator as op
 from functools import reduce
-
+from samples2ltl.utils.Traces import Trace
 # @contextmanager
 # def timeout(time):
 #     # Register a function to raise a TimeoutError on the signal.
@@ -51,7 +51,7 @@ class PACTeacher():
         self._number_of_samples = None
         self.number_of_words_checked = 0
 
-    def equivalence_query(self, dfa, verbose=False):
+    def equivalence_query(self, formula, verbose=False, evaluate_DFA = False):
 
         # if(verbose):
         #     print("already found counterexamples:", self.returned_counterexamples)
@@ -64,12 +64,17 @@ class PACTeacher():
 
         if(self.query_dfa is None):
             self.number_of_words_checked += 1
-            if dfa.is_word_in("") != self.specification_dfa.is_word_in(""):
+            if formula.is_word_in("") != self.specification_dfa.is_word_in(""):
                 return ""
         else:
             self.number_of_words_checked += 1
-            if (dfa.is_word_in("") != (self.query_dfa.is_word_in("") and self.specification_dfa.is_word_in(""))) and "" not in self.returned_counterexamples:
-                return ""
+            if(evaluate_DFA):
+                if (formula.is_word_in("") != (self.query_dfa.is_word_in("") and self.specification_dfa.is_word_in(""))) and "" not in self.returned_counterexamples:
+                    return ""
+            else:
+                trace = Trace([[False for _ in self.specification_dfa.alphabet]])
+                if (trace.evaluateFormulaOnTrace(formula) != (self.query_dfa.is_word_in("") and self.specification_dfa.is_word_in(""))) and "" not in self.returned_counterexamples:
+                    return ""
 
         positive_counterexample = None
         negative_counterexample = None
@@ -95,9 +100,10 @@ class PACTeacher():
                     _max_trace_length = len(negative_counterexample) - 1
                 else:
                     _max_trace_length = len(positive_counterexample) - 1
-
-            dfa.reset_current_to_init()
+            if(evaluate_DFA):
+                formula.reset_current_to_init()
             # renew rnn (applicable for dynet package)
+            
             self.specification_dfa.renew()
             self.specification_dfa.reset_current_to_init()
 
@@ -105,19 +111,28 @@ class PACTeacher():
                 self.query_dfa.reset_current_to_init()
             word = ""
             word_length = 0
+            trace_vector = []
             for letter in random_word_by_letter(self.specification_dfa.alphabet):
                 word = word + letter
                 word_length += 1
 
+
+                
+                
                 """ 
                 the following code fragment narrow downs the search space with the help of query dfa. 
                 """
                 if(self.query_dfa == None):
-                    if dfa.is_word_letter_by_letter(letter) != self.specification_dfa.is_word_letter_by_letter(letter):
+                    if formula.is_word_letter_by_letter(letter) != self.specification_dfa.is_word_letter_by_letter(letter):
                         return word
                 else:
-
-                    dfa_verdict = dfa.is_word_letter_by_letter(letter)
+                    
+                    if(evaluate_DFA):
+                        dfa_verdict = formula.is_word_letter_by_letter(letter)
+                    else:
+                        trace_vector.append([ self.specification_dfa.alphabet[i] == letter for i in range(len(self.specification_dfa.alphabet))])
+                        trace = Trace(trace_vector)
+                        dfa_verdict = trace.evaluateFormulaOnTrace(formula)
                     specification_verdict = self.specification_dfa.is_word_letter_by_letter(
                         letter)
                     query_verdict = self.query_dfa.is_word_letter_by_letter(
@@ -364,7 +379,7 @@ class PACTeacher():
 
                 # learner.learn_ltlf_and_dfa()
                 counterexample = self.equivalence_query(
-                    learner.dfa, verbose=verbose)
+                    learner.formula, verbose=verbose)
 
                 if(verbose):
                     verifier_time += time.time() - equivalence_test_start_time
