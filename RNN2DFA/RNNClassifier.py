@@ -64,7 +64,11 @@ class RNNClassifier:
         return state.as_vec(), self._classify_state(state)
         
     def _word_is_over_input_alphabet(self,word):
-        return next((False for c in word if not c in self.alphabet),True)
+        if('x' in self.alphabet[0]):
+            word = word.split("x")[1:]
+            return next((False for c in word if not "x" + c in self.alphabet),True)
+        else:
+            return next((False for c in word if not c in self.alphabet),True)
  
     def _state_accept_probability(self,s):
         probabilities = self._state_probability_distribution(s)
@@ -79,13 +83,25 @@ class RNNClassifier:
             print("word is not over input alphabet")
             return False
         s = self.rnn.initial_state
+        modified_input = False
+        if("x" in word):
+            word = word.split("x")[1:]
+            modified_input = True
         for c in word:
-            s = self._next_state(s,c)
+            if(modified_input):
+                s = self._next_state(s,"x" + c)        
+            else:
+                s = self._next_state(s,c)
         return self._state_accept_probability(s)
 
     def classify_word(self,word):
         self.renew()
-        return self._probability_word_in_language(word).value()>0.5
+        try:
+            return self._probability_word_in_language(word).value()>0.5
+        except:
+            print(word)
+            print(self.alphabet)
+            raise ValueError
 
     def loss_on_word(self, word, label):
         s = self.rnn.initial_state
@@ -146,15 +162,6 @@ class RNNClassifier:
             self.show_all_losses()
         return self.finish_signal if loss_values[-1] < stop_threshold else self.keep_going
 
-
-
-    ################################################
-    ################################################
-    #
-    # Igor additions:
-    #
-    ################################################
-    ################################################
 
     def is_word_letter_by_letter(self, letter):
         self.current_state = self._next_state(self.current_state, letter)

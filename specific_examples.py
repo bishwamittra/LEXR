@@ -451,7 +451,10 @@ class Text_Classification():
             raise ValueError("word not in the original file")
         else:
             return self.dict[w]
-        
+
+from samples2ltl.utils.SimpleTree import Formula        
+from samples2ltl.utils.Traces import Trace
+
 
 class Example:
     def __init__(self, alphabet, target_formula, token):
@@ -532,6 +535,37 @@ class Example4(Example):
             "F(a & X(b))"
         ]
 
+
+class Example4_modified():
+
+    def __init__(self, token=""):
+        self.alphabet=['x0', 'x1', 'x2'] 
+        self.target_formula="F(x0)"
+        self.ltl_formula = Formula.convertTextToFormula(self.target_formula)        
+        self.query_formulas = [
+            "true",
+            "false",
+            "F(x1)",
+            "F(~x0)",
+            "F(~x1)",
+            'F(x0Ux1)',
+            'F(x1Ux0)',
+            "G(x0)",
+            "G(x2)",
+            "F(x2)",
+            "F(x0 & X(x1))"
+        ]
+    
+    def classify_word(self, w):
+        w = w.split("x")[1:]
+        trace_vector = []
+        for letter in w:
+            trace_vector.append([self.alphabet[i][1:] == letter for i in range(len(self.alphabet))])
+        if(len(w) == 0):
+            trace = Trace([[False for _ in self.alphabet]])
+        else:
+            trace = Trace(trace_vector)
+        return trace.evaluateFormulaOnTrace(self.ltl_formula)
 
 class Example5(Example):
 

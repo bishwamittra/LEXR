@@ -30,14 +30,21 @@ class Teacher:
         seen = set(self.recorded_words.keys())
         # need this to avoid answering same thing twice, which may happen a lot now with optimistic querying...
         words = set(words) - seen
+        # print(words)
         self.recorded_words.update(
             {w: self.classify_word(w) for w in words})
 
     def classify_word(self, w):
         # this is modified to icorporate query
         trace_vector = []
-        for letter in w:
-            trace_vector.append([self.alphabet[i] == letter for i in range(len(self.alphabet))])
+        if("x" in w):
+            word = w.split("x")[1:]
+            for letter in word:
+                trace_vector.append([self.alphabet[i] == "x" + letter for i in range(len(self.alphabet))])
+        else:
+            for letter in w:
+                trace_vector.append([self.alphabet[i] == letter for i in range(len(self.alphabet))])
+
         if(len(w) == 0):
             trace = Trace([[False for _ in self.alphabet]])
         else:

@@ -8,8 +8,8 @@ from samples2ltl.utils.SimpleTree import Formula
 
 def get_models(finalDepth, traces, startValue, step, encoder, maxNumModels=1, verbose=True, optimization=False):
 
-    if(verbose):
-        print("start formula depth:", startValue)
+    # if(verbose):
+    #     print("start formula depth:", startValue)
 
     results = []
     i = startValue
@@ -20,7 +20,7 @@ def get_models(finalDepth, traces, startValue, step, encoder, maxNumModels=1, ve
         if not solverRes == sat:
             logging.debug("not sat for i = {}".format(i))
             i += step
-            print("increasing formula depth to ", i )
+            # print("increasing formula depth to ", i )
 
             fg = encoder(i, traces, optimization=optimization)
             fg.encodeFormula()
@@ -34,7 +34,7 @@ def get_models(finalDepth, traces, startValue, step, encoder, maxNumModels=1, ve
             There seems to be inconsistencies  in formula.normalize
             """
 
-            print("Before normalization:", formula.prettyPrint())
+            # print("Before normalization:", formula.prettyPrint())
             formula = Formula.normalize(formula)
             
             logging.info("normalized formula {}".format(formula))

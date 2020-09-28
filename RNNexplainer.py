@@ -38,7 +38,11 @@ class Traces:
         if(len(example) == 0):
             return ",".join("0" for _ in range(length_alphabet))
 
-        integer_encoded = [char_to_int[char] for char in example]
+        if("x" in example):
+            example = example.split("x")[1:]
+            integer_encoded = [char_to_int["x" + char] for char in example]
+        else:
+            integer_encoded = [char_to_int[char] for char in example]
 
         # one hot encode
         onehot_encoded = list()
@@ -52,7 +56,7 @@ class Traces:
 
         return trace
 
-    def write_in_file(self, location="dummy.trace", verbose=True):
+    def write_in_file(self, location="dummy.trace", verbose=False):
 
         if(verbose):
             print("\n\npositive traces---> ")
@@ -124,8 +128,8 @@ class Explainer:
 
         self.formula_depth = learned_formulas[0].getNumberOfSubformulas()
             
-        print("Learning formula with depth", learned_formulas[0].getDepth())
-        print("Number of subformulas:", learned_formulas[0].getNumberOfSubformulas())
+        # print("Learning formula with depth", learned_formulas[0].getDepth())
+        # print("Number of subformulas:", learned_formulas[0].getNumberOfSubformulas())
         formulas = self._convert_formula(learned_formulas)
         
         try:

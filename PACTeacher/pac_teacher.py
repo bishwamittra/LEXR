@@ -62,24 +62,18 @@ class PACTeacher():
 
         self._num_equivalence_asked = self._num_equivalence_asked + 1
 
-        if(self.query_dfa is None):
-            self.number_of_words_checked += 1
-            if formula.is_word_in("") != self.specification_dfa.is_word_in(""):
+        self.number_of_words_checked += 1
+        trace = Trace([[False for _ in self.specification_dfa.alphabet]])
+        if(evaluate_DFA):
+            if (formula.is_word_in("") != (trace.evaluateFormulaOnTrace(self.query_dfa) and self.specification_dfa.is_word_in(""))) and "" not in self.returned_counterexamples:
                 return ""
         else:
-            self.number_of_words_checked += 1
-            trace = Trace([[False for _ in self.specification_dfa.alphabet]])
-            if(evaluate_DFA):
-                if (formula.is_word_in("") != (trace.evaluateFormulaOnTrace(self.query_dfa) and self.specification_dfa.is_word_in(""))) and "" not in self.returned_counterexamples:
-                    return ""
-            else:
-                if (trace.evaluateFormulaOnTrace(formula) != (trace.evaluateFormulaOnTrace(self.query_dfa) and self.specification_dfa.is_word_in(""))) and "" not in self.returned_counterexamples:
-                    return ""
+            if (trace.evaluateFormulaOnTrace(formula) != (trace.evaluateFormulaOnTrace(self.query_dfa) and self.specification_dfa.is_word_in(""))) and "" not in self.returned_counterexamples:
+                return ""
 
         positive_counterexample = None
         negative_counterexample = None
-        # number_of_rounds = int((self._log_delta - self._num_equivalence_asked)/self._log_one_minus_epsilon)
-
+        
         # from the paper
         self._number_of_samples = int(
             math.ceil((self._num_equivalence_asked*0.693147-self._log_delta)/self.epsilon))
@@ -100,6 +94,7 @@ class PACTeacher():
                     _max_trace_length = len(negative_counterexample) - 1
                 else:
                     _max_trace_length = len(positive_counterexample) - 1
+            
             if(evaluate_DFA):
                 formula.reset_current_to_init()
             # renew rnn (applicable for dynet package)
@@ -123,43 +118,42 @@ class PACTeacher():
                 """ 
                 the following code fragment narrow downs the search space with the help of query dfa. 
                 """
-                if(self.query_dfa == None):
-                    if formula.is_word_letter_by_letter(letter) != self.specification_dfa.is_word_letter_by_letter(letter):
-                        return word
-                else:
+                
                     
-                    trace_vector.append([ self.specification_dfa.alphabet[i] == letter for i in range(len(self.specification_dfa.alphabet))])
-                    trace = Trace(trace_vector)
-                        
-                    if(evaluate_DFA):
-                        dfa_verdict = formula.is_word_letter_by_letter(letter)
+                    
+                trace_vector.append([ self.specification_dfa.alphabet[i] == letter for i in range(len(self.specification_dfa.alphabet))])
+                trace = Trace(trace_vector)
+
+                    
+                if(evaluate_DFA):
+                    dfa_verdict = formula.is_word_letter_by_letter(letter)
+                else:
+                    dfa_verdict = trace.evaluateFormulaOnTrace(formula)
+                
+                
+                specification_verdict = self.specification_dfa.is_word_letter_by_letter(
+                    letter)
+
+                query_verdict = trace.evaluateFormulaOnTrace(self.query_dfa)
+
+
+
+                if(dfa_verdict != (specification_verdict and query_verdict)):
+
+                    """  
+                    The following code tries to balance between positive and negative counterexamples.
+                    """
+                    if(not dfa_verdict):  # if current verdict is negative, the word must be a positive counterexample
+                        if((positive_counterexample is None or len(positive_counterexample) > word_length) and word not in self.returned_counterexamples):
+                            positive_counterexample = word
                     else:
-                        dfa_verdict = trace.evaluateFormulaOnTrace(formula)
-                    specification_verdict = self.specification_dfa.is_word_letter_by_letter(
-                        letter)
-                    # query_verdict = self.query_dfa.is_word_letter_by_letter(
-                    #     letter)
-                    query_verdict = trace.evaluateFormulaOnTrace(self.query_dfa)
+                        if((negative_counterexample is None or len(negative_counterexample) > word_length) and word not in self.returned_counterexamples):
+                            negative_counterexample = word
 
-                    if(dfa_verdict != (specification_verdict and query_verdict)):
-                        """  
-                        The following code tries to balance between positive and negative counterexamples.
-                        """
-                        if(not dfa_verdict):  # if current verdict is negative, the word must be a positive counterexample
-                            if((positive_counterexample is None or len(positive_counterexample) > word_length) and word not in self.returned_counterexamples):
-                                positive_counterexample = word
-                        else:
-                            if((negative_counterexample is None or len(negative_counterexample) > word_length) and word not in self.returned_counterexamples):
-                                negative_counterexample = word
+                    self._num_counterexamples_in_EQ += 1
 
-                        self._num_counterexamples_in_EQ += 1
-
-                        # print("positive counterexample:",
-                        #       positive_counterexample)
-                        # print("negative counterexample:",
-                        #       negative_counterexample)
-                        break
-                        # return word
+                    break
+                    # return word
 
                 # impose bound on word-length
                 if(_max_trace_length <= word_length):
@@ -190,125 +184,6 @@ class PACTeacher():
         return None
 
 
-    def equivalence_query_complex(self, dfa, verbose=False):
-
-        # if(verbose):
-        #     print("already found counterexamples:", self.returned_counterexamples)
-
-        _max_trace_length = self.max_trace_length
-
-        self._num_counterexamples_in_EQ = 0
-
-        self._num_equivalence_asked = self._num_equivalence_asked + 1
-
-        if(self.query_dfa is None):
-            self.number_of_words_checked += 1
-            if dfa.is_word_in("") != self.specification_dfa.is_word_in(""):
-                return ""
-        else:
-            self.number_of_words_checked += 1
-            if (dfa.is_word_in("") != (self.query_dfa.is_word_in("") and self.specification_dfa.is_word_in(""))) and "" not in self.returned_counterexamples:
-                return ""
-
-        positive_counterexample = None
-        negative_counterexample = None
-        # number_of_rounds = int((self._log_delta - self._num_equivalence_asked)/self._log_one_minus_epsilon)
-
-        # from the paper
-        self._number_of_samples = int(
-            math.ceil((self._num_equivalence_asked*0.693147-self._log_delta)/self.epsilon))
-        for i in range(self._number_of_samples):
-
-            self.number_of_words_checked += 1
-
-
-            """  
-            # when both positive and negative counterexamples are found, one can safely decrease the max_trace_length for the current 
-            # equivalence query
-            """
-
-            if(negative_counterexample is not None and positive_counterexample is not None):
-                # if(verbose):
-                #     print("decreasing maximum trace length to ", _max_trace_length)
-                if(self._last_counterexample_positive):
-                    _max_trace_length = len(negative_counterexample) - 1
-                else:
-                    _max_trace_length = len(positive_counterexample) - 1
-
-            dfa.reset_current_to_init()
-            # renew rnn (applicable for dynet package)
-            self.specification_dfa.renew()
-            self.specification_dfa.reset_current_to_init()
-
-            if(self.query_dfa is not None):
-                self.query_dfa.reset_current_to_init()
-            word = ""
-            word_length = 0
-            for letter in random_word_by_letter(self.specification_dfa.alphabet):
-                word = word + letter
-                word_length += 1
-
-                """ 
-                the following code fragment narrow downs the search space with the help of query dfa. 
-                """
-                if(self.query_dfa == None):
-                    if dfa.is_word_letter_by_letter(letter) != self.specification_dfa.is_word_letter_by_letter(letter):
-                        return word
-                else:
-
-                    dfa_verdict = dfa.is_word_letter_by_letter(letter)
-                    specification_verdict = self.specification_dfa.is_word_letter_by_letter(
-                        letter)
-                    query_verdict = self.query_dfa.is_word_letter_by_letter(
-                        letter)
-
-                    if(dfa_verdict != (specification_verdict and query_verdict)):
-                        """  
-                        The following code tries to balance between positive and negative counterexamples.
-                        """
-                        if(not dfa_verdict):  # if current verdict is negative, the word must be a positive counterexample
-                            if((positive_counterexample is None or len(positive_counterexample) > word_length) and word not in self.returned_counterexamples):
-                                positive_counterexample = word
-                        else:
-                            if((negative_counterexample is None or len(negative_counterexample) > word_length) and word not in self.returned_counterexamples):
-                                negative_counterexample = word
-
-                        self._num_counterexamples_in_EQ += 1
-
-                        # print("positive counterexample:",
-                        #       positive_counterexample)
-                        # print("negative counterexample:",
-                        #       negative_counterexample)
-                        break
-                        # return word
-
-                # impose bound on word-length
-                if(_max_trace_length <= word_length):
-                    break
-
-        """ 
-        try to return the minimal-size counterexample with alteration
-        """
-
-        if(self._last_counterexample_positive):
-
-            if(negative_counterexample is not None):
-                self._last_counterexample_positive = False
-                return negative_counterexample
-            elif(positive_counterexample is not None):
-                if(verbose):
-                    print("No negative counterexample found")
-                return positive_counterexample
-        else:
-
-            if(positive_counterexample is not None):
-                self._last_counterexample_positive = True
-                return positive_counterexample
-            elif(negative_counterexample is not None):
-                if(verbose):
-                    print("No positive counterexample found")
-                return negative_counterexample
-        return None
 
     def _ncr(self, n, r):
         r = min(r, n-r)
@@ -354,7 +229,7 @@ class PACTeacher():
         learner_time = 0
         start_time = time.time()
 
-        for i in range(300):
+        for i in range(200):
 
             if(learner.current_formula_depth > self.max_formula_depth):
                 if(verbose):
@@ -407,26 +282,45 @@ class PACTeacher():
                                   " should be rejected by implementation")
                         traces.add_negative_example(counterexample)
                 else:
-                    trace_vector = []
-                    for letter in counterexample:
-                        trace_vector.append([self.specification_dfa.alphabet[i] == letter for i in range(len(self.specification_dfa.alphabet))])                    
-                    if(len(counterexample) == 0):
-                        trace = Trace([[False for _ in self.specification_dfa.alphabet]])
+
+                    if("x" in counterexample):
+                        trace_vector = []
+                        word = counterexample.split("x")[1:]
+                        for letter in word:
+                            trace_vector.append([self.specification_dfa.alphabet[i] == "x" + letter for i in range(len(self.specification_dfa.alphabet))])                    
+                        if(len(counterexample) == 0):
+                            trace = Trace([[False for _ in self.specification_dfa.alphabet]])
+                        else:
+                            trace = Trace(trace_vector)
+
+
                     else:
-                        trace = Trace(trace_vector)
+                        trace_vector = []
+                        for letter in counterexample:
+                            trace_vector.append([self.specification_dfa.alphabet[i] == letter for i in range(len(self.specification_dfa.alphabet))])                    
+                        if(len(counterexample) == 0):
+                            trace = Trace([[False for _ in self.specification_dfa.alphabet]])
+                        else:
+                            trace = Trace(trace_vector)
+
     
                     if(self.specification_dfa.classify_word(counterexample) and trace.evaluateFormulaOnTrace(self.query_dfa)):
                         if(verbose):
 
                             print("new counterexample:", counterexample,
                                   " should be accepted by implementation")
-
+                            print("RNN verdict  :", self.specification_dfa.classify_word(counterexample))
+                            print("Query verdict:", trace.evaluateFormulaOnTrace(self.query_dfa))
+                            print(trace)
                         traces.add_positive_example(counterexample)
                     else:
                         if(verbose):
 
                             print("new counterexample:", counterexample,
                                   " should be rejected by implementation")
+                            print("RNN verdict  :", self.specification_dfa.classify_word(counterexample))
+                            print("Query verdict:", trace.evaluateFormulaOnTrace(self.query_dfa))
+                            print(trace)
 
                         traces.add_negative_example(counterexample)
             else:

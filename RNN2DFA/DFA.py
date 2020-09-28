@@ -57,6 +57,8 @@ class DFA:
 
     def classify_word(self,word):
         #assumes word is string with only letters in alphabet
+        if("x" in word):
+            word = ["x" + c for c in word.split("x")[1:]]
         q = self.q0
         for a in word:
             q = self.delta[q][a]

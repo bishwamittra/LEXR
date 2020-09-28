@@ -124,8 +124,17 @@ class ObservationTable:
             # print("bad counterexample - already saved and classified in table!")
             return
 
-        new_states = [ce[0:i+1]
-                      for i in range(len(ce)) if not ce[0:i+1] in self.S]
+        # print("counterexample: ---->", ce)
+        ce_split = None
+        if("x" in ce):
+            ce_split = [ "x" + c for c in ce.split("x")[1:]]
+        else:
+            ce_split = ce
+
+        new_states = [("").join(ce_split[0:i+1])
+                      for i in range(len(ce_split)) if not ("").join(ce_split[0:i+1]) in self.S]
+
+        # print(new_states)
         # print("Got new states:", new_states)
         # print("Previous states:", self.S)
         self.T[ce] = label
