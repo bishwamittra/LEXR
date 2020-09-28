@@ -1,6 +1,6 @@
 import dynet_config
 # Set some parameters manualy
-dynet_config.set(mem=1024, random_seed=9)
+dynet_config.set(mem=1000, random_seed=9)
 # from GRU import GRUNetwork
 import dynet as dy
 from RNN2DFA.Helper_Functions import map_nested_dict

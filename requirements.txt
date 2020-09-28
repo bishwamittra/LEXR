@@ -41,4 +41,3 @@ sympy==1.6
 threadpoolctl==2.1.0
 traitlets==4.3.3
 wcwidth==0.2.4
-z3-solver==4.8.8.0

@@ -339,7 +339,7 @@ for iteration in range(iterations):
                     trace_vector = []
                     for letter in w:
                         trace_vector.append([alphabet[i] == letter for i in range(len(alphabet))])
-                        trace = Trace(trace_vector)
+                    trace = Trace(trace_vector)
                     if(len(w) == 0):
                         trace = Trace([[False for _ in alphabet]])
                     verdict_ltl = trace.evaluateFormulaOnTrace(explainer.formula)

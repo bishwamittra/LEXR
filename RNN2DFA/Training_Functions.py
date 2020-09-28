@@ -1,5 +1,5 @@
 from RNN2DFA.Helper_Functions import n_words_of_length
-
+from tqdm import tqdm
 
 def make_train_set_for_target(target, alphabet, lengths=None, max_train_samples_per_length=3000, search_size_per_length=10000, provided_examples=None, deviation=20):
     train_set = {}
@@ -31,7 +31,7 @@ def mixed_curriculum_train(rnn, train_set, outer_loops=3, stop_threshold=0.001, 
                            length_epochs=5, random_batch_epochs=100, single_batch_epochs=100, random_batch_size=20):
     lengths = sorted(list(set([len(w) for w in train_set])))
     for _ in range(outer_loops):
-        for l in lengths:
+        for l in tqdm(lengths):
             training = {w: train_set[w] for w in train_set if len(w) == l}
             # empty, or length with only one classification
             if len(set([training[w] for w in training])) <= 1:

@@ -4,7 +4,7 @@ from time import time
 import numpy as np
 from PACTeacher import pac_teacher
 from multiprocessing import Process, Queue
-
+from samples2ltl.utils.Traces import Trace
 
 class Teacher:
     def __init__(self, network, query, num_dims_initial_split=10, starting_examples=None, epsilon=0.05, delta=0.05, max_trace_length=20, ):
@@ -34,8 +34,15 @@ class Teacher:
             {w: self.classify_word(w) for w in words})
 
     def classify_word(self, w):
-        # this is modified to incorporate query
-        return self.network.classify_word(w) and self.query.classify_word(w)
+        # this is modified to icorporate query
+        trace_vector = []
+        for letter in w:
+            trace_vector.append([self.alphabet[i] == letter for i in range(len(self.alphabet))])
+        if(len(w) == 0):
+            trace = Trace([[False for _ in self.alphabet]])
+        else:
+            trace = Trace(trace_vector)
+        return self.network.classify_word(w) and trace.evaluateFormulaOnTrace(self.query)
 
     def equivalence_query(self, dfa):
         self.dfas.append(dfa)

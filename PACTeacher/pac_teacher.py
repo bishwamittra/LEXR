@@ -68,12 +68,12 @@ class PACTeacher():
                 return ""
         else:
             self.number_of_words_checked += 1
+            trace = Trace([[False for _ in self.specification_dfa.alphabet]])
             if(evaluate_DFA):
-                if (formula.is_word_in("") != (self.query_dfa.is_word_in("") and self.specification_dfa.is_word_in(""))) and "" not in self.returned_counterexamples:
+                if (formula.is_word_in("") != (trace.evaluateFormulaOnTrace(self.query_dfa) and self.specification_dfa.is_word_in(""))) and "" not in self.returned_counterexamples:
                     return ""
             else:
-                trace = Trace([[False for _ in self.specification_dfa.alphabet]])
-                if (trace.evaluateFormulaOnTrace(formula) != (self.query_dfa.is_word_in("") and self.specification_dfa.is_word_in(""))) and "" not in self.returned_counterexamples:
+                if (trace.evaluateFormulaOnTrace(formula) != (trace.evaluateFormulaOnTrace(self.query_dfa) and self.specification_dfa.is_word_in(""))) and "" not in self.returned_counterexamples:
                     return ""
 
         positive_counterexample = None
@@ -107,8 +107,9 @@ class PACTeacher():
             self.specification_dfa.renew()
             self.specification_dfa.reset_current_to_init()
 
-            if(self.query_dfa is not None):
-                self.query_dfa.reset_current_to_init()
+            # if(self.query_dfa is not None):
+            #     self.query_dfa.reset_current_to_init()
+
             word = ""
             word_length = 0
             trace_vector = []
@@ -127,16 +128,18 @@ class PACTeacher():
                         return word
                 else:
                     
+                    trace_vector.append([ self.specification_dfa.alphabet[i] == letter for i in range(len(self.specification_dfa.alphabet))])
+                    trace = Trace(trace_vector)
+                        
                     if(evaluate_DFA):
                         dfa_verdict = formula.is_word_letter_by_letter(letter)
                     else:
-                        trace_vector.append([ self.specification_dfa.alphabet[i] == letter for i in range(len(self.specification_dfa.alphabet))])
-                        trace = Trace(trace_vector)
                         dfa_verdict = trace.evaluateFormulaOnTrace(formula)
                     specification_verdict = self.specification_dfa.is_word_letter_by_letter(
                         letter)
-                    query_verdict = self.query_dfa.is_word_letter_by_letter(
-                        letter)
+                    # query_verdict = self.query_dfa.is_word_letter_by_letter(
+                    #     letter)
+                    query_verdict = trace.evaluateFormulaOnTrace(self.query_dfa)
 
                     if(dfa_verdict != (specification_verdict and query_verdict)):
                         """  
@@ -404,7 +407,15 @@ class PACTeacher():
                                   " should be rejected by implementation")
                         traces.add_negative_example(counterexample)
                 else:
-                    if(self.specification_dfa.classify_word(counterexample) and self.query_dfa.classify_word(counterexample)):
+                    trace_vector = []
+                    for letter in counterexample:
+                        trace_vector.append([self.specification_dfa.alphabet[i] == letter for i in range(len(self.specification_dfa.alphabet))])                    
+                    if(len(counterexample) == 0):
+                        trace = Trace([[False for _ in self.specification_dfa.alphabet]])
+                    else:
+                        trace = Trace(trace_vector)
+    
+                    if(self.specification_dfa.classify_word(counterexample) and trace.evaluateFormulaOnTrace(self.query_dfa)):
                         if(verbose):
 
                             print("new counterexample:", counterexample,

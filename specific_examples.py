@@ -393,6 +393,66 @@ class Balanced_Parentheses:
                                          provided_examples=all_words)
 
 
+import pandas as pd
+class DNA_Sequence():
+    def __init__(self):
+        self.target_formula = "DNA sequence"
+        self.alphabet = 'GTACN'
+        self.query_formulas = [
+
+        ]
+
+    def get_dict(self, target_class=6):
+        df = pd.read_table('benchmarks/raw/dog_data.txt')
+        mask = df['class'] != target_class
+        df.loc[mask, 'class'] = 'negative'
+        mask = df['class'] == target_class
+        df.loc[mask, 'class'] = 'positive'
+        df['class'] = df['class'].map({"negative" : False, 'positive' : True})
+        return pd.Series(df['class'].values,index=df['sequence']).to_dict()
+
+from keras.preprocessing.text import Tokenizer
+from keras.preprocessing import sequence
+from sklearn.preprocessing import LabelEncoder
+class Text_Classification():
+    def __init__(self, max_words = 20, max_len = 15):
+        self.target_formula = "Text classification"
+        self.alphabet = [i for i in range(max_words + 1)]
+        self.query_formulas = [
+        ]
+        self._max_words = max_words
+        self._max_len = max_len
+
+
+        df = pd.read_csv('benchmarks/raw/spam.csv',delimiter=',',encoding='latin-1')
+        df = df[['v1', 'v2']]
+        df.rename(columns = {'v1' : 'target', 'v2' : 'text'}, inplace=True)
+        # print(df.head())
+        
+
+        le = LabelEncoder()
+        Y = le.fit_transform(df['target'])
+        Y = Y.reshape(-1,1)
+        
+        # tokenize
+        tok = Tokenizer(num_words=self._max_words)
+        tok.fit_on_texts(df['text'])
+        sequences = tok.texts_to_sequences(df['text'])
+        sequences_matrix = sequence.pad_sequences(sequences,maxlen=self._max_len)
+        # print(sequences_matrix, Y)
+        self.dict = {}
+        for A, B in zip(sequences_matrix, Y):
+            # print(tuple(A),B[0] == 1)
+            self.dict[tuple(A)] = B[0] == 1
+
+    def classify_word(self, w):
+        w = tuple(w)
+        if(w not in self.dict):
+            raise ValueError("word not in the original file")
+        else:
+            return self.dict[w]
+        
+
 class Example:
     def __init__(self, alphabet, target_formula, token):
         self.alphabet = alphabet
@@ -456,7 +516,7 @@ class Example3(Example):
 class Example4(Example):
 
     def __init__(self, token=""):
-        super().__init__(alphabet="abc", target_formula="F(a)", token=token)
+        super().__init__(alphabet=['a', 'b', 'c'], target_formula="F(a)", token=token)
 
         self.query_formulas = [
             "true",
