@@ -17,7 +17,7 @@ class Traces:
     def __repr__(self):
         return "Traces:->\n"+'\n'.join(" - %s: %s" % (item, value) for (item, value) in vars(self).items() if "__" not in item)
 
-    def label_from_network(self, dataset):
+    def label_from_network(self, dataset, learn=False):
         self.positive_example = []
         self.negative_example = []
 
@@ -27,9 +27,10 @@ class Traces:
             else:
                 self.negative_example.append(example)
 
-        # only consider a fraction of test samples
-        self.positive_example = self.positive_example[:1]
-        self.negative_example = self.negative_example[:1]
+        if(not learn):
+            # only consider a fraction of test samples
+            self.positive_example = self.positive_example[:1]
+            self.negative_example = self.negative_example[:1]
 
     # auxiliary function
     def _to_trace(self, example, length_alphabet, char_to_int):
@@ -120,7 +121,7 @@ class Explainer:
         self.token = token
         self.formula = None
 
-    def learn_ltlf_and_dfa(self, queue, show_dfa=False):
+    def learn_ltlf_and_dfa(self, queue = None, show_dfa=False, python_processing = True):
 
         # print(self.token)
         learned_formulas, self.current_formula_depth = LTL_learner.learnLTL(
@@ -149,7 +150,8 @@ class Explainer:
         #     pydot_graph = pydotplus.graph_from_dot_file("automa.dot")
         #     display(Image(pydot_graph.create_png()))
 
-        queue.put([self])
+        if(python_processing):
+            queue.put([self])
 
     def _convert_formula(self, learned_formulas):
         # convert propositional variables in LTLf to human readable alphabet

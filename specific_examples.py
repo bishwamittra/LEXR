@@ -415,9 +415,9 @@ from keras.preprocessing.text import Tokenizer
 from keras.preprocessing import sequence
 from sklearn.preprocessing import LabelEncoder
 class Text_Classification():
-    def __init__(self, max_words = 20, max_len = 15):
+    def __init__(self, max_words = 50, max_len = 20):
         self.target_formula = "Text classification"
-        self.alphabet = [i for i in range(max_words + 1)]
+        self.alphabet = ["x" + str(i) for i in range(max_words + 1)]
         self.query_formulas = [
         ]
         self._max_words = max_words
@@ -435,19 +435,19 @@ class Text_Classification():
         Y = Y.reshape(-1,1)
         
         # tokenize
-        tok = Tokenizer(num_words=self._max_words)
-        tok.fit_on_texts(df['text'])
-        sequences = tok.texts_to_sequences(df['text'])
+        self.tok = Tokenizer(num_words=self._max_words)
+        self.tok.fit_on_texts(df['text'])
+        sequences = self.tok.texts_to_sequences(df['text'])
         sequences_matrix = sequence.pad_sequences(sequences,maxlen=self._max_len)
         # print(sequences_matrix, Y)
         self.dict = {}
         for A, B in zip(sequences_matrix, Y):
             # print(tuple(A),B[0] == 1)
-            self.dict[tuple(A)] = B[0] == 1
+            self.dict[("").join(["x"+str(c) for c in A])] = B[0] == 1
 
     def classify_word(self, w):
-        w = tuple(w)
         if(w not in self.dict):
+            print(w)
             raise ValueError("word not in the original file")
         else:
             return self.dict[w]

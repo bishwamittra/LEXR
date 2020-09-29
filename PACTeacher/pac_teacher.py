@@ -248,9 +248,10 @@ class PACTeacher():
                 time.sleep(1)
             if p.exitcode == 0:
 
+                equivalence_test_start_time = time.time()
+                learner_time += equivalence_test_start_time - learning_start_time
+                    
                 if(verbose):
-                    equivalence_test_start_time = time.time()
-                    learner_time += equivalence_test_start_time - learning_start_time
                     print("Learning took: ", equivalence_test_start_time -
                           learning_start_time, " s")
                 [learner] = q.get()
@@ -258,9 +259,10 @@ class PACTeacher():
                 # learner.learn_ltlf_and_dfa()
                 counterexample = self.equivalence_query(
                     learner.formula, verbose=verbose)
-
+                
+                verifier_time += time.time() - equivalence_test_start_time
+                    
                 if(verbose):
-                    verifier_time += time.time() - equivalence_test_start_time
                     print("EQ test took ", time.time() -
                           equivalence_test_start_time, " s")
                 if counterexample is None:
