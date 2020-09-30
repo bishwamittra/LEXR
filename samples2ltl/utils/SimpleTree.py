@@ -207,7 +207,7 @@ class Formula(SimpleTree):
                         | "false"
                 _binary_expression: binary_operator "(" formula "," formula ")"
                 _unary_expression: unary_operator "(" formula ")"
-                variable: /x[0-9]*/
+                variable: /x[0-9]*/ 
                 !binary_operator: "&" | "|" | "->" | "U"
                 !unary_operator: "F" | "G" | "!" | "X"
                 

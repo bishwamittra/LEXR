@@ -248,23 +248,20 @@ class PACTeacher():
                 time.sleep(1)
             if p.exitcode == 0:
 
+                [learner] = q.get()
+                
                 equivalence_test_start_time = time.time()
                 learner_time += equivalence_test_start_time - learning_start_time
                     
                 if(verbose):
                     print("Learning took: ", equivalence_test_start_time -
                           learning_start_time, " s")
-                [learner] = q.get()
-
+                
                 # learner.learn_ltlf_and_dfa()
                 counterexample = self.equivalence_query(
                     learner.formula, verbose=verbose)
-                
-                verifier_time += time.time() - equivalence_test_start_time
+
                     
-                if(verbose):
-                    print("EQ test took ", time.time() -
-                          equivalence_test_start_time, " s")
                 if counterexample is None:
                     return learner,  True, learner_time, verifier_time
                 else:
@@ -313,7 +310,7 @@ class PACTeacher():
                                   " should be accepted by implementation")
                             print("RNN verdict  :", self.specification_dfa.classify_word(counterexample))
                             print("Query verdict:", trace.evaluateFormulaOnTrace(self.query_dfa))
-                            print(trace)
+                            # print(trace)
                         traces.add_positive_example(counterexample)
                     else:
                         if(verbose):
@@ -322,9 +319,17 @@ class PACTeacher():
                                   " should be rejected by implementation")
                             print("RNN verdict  :", self.specification_dfa.classify_word(counterexample))
                             print("Query verdict:", trace.evaluateFormulaOnTrace(self.query_dfa))
-                            print(trace)
+                            # print(trace)
 
                         traces.add_negative_example(counterexample)
+                
+                verifier_end_time = time.time()                
+                verifier_time += verifier_end_time - equivalence_test_start_time
+                if(verbose):
+                    print("EQ test took ", verifier_end_time -
+                          equivalence_test_start_time, " s")
+                
+                
             else:
                 return learner, False, learner_time, verifier_time
 

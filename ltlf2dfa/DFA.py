@@ -87,6 +87,8 @@ class DFA:
         # else classify negative. 
 
         word=word.lower()
+        if("x" in word):
+            word = ["x" + c for c in word.split("x")[1:]]
         q=self.q0
 
         # special case

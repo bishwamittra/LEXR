@@ -6,7 +6,7 @@ from RNN2DFA.Training_Functions import mixed_curriculum_train
 from RNN2DFA.Training_Functions import make_test_set, make_train_set_for_target
 from RNNexplainer import Explainer
 import pandas as pd
-import LTL2DFA as ltlf2dfa
+# import LTL2DFA as ltlf2dfa
 import time
 from sklearn.model_selection import train_test_split
 import specific_examples
@@ -18,7 +18,7 @@ import random
 from samples2ltl.utils.Traces import Trace
 # parameters
 
-timeout = 400
+
 maximum_sequence_length = 50
 maximum_formula_depth = 50
 epsilons = [0.05]
@@ -57,7 +57,10 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--thread", help="index of thread", default=0, type=int)
 parser.add_argument("--demo", action='store_true')
 parser.add_argument("--random", action='store_true')
+parser.add_argument("--timeout", default=20, type=int)
+
 args = parser.parse_args()
+timeout = args.timeout
 thread = args.thread
 random_run = args.random
 
@@ -70,6 +73,7 @@ if(random_run):
     iterations = 100
     epsilons = [0.05]
     deltas = [0.05]
+
 
 
 # get example to test
@@ -92,6 +96,7 @@ try:
             generator_dfa = eval("specific_examples.Example" +
                                  str(4)+"(token="+str(thread)+")")
         elif(thread % 6 == 4):
+            print("Yes!!")
             generator_dfa = eval("specific_examples.Example" +
                                  str(2)+"(token="+str(thread)+")")
         elif(thread % 6 == 5):
@@ -102,11 +107,16 @@ try:
 except:
     exit()
 target_formula = generator_dfa.target_formula
+print("************************************************************************************\n")
+print(target_formula)
+print("\n\n************************************************************************************\n")
+
 alphabet = generator_dfa.alphabet
 query_formulas = generator_dfa.query_formulas
 
 # for each example, specify different parameters random words generating function
 file_name = "benchmarks/" + target_formula.replace(" ", "_")+".pkl"
+
 
 if not os.path.isfile(file_name):
 
@@ -138,15 +148,15 @@ if not os.path.isfile(file_name):
             n=105000, max_sequence_length=50)
         for string in matching_strings:
             train_set[string] = True
-    elif(target_formula == 'G(a->X(b))'):
+    elif(target_formula == 'G(->(x0,X(x1)))'):
         train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i for i in range(maximum_sequence_length+1)],
                                               max_train_samples_per_length=1000,
                                               search_size_per_length=3000, deviation=20)
 
     else:
         train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i for i in range(maximum_sequence_length+1)],
-                                              max_train_samples_per_length=10000,
-                                              search_size_per_length=30000, deviation=20)
+                                              max_train_samples_per_length=1000,
+                                              search_size_per_length=3000, deviation=20)
 
     # now save the dataset to file
     with open(file_name, "wb") as f:
@@ -167,8 +177,13 @@ examples_per_length = [0 for i in range(51)]
 for key in train_set:
     if(train_set[key]):
         cnt += 1
-
-    examples_per_length[len(key)] += 1
+    try:
+        if("x" in key):
+            examples_per_length[len(key.split('x')[1:])] += 1
+        else:
+            examples_per_length[len(key)] += 1
+    except:
+        pass
 
 total_samples = len(train_set)
 print("out of ", total_samples, " sequences", cnt,
@@ -241,7 +256,7 @@ test_acc = percent(rnn_target/test_set_size)
 print("rnn score against target on test set:                             ",
         rnn_target, "("+str(test_acc)+")")
 
-
+from samples2ltl.utils.SimpleTree import Formula
 
 for iteration in range(iterations):
     print("##################################### iteration",
@@ -259,8 +274,9 @@ for iteration in range(iterations):
                 print("query:", query_formula)
 
                 # use a query LTL formula
-                query_dfa = ltlf2dfa.translate_ltl2dfa(
-                    alphabet=[character for character in alphabet], formula=query_formula, token=str(thread))
+                query_dfa = Formula.convertTextToFormula(query_formula)
+                # query_dfa = ltlf2dfa.translate_ltl2dfa(
+                #     alphabet=[character for character in alphabet], formula=query_formula, token=str(thread))
 
                 """  
                 Create initial samples
@@ -298,10 +314,9 @@ for iteration in range(iterations):
                 print("time learner:", learner_time)
                 print('time verifier:', verifier_time)
                 print("Random words:", teacher.number_of_words_checked)
-
-
-                print("\nTime taken to extract ltl:", end_time-start_time)
-                
+                print("Time taken to extract ltl:", end_time-start_time)
+                print("\n\n")
+                                
                 # DFA learner
                 if(run_lstar):
                     print("\n\n\n\n\n")
@@ -330,20 +345,26 @@ for iteration in range(iterations):
                 
                 test_set_size = 0
                 for w in test_set:
-                    
+
                     dfa_from_rnn.renew()
 
                     test_set_size += 1
                     verdict_rnn = dfa_from_rnn.classify_word(w)
                     verdict_target = generator_dfa.classify_word(w)
                     trace_vector = []
-                    for letter in w:
-                        trace_vector.append([alphabet[i] == letter for i in range(len(alphabet))])
-                    trace = Trace(trace_vector)
+                    if("x" in w):
+                        for letter in w.split("x")[1:]:
+                            trace_vector.append([alphabet[i] == "x" + letter for i in range(len(alphabet))])
+                    else: 
+                        for letter in w:
+                            trace_vector.append([alphabet[i] == letter for i in range(len(alphabet))])
                     if(len(w) == 0):
                         trace = Trace([[False for _ in alphabet]])
+                    else:
+                        trace = Trace(trace_vector)
+
                     verdict_ltl = trace.evaluateFormulaOnTrace(explainer.formula)
-                    verdict_query = query_dfa.classify_word(w)
+                    verdict_query =  trace.evaluateFormulaOnTrace(query_dfa)
 
                     if(run_lstar):
                         verdict_lstar = dfa_lstar.classify_word(w)
@@ -357,8 +378,13 @@ for iteration in range(iterations):
                     if(run_lstar):
                         if (verdict_rnn and verdict_query) == verdict_lstar:
                             lstar_performance_explanation_with_rnn += 1
+                        # else:
+                        #     print(w, verdict_lstar, verdict_rnn, verdict_query)
                         if verdict_lstar == (verdict_target and verdict_query):
                             lstar_performance_explanation_with_groundtruth += 1
+                        # else:
+                        #     print(w, verdict_lstar, verdict_target, verdict_query)
+
 
                 if(test_set_size != 0):
                     print("Explanation matches RNN:", str(
@@ -376,6 +402,7 @@ for iteration in range(iterations):
 
                         print("Lstar matches ground truth:", str(
                             percent(lstar_performance_explanation_with_groundtruth/test_set_size)))
+
 
                 
                 if(not (run_lstar)):

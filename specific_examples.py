@@ -20,35 +20,53 @@ class Alternating_Bit_Protocol:
         self.alphabet = self.dfa.alphabet
         self.classify_word = self.dfa.classify_word
 
-        self.query_formulas = [
-            "false",  # rejects everything
-            "true",  # accepts everything
-            "~F(a)",
-            "~F(b)",
-            "~F(c)",
-            "~F(d)",
-            "G(d)",
-
-            "G( (a->F(c)) & (c->F(b)) & (b->F(d)) )",
-
-            "F(a U (b|d)) | F(b U (a|c)) |  F(c U (a|d)) ",
-            
-            
-            "F(a U c) & F(c U b) & F(b U d) ",
-            
-            "~(F(a U c) & F(c U b) & F(b U d))"
-        ]
-
-    def construct_dfa(self):
-        # alphabet
-        alphabet = "abcd"
         """ 
         a = bit 0 
         b = bit 1
         c = bit 0 acknowledge
         d = bit 1 acknowledge
         """
-        self.dfa.alphabet = [character for character in alphabet]
+        
+
+        self._query_formulas = [
+            "false",  # rejects everything
+            "true",  # accepts everything
+            "!(F(a))",
+            "!(F(b))",
+            "!(F(c))",
+            "!(F(d))",
+            "G(d)",
+
+            "G(&(&(->(a,F(c)),->(c,F(b))),->(b,F(d))))",
+
+            "|(|(F(U(a,|(b,d))),F(U(b,|(a,c)))),F(U(c,|(a,d))))",
+            
+            
+            "&(&(F(U(a,c)),F(U(c,b))),F(U(b,d)))",
+            
+            "!(&(&(F(U(a,c)),F(U(c,b))),F(U(b,d))))",
+            
+        ]
+
+        dic = {
+            "a" : "x0",
+            "b" : "x1",
+            "c" : "x2",
+            "d" : "x3"
+        }
+        
+        self.query_formulas = []
+        for formula in self._query_formulas:
+            if(formula != "false"):
+                for key in dic:
+                    formula = formula.replace(key, dic[key])
+            self.query_formulas.append(formula)
+
+        print(self.query_formulas)
+
+    def construct_dfa(self):
+        # alphabet
+        self.dfa.alphabet = ['x0', 'x1', 'x2', 'x3']
         # state 4 denotes rejecting state for all unalowed move
         self.dfa.Q = [0, 1, 2, 3, 4]
         self.dfa.q0 = 0
@@ -106,8 +124,8 @@ class Alternating_Bit_Protocol:
                 ack1 = ack1 - init_ack1
                 repeatation = np.random.randint(1, max(
                     2, int(math.ceil(sequence_length/(init_ack1 + msg0 + msg1 + ack0 + ack1)))))
-                r = '(d{'+str(init_ack1)+'}a{'+str(msg0)+'}c{'+str(ack0) + \
-                    '}b{'+str(msg1)+'}d{'+str(ack1) + \
+                r = '((x3){'+str(init_ack1)+'}(x0){'+str(msg0)+'}(x2){'+str(ack0) + \
+                    '}(x1){'+str(msg1)+'}(x3){'+str(ack1) + \
                     '}){' + str(repeatation) + '}'
                 sequences.append(exrex.getone(r))
                 assert(self.classify_word(
@@ -415,7 +433,7 @@ from keras.preprocessing.text import Tokenizer
 from keras.preprocessing import sequence
 from sklearn.preprocessing import LabelEncoder
 class Text_Classification():
-    def __init__(self, max_words = 50, max_len = 20):
+    def __init__(self, max_words = 1000, max_len = 30):
         self.target_formula = "Text classification"
         self.alphabet = ["x" + str(i) for i in range(max_words + 1)]
         self.query_formulas = [
@@ -452,6 +470,42 @@ class Text_Classification():
         else:
             return self.dict[w]
 
+class Deceptive_Opinion():
+    def __init__(self, max_words = 1000, max_len = 500):
+        self.target_formula = "Deceptive opinion"
+        self.alphabet = ["x" + str(i) for i in range(max_words + 1)]
+        self.query_formulas = [
+        ]
+        self._max_words = max_words
+        self._max_len = max_len
+
+
+        df = pd.read_csv('benchmarks/raw/deceptive-opinion.csv',delimiter=',',encoding='latin-1')
+        df = df[df['polarity'] == 'positive']
+        df = df[['deceptive', 'text']]
+        le = LabelEncoder()
+        Y = le.fit_transform(df['deceptive'])
+        Y = Y.reshape(-1,1)
+        
+        # tokenize
+        self.tok = Tokenizer(num_words=self._max_words)
+        self.tok.fit_on_texts(df['text'])
+        sequences = self.tok.texts_to_sequences(df['text'])
+        sequences_matrix = sequence.pad_sequences(sequences,maxlen=self._max_len)
+        # print(sequences_matrix, Y)
+        self.dict = {}
+        for A, B in zip(sequences_matrix, Y):
+            # print(tuple(A), B[0] == 1)
+            self.dict[("").join(["x"+str(c) for c in A])] = B[0] == 1
+        
+
+    def classify_word(self, w):
+        if(w not in self.dict):
+            print(w)
+            raise ValueError("word not in the original file")
+        else:
+            return self.dict[w]
+
 from samples2ltl.utils.SimpleTree import Formula        
 from samples2ltl.utils.Traces import Trace
 
@@ -460,102 +514,12 @@ class Example:
     def __init__(self, alphabet, target_formula, token):
         self.alphabet = alphabet
         self.target_formula = target_formula
-        self.dfa = ltlf2dfa.translate_ltl2dfa(
-            alphabet=[character for character in self.alphabet], formula=self.target_formula, token=str(token))
-        self.classify_word = self.dfa.classify_word
-
-
-class Example1(Example):
-
-    def __init__(self, token=""):
-        super().__init__(alphabet="abc", target_formula="G(~a)", token=token)
-
-        self.query_formulas = [
-            "true",
-            "false",
-            "a",
-            "~a",
-            'F(a)',
-            "F(~a)",
-            "F(b)",
-            "F(b|c)",
-            "G(b|c)",
-            'X(G(~a))',
-            'X(G(a))'
-        ]
-
-
-class Example2(Example):
-
-    def __init__(self, token=""):
-        super().__init__(alphabet="abc", target_formula="G(a->X(b))", token=token)
-
-        self.query_formulas = [
-            "true",
-            "false",
-            "b",
-            "X(b)",
-            "G(b)",
-            "F(a)",
-            "G(a)",
-        ]
-
-
-class Example3(Example):
-
-    def __init__(self, token=""):
-        super().__init__(alphabet="abc", target_formula="G(b -> G(~a))", token=token)
-
-        self.query_formulas = [
-            "true",
-            "false",
-            'G(b)',
-            'G(~a)',
-            'G(a)',
-            'F(c)'
-        ]
-
-
-class Example4(Example):
-
-    def __init__(self, token=""):
-        super().__init__(alphabet=['a', 'b', 'c'], target_formula="F(a)", token=token)
-
-        self.query_formulas = [
-            "true",
-            "false",
-            "F(b)",
-            "F(~a)",
-            "F(~b)",
-            'F(aUb)',
-            'F(bUa)',
-            "G(a)",
-            "G(c)",
-            "F(c)",
-            "F(a & X(b))"
-        ]
-
-
-class Example4_modified():
-
-    def __init__(self, token=""):
-        self.alphabet=['x0', 'x1', 'x2'] 
-        self.target_formula="F(x0)"
+        # self.dfa = ltlf2dfa.translate_ltl2dfa(
+        #     alphabet=[character for character in self.alphabet], formula=self.target_formula, token=str(token))
+        # self.classify_word = self.dfa.classify_word
         self.ltl_formula = Formula.convertTextToFormula(self.target_formula)        
-        self.query_formulas = [
-            "true",
-            "false",
-            "F(x1)",
-            "F(~x0)",
-            "F(~x1)",
-            'F(x0Ux1)',
-            'F(x1Ux0)',
-            "G(x0)",
-            "G(x2)",
-            "F(x2)",
-            "F(x0 & X(x1))"
-        ]
-    
+        
+
     def classify_word(self, w):
         w = w.split("x")[1:]
         trace_vector = []
@@ -567,72 +531,143 @@ class Example4_modified():
             trace = Trace(trace_vector)
         return trace.evaluateFormulaOnTrace(self.ltl_formula)
 
+
+class Example1(Example):
+
+    def __init__(self, token=""):
+        # super().__init__(alphabet="abc", target_formula="G(~a)", token=token)
+        super().__init__(alphabet=['x0', 'x1', 'x2'], target_formula="G(!(x0))", token=token)
+    
+        self.query_formulas = [
+            "true",
+            "false",
+            "x0",
+            "!(x0)",
+            'F(x0)',
+            "F(!(x0))",
+            "F(x1)",
+            "F(|(x1,x2))",
+            "G(|(x1,x2))",
+            'X(G(!(x0)))',
+            'X(G(x0))'
+        ]
+
+
+class Example2(Example):
+
+    def __init__(self, token=""):
+        # super().__init__(alphabet="abc", target_formula="G(a->X(b))", token=token)
+        super().__init__(alphabet=['x0', 'x1', 'x2'], target_formula="G(->(x0,X(x1)))", token=token)
+    
+        self.query_formulas = [
+            "true",
+            "false",
+            "x1",
+            "X(x1)",
+            "G(x1)",
+            "F(x0)",
+            "G(x0)",
+        ]
+
+
+class Example3(Example):
+
+    def __init__(self, token=""):
+        super().__init__(alphabet=['x0', 'x1', 'x2'], target_formula="G(&(->(x0,X(x1)),->(X(x1),x0)))", token=token)
+    
+        self.query_formulas = [
+            "true",
+            "false",
+            'G(x1)',
+            'G(!(x0))',
+            'G(x0)',
+            'F(x2)'
+        ]
+
+
+
+
+class Example4(Example):
+
+    def __init__(self, token=""):
+        super().__init__(alphabet=['x0', 'x1', 'x2'], target_formula="F(x0)", token=token)
+    
+        self.query_formulas = [
+            "true",
+            "false",
+            "F(x1)",
+            "F(!(x0))",
+            "F(!(x1))",
+            'F(U(x0,x1))',
+            'F(U(x1,x0))',
+            "G(x0)",
+            "G(x2)",
+            "F(x2)",
+            "F(&(x0,X(x1)))"
+        ]
+    
+    
+
 class Example5(Example):
 
     def __init__(self, token=""):
-        super().__init__(alphabet="abc", target_formula="F(aUb)", token=token)
+        super().__init__(alphabet=['x0', 'x1', 'x2'], target_formula="F(U(x0,x1))", token=token)
 
         self.query_formulas = [
             "true",
             "false",
-            "F(a)",
-            "F(aUb)",
-            "F(bUa)",
-            "G(a)",
-            "G(c)",
-            "F(c)",
-            "F(a & X(b))"
+            "F(x0)",
+            "F(U(x0,x1))",
+            "F(U(x1,x0))",
+            "G(x0)",
+            "G(x2)",
+            "F(x2)",
+            "F(&(x0,X(x1)))"
         ]
 
 
 class Example6(Example):
 
     def __init__(self, token=""):
-        super().__init__(alphabet="abc", target_formula="F(a & X(b))", token=token)
-
+        # super().__init__(alphabet="abc", target_formula="F(a & X(b))", token=token)
+        super().__init__(alphabet=['x0', 'x1', 'x2'], target_formula="F(&(x0,X(x1)))", token=token)
+        
         self.query_formulas = [
             "true",
             "false",
-            "F(a)",
-            "F(b)",
-            "F(c)",
-            "G(a)",
-            "F(aUb)"
+            "F(x0)",
+            "F(x1)",
+            "F(x2)",
+            "G(x0)",
+            "F(U(x0,x1))"
         ]
 
 
 class Example7(Example):
 
     def __init__(self, token=""):
-        super().__init__(alphabet="abc", target_formula="G(a)", token=token)
-
+        # super().__init__(alphabet="abc", target_formula="G(a)", token=token)
+        super().__init__(alphabet=['x0', 'x1', 'x2'], target_formula="G(x0)", token=token)
+    
         self.query_formulas = [
             "true",
             "false",
-            "F(a)",
-            "F(b)",
-            "F(a|b)",
-            "F(aUb)"
-        ]
-
-
-class Example8(Example):
-
-    def __init__(self, token=""):
-        super().__init__(alphabet="abc", target_formula="F(b) -> (a U b)", token=token)
-
-        self.query_formulas = [
-            "true",
-            "false"
+            "F(x0)",
+            "F(x1)",
+            "F(|(x0,x1))",
+            "F(U(x0,x1))"
         ]
 
 
 class Example9(Example):
 
     def __init__(self, token=""):
-        super().__init__(alphabet="abc", target_formula="(G(a -> (Xb))) & (G((Xb) -> a))", token=token)
+        super().__init__(alphabet="abc", target_formula= "F(U(a,b))", token=token)
 
         self.query_formulas = [
             "true",
             "false",
+            "F(a)"
         ]
+
+
