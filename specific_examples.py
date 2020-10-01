@@ -152,35 +152,47 @@ class Email():
         self._all_symbols_regex = "|".join(
             [char for char in self._numerical_symbols+self._letter_symbols])
 
-        self.query_formulas = [
+        self._query_formulas = [
             "false",  # rejects everything
             "true",  # accepts everything
-            "(m)",  # email starts with numeric symbols
-            "~F(a)",  # there is no '@'
-            "~F(d)",  # there is no '.'
-            "~F(p)",
-            "~F(m)",
-            "F(a & X(Fa))",
-            "F(d & X(Fd))",
-            "F(d & X(Fm))",
-            "F(d & X(Gp))",
-            "F(a & X(G(~d)))",
-            "(~F(m)) & F(p U a) & F(a & X(p U d)) & F(d & X(Gp))",
-            "F(a & X(d))",
+            "m",  # email starts with numeric symbols
+            "!(F(a))",  # there is no '@'
+            "!(F(d))",  # there is no '.'
+            "!(F(p))",
+            "!(F(m))",
+            "F(&(a,X(F(a))))",
+            "F(&(d,X(F(d))))",
+            "F(&(d,X(F(m))))",
+            "F(&(d,X(G(p))))",
+            "F(&(a,X(G(!(d)))))",
+            "&(&(&(!(F(m)),F(U(p,a))),F(&(a,X(U(p,d))))),F(&(d,X(G(p)))))",
+            "F(&(a,X(d)))",
             "G(m)",  
-            "~p",
+            "!(p)",
             "a", 
             "d", 
-            "F((p|m) U a) & F(a & X((p|m) U d)) & F(d & X(Gp))",
-            
-            
-            "F(a & X(d))",
-            # "~F(a | m)",
-            # "~F(d)",  # there is no '.'
-            # "~F(a | d | m)",
-            # "F(m & X(F(a & X(F(m)))))",
+            "&(&(F(U(|(p,m),a)),F(&(a,X(U(|(p,m),d))))),F(&(d,X(G(p)))))",
+            "F(&(a,X(d)))",
             
         ]
+
+        dic = {
+            "a" : "x0",
+            "d" : "x1",
+            "m" : "x2",
+            "p" : "x3"
+        }
+        
+        self.query_formulas = []
+        for formula in self._query_formulas:
+            if(formula != "false" and formula != "true"):
+                for key in dic:
+                    formula = formula.replace(key, dic[key])
+            self.query_formulas.append(formula)
+
+        # self.query_formulas = self.query_formulas[18:]
+        print(self.query_formulas)
+
 
     def _construct_regex(self):
         _only_letter = "("+"|".join(
@@ -302,22 +314,39 @@ class Balanced_Parentheses:
         self.alphabet = "lr" + self._bp_other_letters
         self.target_formula = "balanced parentheses"
 
-        self.query_formulas = [
+        self._query_formulas = [
             "false",  
             "true",
-            "~F(l|r)", 
-            "G(l -> F(r))",
-            "G(l -> ~(F(r)))",
-            "G(l -> F(a | r))",
-            "G(l -> ~(F(a | r)))",
+            "!(F(|(l,r)))", 
+            "G(->(l,F(r)))",
+            "G(->(l,!(F(r))))",
+            "G(->(l,F(|(a,r))))",
+            "G(->(l,!(F(|(a,r)))))",
             "G(a)",
             "r",  # starts with right parenthesis
-            "a U r", 
-            "F(l & X(G(~r)))",
+            "U(a,r)", 
+            "F(&(l,X(G(!(r)))))",
             "G(l)",
-            "F(l) & F(r) & F( (l|a) U r )",
-            "F(l) & F(r) & ~(F( (l|a) U r ))"
+            "&(&(F(l),F(r)),F(U(|(l,a),r)))",
+            "&(&(F(l),F(r)),!(F(U(|(l,a),r))))",
         ]
+
+
+        dic = {
+            "l" : "x0",
+            "r" : "x1",
+            "a" : "x2"
+        }
+        
+        self.query_formulas = []
+        for formula in self._query_formulas:
+            if(formula != "false" and formula != "true"):
+                for key in dic:
+                    formula = formula.replace(key, dic[key])
+            self.query_formulas.append(formula)
+
+        self.query_formulas = self.query_formulas[12:]
+        print(self.query_formulas)
 
     def _make_similar(self, w, alphabet):
         new = list(w)
@@ -433,7 +462,7 @@ from keras.preprocessing.text import Tokenizer
 from keras.preprocessing import sequence
 from sklearn.preprocessing import LabelEncoder
 class Text_Classification():
-    def __init__(self, max_words = 1000, max_len = 30):
+    def __init__(self, max_words = 1000, max_len = 150):
         self.target_formula = "Text classification"
         self.alphabet = ["x" + str(i) for i in range(max_words + 1)]
         self.query_formulas = [

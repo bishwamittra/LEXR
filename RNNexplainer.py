@@ -32,6 +32,17 @@ class Traces:
             self.positive_example = self.positive_example[:1]
             self.negative_example = self.negative_example[:1]
 
+        if(learn):
+            l = min(len(self.positive_example), len(self.negative_example))
+            for i in range(l):
+                self.positive_example[i] = self.positive_example[i].replace("x0", "")
+                self.negative_example[i] = self.negative_example[i].replace("x0", "")
+    
+            self.positive_example = self.positive_example[:l]
+            self.negative_example = self.negative_example[:l]
+
+
+
     # auxiliary function
     def _to_trace(self, example, length_alphabet, char_to_int):
 
@@ -131,9 +142,11 @@ class Explainer:
             
         # print("Learning formula with depth", learned_formulas[0].getDepth())
         # print("Number of subformulas:", learned_formulas[0].getNumberOfSubformulas())
-        formulas = self._convert_formula(learned_formulas)
+
         
         try:
+            self.ugly_ltl = learned_formulas[0]
+            formulas = self._convert_formula(learned_formulas)
             self.ltl = formulas[0]
             self.formula = learned_formulas[0]
         except:
