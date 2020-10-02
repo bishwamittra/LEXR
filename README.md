@@ -24,7 +24,7 @@ The source code is tested in Python 3.7.4 and has following dependencies.
  - `run.py`: This script is the starting point for reproducing results. Run `python run.py --demo --thread=6` to generate results for the language `G(a)`. To get a detailed results for the six reported benchmarks in the paper, run `python run.py --random --thread=[0-5]`. Experiment results are saved in the `output/` directory.  
  - Use the python notebook `test.ipynb` for documentation.
  - `read_output.ipynb`: use this script to analyze the results. 
- - `specific_examples.py` contains the source code for benchmarks.
+ - `lexr.specific_examples.py` contains the source code for benchmarks.
 
 
 

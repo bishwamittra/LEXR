@@ -3,7 +3,7 @@ import random
 import exrex
 import rstr
 import re
-import LTL2DFA as ltlf2dfa
+import lexr.LTL2DFA as ltlf2dfa
 import random
 import string
 from RNN2DFA.Training_Functions import make_train_set_for_target

@@ -1,5 +1,5 @@
-import LTLlearner as LTL_learner
-import LTL2DFA as DFA_learner
+import lexr.LTLlearner as LTL_learner
+import lexr.LTL2DFA as DFA_learner
 import graphviz
 from IPython.display import display
 from IPython.display import Image

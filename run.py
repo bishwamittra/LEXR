@@ -4,12 +4,12 @@ from RNN2DFA.Extraction import extract
 from RNN2DFA.RNNClassifier import RNNClassifier
 from RNN2DFA.Training_Functions import mixed_curriculum_train
 from RNN2DFA.Training_Functions import make_test_set, make_train_set_for_target
-from RNNexplainer import Explainer
+from lexr.RNNexplainer import Explainer
 import pandas as pd
-# import LTL2DFA as ltlf2dfa
+# import lexr.LTL2DFA as ltlf2dfa
 import time
 from sklearn.model_selection import train_test_split
-import specific_examples
+import lexr.specific_examples
 import argparse
 import os.path
 import pickle
@@ -80,27 +80,27 @@ if(random_run):
 generator_dfa = None
 try:
     if(args.demo):
-        generator_dfa = eval("specific_examples.Example" +
+        generator_dfa = eval("lexr.specific_examples.Example" +
                              str(thread+1)+"(token="+str(thread)+")")
     else:
         if(thread % 6 == 0):
             num_layers = 3
-            generator_dfa = specific_examples.Email()
+            generator_dfa = lexr.specific_examples.Email()
         elif(thread % 6 == 1):
             num_layers = 3
-            generator_dfa = specific_examples.Balanced_Parentheses()
+            generator_dfa = lexr.specific_examples.Balanced_Parentheses()
         elif(thread % 6 == 2):
             num_layers = 3
-            generator_dfa = specific_examples.Alternating_Bit_Protocol()
+            generator_dfa = lexr.specific_examples.Alternating_Bit_Protocol()
         elif(thread % 6 == 3):
-            generator_dfa = eval("specific_examples.Example" +
+            generator_dfa = eval("lexr.specific_examples.Example" +
                                  str(4)+"(token="+str(thread)+")")
         elif(thread % 6 == 4):
             print("Yes!!")
-            generator_dfa = eval("specific_examples.Example" +
+            generator_dfa = eval("lexr.specific_examples.Example" +
                                  str(2)+"(token="+str(thread)+")")
         elif(thread % 6 == 5):
-            generator_dfa = eval("specific_examples.Example" +
+            generator_dfa = eval("lexr.specific_examples.Example" +
                                  str(6)+"(token="+str(thread)+")")
 
 
@@ -282,7 +282,7 @@ for iteration in range(iterations):
                 Create initial samples
                 """
 
-                from RNNexplainer import Traces
+                from lexr.RNNexplainer import Traces
                 traces = Traces(rnn, alphabet, token=str(thread))
                 traces.label_from_network([])
                 traces.write_in_file(location='dummy.trace')

@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.model_selection import StratifiedKFold
-from RNNexplainer import Traces, Explainer
+from lexr.RNNexplainer import Traces, Explainer
 import re
 import argparse
 import pickle
@@ -20,7 +20,7 @@ parser.add_argument("--benchmarks",  default='Example4', type=str)
 args = parser.parse_args()
 
 
-from specific_examples import *
+from lexr.specific_examples import *
 benchmarks = eval(args.benchmarks +"(token=" + args.benchmarks + ")")
 alphabet = benchmarks.alphabet
 file_name = "benchmarks/" + benchmarks.target_formula.replace(" ", "_")+".pkl"
@@ -74,6 +74,3 @@ for train_index, test_index in skf.split(X, y):
     except:
         pass
     # break
-
-
-    # print(queries)
