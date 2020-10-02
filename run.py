@@ -31,7 +31,7 @@ num_layers = 2
 num_hidden_dim = 10
 input_dim = 3
 iterations = 1
-stop_threshold = 0.0005
+stop_threshold = 0.005
 
 
 def dict2lists(dictionary):
@@ -160,7 +160,7 @@ if not os.path.isfile(file_name):
 
     # now save the dataset to file
     with open(file_name, "wb") as f:
-        pickle.dump(train_set, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(train_set, f, protocol=3)
 
 else:
     # load the dataset
@@ -221,17 +221,14 @@ print("configurations: layers: ", num_layers,
 rnn = RNNClassifier(alphabet, num_layers=num_layers,
                     hidden_dim=num_hidden_dim, RNNClass=RNNClass, input_dim=input_dim, target=target_formula)
 
-try:
-    # train the model
-    if not os.path.isfile("model/"+target_formula+".model"):
-        mixed_curriculum_train(rnn, train_set, stop_threshold=stop_threshold)
-        rnn.save_model()
-    else:
-        print("loading already saved model")
-        rnn.load_model()
-except:
-    print("Training error: however moving on as life also goes on" )
-    
+# train the model
+if not os.path.isfile("model/"+target_formula+".model"):
+    mixed_curriculum_train(rnn, train_set, stop_threshold=stop_threshold)
+    rnn.save_model()
+else:
+    print("loading already saved model")
+    rnn.load_model()
+
 rnn.renew()
 dfa_from_rnn = rnn
 # statistics
@@ -257,6 +254,9 @@ print("rnn score against target on test set:                             ",
         rnn_target, "("+str(test_acc)+")")
 
 from samples2ltl.utils.SimpleTree import Formula
+
+
+exit()
 
 for iteration in range(iterations):
     print("##################################### iteration",

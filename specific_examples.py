@@ -8,12 +8,14 @@ import random
 import string
 from RNN2DFA.Training_Functions import make_train_set_for_target
 import math
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 # construct a dfa that implements alternating bit protocol
 
 
 class Alternating_Bit_Protocol:
-    def __init__(self):
+    def __init__(self,token=""):
         self.dfa = ltlf2dfa.DFA()
         self.target_formula = "alternating bit protocol"
         self.construct_dfa()
@@ -62,7 +64,7 @@ class Alternating_Bit_Protocol:
                     formula = formula.replace(key, dic[key])
             self.query_formulas.append(formula)
 
-        print(self.query_formulas)
+        # print(self.query_formulas)
 
     def construct_dfa(self):
         # alphabet
@@ -135,7 +137,7 @@ class Alternating_Bit_Protocol:
 
 
 class Email():
-    def __init__(self):
+    def __init__(self,token=""):
         self._at_the_rate = "a"
         self._dot = "d"
         self._numerical_symbols = "m"
@@ -191,7 +193,7 @@ class Email():
             self.query_formulas.append(formula)
 
         # self.query_formulas = self.query_formulas[18:]
-        print(self.query_formulas)
+        # print(self.query_formulas)
 
 
     def _construct_regex(self):
@@ -309,7 +311,7 @@ class Balanced_Parentheses:
     Therfore, bp_other_letters cannot contain l and r.
     """
 
-    def __init__(self):
+    def __init__(self, token=""):
         self._bp_other_letters = "a"
         self.alphabet = "lr" + self._bp_other_letters
         self.target_formula = "balanced parentheses"
@@ -346,7 +348,7 @@ class Balanced_Parentheses:
             self.query_formulas.append(formula)
 
         self.query_formulas = self.query_formulas[12:]
-        print(self.query_formulas)
+        # print(self.query_formulas)
 
     def _make_similar(self, w, alphabet):
         new = list(w)
@@ -462,7 +464,7 @@ from keras.preprocessing.text import Tokenizer
 from keras.preprocessing import sequence
 from sklearn.preprocessing import LabelEncoder
 class Text_Classification():
-    def __init__(self, max_words = 1000, max_len = 150):
+    def __init__(self, token="", max_words = 1000, max_len = 150):
         self.target_formula = "Text classification"
         self.alphabet = ["x" + str(i) for i in range(max_words + 1)]
         self.query_formulas = [
@@ -688,15 +690,8 @@ class Example7(Example):
         ]
 
 
-class Example9(Example):
-
-    def __init__(self, token=""):
-        super().__init__(alphabet="abc", target_formula= "F(U(a,b))", token=token)
-
-        self.query_formulas = [
-            "true",
-            "false",
-            "F(a)"
-        ]
 
 
+'''
+['F(x2)', 'F(x2)', 'F(|(x33,x73))', '|(x244,F(x47))', '|(x114,F(x341))', '|(x106,F(x2))', 'X(|(x13,x22))', '|(x591,F(x5))', '|(x235,F(x48))', '|(x104,F(x337))', '|(x106,F(x22))', '|(x528,F(x169))', '|(x6,F(x15))', '|(x127,F(x620))', '|(x179,F(x42))', 'U(!(x1),x2)', 'F(x4)', '|(x488,F(x9))', 'F(x42)', '|(x47,x720)', 'F(|(x48,x960))', '|(x637,F(x47))', 'F(x2)', '|(x773,F(x26))', '|(x13,F(x96))', '|(x48,F(x13))', 'F(x26)', '|(x12,F(x16))', '|(x298,|(x210,x3))', 'F(x2)', '|(x7,|(x244,x3))', 'F(|(x106,x21))', '|(x324,|(x2,x420))', 'F(x16)', '|(x100,F(x3))', 'F(|(x16,x227))', 'F(|(x48,x73))', 'F(|(x124,x210))', 'F(x47)', '|(x12,F(x18))', 'F(|(x230,x3))', 'F(x26)', '|(x289,F(x16))', '|(x257,x53)', 'F(x6)', 'F(x5)', 'F(x388)', 'F(x912)', 'F(x8)', '|(x192,x7)', 'F(x16)', '|(x344,x47)', '|(x21,x39)', 'F(x2)', '|(x222,x39)', '|(x113,x3)', '|(x113,x178)', 'F(x4)', 'F(x7)', 'F(x68)', '|(x1,x94)', 'F(x2)', 'F(x197)', '|(x178,x3)', 'F(x38)', 'F(x47)', 'F(x16)', '|(x28,x438)', 'F(x31)', 'F(|(x15,x21))', 'F(x16)', '|(x113,F(x19))', '|(x12,F(x42))', 'F(x21)', '|(x100,F(x4))', '|(x13,F(x9))', 'F(x96)', 'F(x2)', 'U(!(x118),x4)', '|(x378,F(x2))', 'F(x2)', '|(x40,F(x35))', '|(x12,F(x591))', '|(x47,x736)', 'F(x2)', '|(x222,F(x31))', 'F(|(x12,x21))', '|(x178,F(x2))', 'F(x16)', 'F(x2)', '|(x797,F(x13))', 'F(x19)', 'F(x13)', 'F(|(x368,x84))', '|(x121,F(x5))', '|(x16,F(x4))', 'F(|(x416,x84))', 'F(|(x124,x252))', 'F(x84)', 'F(x42)', '|(x175,F(x3))', '|(x703,F(x42))', '|(x136,x48)', 'G(!(x1))', '|(x242,F(x5))', '|(x848,X(x13))', '|(x483,F(x13))', '|(x172,F(x2))', 'F(x12)', '|(x719,F(x501))', 'F(|(x17,x242))', '->(F(x9),x40)', 'F(x12)', '|(x73,F(x7))', 'F(x2)', '|(x342,F(x101))', 'F(x4)', '|(x192,F(x101))', '|(x192,F(x19))', '|(x341,|(x49,x797))', 'F(x2)', 'U(!(x3),x2)', '|(x263,F(x47))', '|(x83,F(x873))', 'F(|(x323,x4))', 'F(x2)', '|(x47,F(x26))', 'F(x2)', 'F(x12)', '|(x482,F(x124))', '|(x35,F(x16))', 'F(x16)', '|(x12,F(x2))', 'F(x13)', '|(x27,F(x119))', 'F(|(x147,x47))', '|(x62,F(x2))', '|(x148,F(x21))', 'F(x4)', 'F(|(x122,x31))', 'U(!(x53),x2)', 'F(x2)', '|(x1,F(x16))', '|(x235,F(x650))', 'F(|(x73,x86))', '|(x175,F(x19))', 'F(|(x113,x6))', '|(x124,F(x19))', 'F(|(x13,x295))', '|(x47,x773)', '|(x123,|(x4,x538))', 'F(x124)', 'F(x92)', 'F(x16)', '!(F(x1))', '|(x3,F(x39))', 'F(|(x124,x696))', '|(x3,F(x21))', 'F(|(x105,x47))', 'F(x4)', '|(x797,F(x26))', '|(x113,F(x16))', '|(x172,|(x495,x504))', 'F(|(x148,x71))', '|(x495,F(x96))', '|(x3,F(x141))', '|(x188,F(x21))', '|(x27,x35)', 'F(x3)', 'F(x36)', '|(x70,F(x96))', '|(x226,F(x96))', 'F(x2)', 'U(!(x495),x2)', 'F(x2)', 'F(x16)', '|(x47,F(x2))', 'F(x2)', 'F(x13)', 'F(x13)', '|(x641,F(x2))', '|(x22,F(x12))', 'F(|(x2,x958))', 'F(x2)', '|(x113,F(x3))', '|(x889,F(x35))', 'F(x2)', '|(x40,F(x19))', '|(x756,F(x12))', 'F(x13)', 'F(x73)', 'F(x16)', '|(x192,x483)', 'F(|(x40,x84))', 'F(x2)', 'F(x16)', '|(x323,F(x16))', '|(x192,x583)', '|(x70,F(x12))', 'F(|(x16,x462))']
+'''

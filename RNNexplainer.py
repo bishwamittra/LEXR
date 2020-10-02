@@ -33,10 +33,11 @@ class Traces:
             self.negative_example = self.negative_example[:1]
 
         if(learn):
-            l = min(len(self.positive_example), len(self.negative_example))
-            for i in range(l):
-                self.positive_example[i] = self.positive_example[i].replace("x0", "")
-                self.negative_example[i] = self.negative_example[i].replace("x0", "")
+            l = min(min(len(self.positive_example), len(self.negative_example)),3)
+            if(self.network.target_formula == "Text classification"):
+                for i in range(l):
+                    self.positive_example[i] = self.positive_example[i].replace("x0", "")
+                    self.negative_example[i] = self.negative_example[i].replace("x0", "")
     
             self.positive_example = self.positive_example[:l]
             self.negative_example = self.negative_example[:l]
@@ -132,7 +133,7 @@ class Explainer:
         self.token = token
         self.formula = None
 
-    def learn_ltlf_and_dfa(self, queue = None, show_dfa=False, python_processing = True):
+    def learn_ltlf_and_dfa(self, queue = None, show_dfa=False,  verbose=True, python_processing = True):
 
         # print(self.token)
         learned_formulas, self.current_formula_depth = LTL_learner.learnLTL(
@@ -155,7 +156,8 @@ class Explainer:
         # self.dfa = DFA_learner.translate_ltl2dfa(
         #     alphabet=self.alphabet, formula=self.ltl, token=self.token)
 
-        print("learned LTL formula:", self.ltl)
+        if(verbose):
+            print("learned LTL formula:", self.ltl)
         # # print(self.dfa)
 
         # if(show_dfa):
