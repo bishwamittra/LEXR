@@ -83,25 +83,28 @@ try:
         generator_dfa = eval("lexr.specific_examples.Example" +
                              str(thread+1)+"(token="+str(thread)+")")
     else:
-        if(thread % 6 == 0):
+        if(thread % 7 == 0):
             num_layers = 3
             generator_dfa = lexr.specific_examples.Email()
-        elif(thread % 6 == 1):
+        elif(thread % 7 == 1):
             num_layers = 3
             generator_dfa = lexr.specific_examples.Balanced_Parentheses()
-        elif(thread % 6 == 2):
+        elif(thread % 7 == 2):
             num_layers = 3
             generator_dfa = lexr.specific_examples.Alternating_Bit_Protocol()
-        elif(thread % 6 == 3):
+        elif(thread % 7 == 3):
             generator_dfa = eval("lexr.specific_examples.Example" +
                                  str(4)+"(token="+str(thread)+")")
-        elif(thread % 6 == 4):
+        elif(thread % 7 == 4):
             print("Yes!!")
             generator_dfa = eval("lexr.specific_examples.Example" +
                                  str(2)+"(token="+str(thread)+")")
-        elif(thread % 6 == 5):
+        elif(thread % 7 == 5):
             generator_dfa = eval("lexr.specific_examples.Example" +
                                  str(6)+"(token="+str(thread)+")")
+
+        elif(thread % 7 == 6):
+            generator_dfa = lexr.specific_examples.Text_Classification()
 
 
 except:
@@ -116,6 +119,14 @@ query_formulas = generator_dfa.query_formulas
 
 # for each example, specify different parameters random words generating function
 file_name = "benchmarks/" + target_formula.replace(" ", "_")+".pkl"
+
+
+if(target_formula == "Text classification" or target_formula == "Deceptive opinion"):
+    num_layers = 5
+    num_hidden_dim = 20
+    input_dim = 10
+    stop_threshold = 0.1
+    RNNClass = LSTMNetwork
 
 
 if not os.path.isfile(file_name):
@@ -152,6 +163,8 @@ if not os.path.isfile(file_name):
         train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i for i in range(maximum_sequence_length+1)],
                                               max_train_samples_per_length=1000,
                                               search_size_per_length=3000, deviation=20)
+    elif(target_formula == "DNA sequence" or target_formula == "Text classification" or target_formula == "Deceptive opinion"):
+        train_set = generator_dfa.dict
 
     else:
         train_set = make_train_set_for_target(generator_dfa.classify_word, alphabet, lengths=[i for i in range(maximum_sequence_length+1)],
@@ -201,8 +214,11 @@ test_set_size = len(test_set)
 
 # intentionally pushing "" (empty string) in train_set
 if('' not in train_set):
-    train_set[''] = test_set['']
-    print("Empty string status:", train_set[''])
+    try:
+        train_set[''] = test_set['']
+        print("Empty string status:", train_set[''])
+    except:
+        print("Empty string is not in test test also")
 else:
     print("Empty string was already included in train set")
     print("Empty string status:", train_set[''])
@@ -256,7 +272,7 @@ print("rnn score against target on test set:                             ",
 from samples2ltl.utils.SimpleTree import Formula
 
 
-exit()
+# exit()
 
 for iteration in range(iterations):
     print("##################################### iteration",
@@ -352,8 +368,11 @@ for iteration in range(iterations):
                     verdict_rnn = dfa_from_rnn.classify_word(w)
                     verdict_target = generator_dfa.classify_word(w)
                     trace_vector = []
+                    trace_vector = []
                     if("x" in w):
                         for letter in w.split("x")[1:]:
+                            if(target_formula == "Text classification" and letter == '0'):
+                                continue
                             trace_vector.append([alphabet[i] == "x" + letter for i in range(len(alphabet))])
                     else: 
                         for letter in w:

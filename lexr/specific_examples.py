@@ -64,6 +64,13 @@ class Alternating_Bit_Protocol:
                     formula = formula.replace(key, dic[key])
             self.query_formulas.append(formula)
 
+
+        f = open("benchmarks/query/" + self.target_formula.replace(" ", "_") + ".txt")
+        _query_formulas = f.readline()[1:-1].split(", ")
+        self.query_formulas = list(set(self.query_formulas + [query_formula[1:-1] for query_formula in _query_formulas]))
+        f.close()
+        print(self.query_formulas)
+
         # print(self.query_formulas)
 
     def construct_dfa(self):
@@ -194,6 +201,13 @@ class Email():
 
         # self.query_formulas = self.query_formulas[18:]
         # print(self.query_formulas)
+
+
+        f = open("benchmarks/query/" + self.target_formula.replace(" ", "_") + ".txt")
+        _query_formulas = f.readline()[1:-1].split(", ")
+        self.query_formulas = list(set(self.query_formulas + [query_formula[1:-1] for query_formula in _query_formulas]))
+        f.close()
+        print(self.query_formulas)
 
 
     def _construct_regex(self):
@@ -350,6 +364,13 @@ class Balanced_Parentheses:
         self.query_formulas = self.query_formulas[12:]
         # print(self.query_formulas)
 
+
+        f = open("benchmarks/query/" + self.target_formula.replace(" ", "_") + ".txt")
+        _query_formulas = f.readline()[1:-1].split(", ")
+        self.query_formulas = list(set(self.query_formulas + [query_formula[1:-1] for query_formula in _query_formulas]))
+        f.close()
+        print(self.query_formulas)
+
     def _make_similar(self, w, alphabet):
         new = list(w)
         indexes = list(range(len(new)))
@@ -494,6 +515,17 @@ class Text_Classification():
             # print(tuple(A),B[0] == 1)
             self.dict[("").join(["x"+str(c) for c in A])] = B[0] == 1
 
+        
+        f = open("benchmarks/query/" + self.target_formula.replace(" ", "_") + ".txt")
+        _query_formulas = f.readline()[1:-1].split(", ")
+        self.query_formulas = [
+            "true",
+            "false"
+        ]
+        self.query_formulas = list(set(self.query_formulas + [query_formula[1:-1] for query_formula in _query_formulas]))
+        f.close()
+        print(self.query_formulas)
+
     def classify_word(self, w):
         if(w not in self.dict):
             print(w)
@@ -583,6 +615,12 @@ class Example1(Example):
             'X(G(x0))'
         ]
 
+        f = open("benchmarks/query/" + self.target_formula + ".txt")
+        _query_formulas = f.readline()[1:-1].split(", ")
+        self.query_formulas = list(set(self.query_formulas + [query_formula[1:-1] for query_formula in _query_formulas]))
+        f.close()
+        print(self.query_formulas)
+
 
 class Example2(Example):
 
@@ -600,6 +638,12 @@ class Example2(Example):
             "G(x0)",
         ]
 
+        f = open("benchmarks/query/" + self.target_formula + ".txt")
+        _query_formulas = f.readline()[1:-1].split(", ")
+        self.query_formulas = list(set(self.query_formulas + [query_formula[1:-1] for query_formula in _query_formulas]))
+        f.close()
+        print(self.query_formulas)
+
 
 class Example3(Example):
 
@@ -614,6 +658,12 @@ class Example3(Example):
             'G(x0)',
             'F(x2)'
         ]
+
+        f = open("benchmarks/query/" + self.target_formula + ".txt")
+        _query_formulas = f.readline()[1:-1].split(", ")
+        self.query_formulas = list(set(self.query_formulas + [query_formula[1:-1] for query_formula in _query_formulas]))
+        f.close()
+        print(self.query_formulas)
 
 
 
@@ -636,6 +686,12 @@ class Example4(Example):
             "F(x2)",
             "F(&(x0,X(x1)))"
         ]
+
+        f = open("benchmarks/query/" + self.target_formula + ".txt")
+        _query_formulas = f.readline()[1:-1].split(", ")
+        self.query_formulas = list(set(self.query_formulas + [query_formula[1:-1] for query_formula in _query_formulas]))
+        f.close()
+        print(self.query_formulas)
     
     
 
@@ -656,6 +712,12 @@ class Example5(Example):
             "F(&(x0,X(x1)))"
         ]
 
+        f = open("benchmarks/query/" + self.target_formula + ".txt")
+        _query_formulas = f.readline()[1:-1].split(", ")
+        self.query_formulas = list(set(self.query_formulas + [query_formula[1:-1] for query_formula in _query_formulas]))
+        f.close()
+        print(self.query_formulas)
+
 
 class Example6(Example):
 
@@ -672,6 +734,13 @@ class Example6(Example):
             "G(x0)",
             "F(U(x0,x1))"
         ]
+
+
+        f = open("benchmarks/query/" + self.target_formula + ".txt")
+        _query_formulas = f.readline()[1:-1].split(", ")
+        self.query_formulas = list(set(self.query_formulas + [query_formula[1:-1] for query_formula in _query_formulas]))
+        f.close()
+        print(self.query_formulas)
 
 
 class Example7(Example):

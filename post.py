@@ -10,7 +10,7 @@ os.system("./clean.sh")
 
 # if(args.mpi):
 path="bghosh@contact.mpi-sws.org:/home/bghosh/Desktop/xRNN/"
-os.system("tar -czvf file_to_send.tar.gz ltlf2dfa/* benchmarks/* model/* RNN2DFA/* PACTeacher/* samples2ltl/* *.py  *.ipynb")
+os.system("tar -czvf file_to_send.tar.gz ltlf2dfa/* benchmarks/* lexr/* model/* RNN2DFA/* PACTeacher/* samples2ltl/* *.py  *.ipynb")
 os.system("rsync -vaP file_to_send.tar.gz "+path)
 
 
