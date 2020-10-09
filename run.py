@@ -128,6 +128,8 @@ if(target_formula == "Text classification" or target_formula == "Deceptive opini
     stop_threshold = 0.1
     RNNClass = LSTMNetwork
 
+if(target_formula == "DNA sequence" or target_formula == "Text classification" or target_formula == "Deceptive opinion"):
+    run_lstar = False
 
 if not os.path.isfile(file_name):
 

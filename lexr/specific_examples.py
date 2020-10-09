@@ -524,7 +524,7 @@ class Text_Classification():
         ]
         self.query_formulas = list(set(self.query_formulas + [query_formula[1:-1] for query_formula in _query_formulas]))
         f.close()
-        print(self.query_formulas)
+        # print(self.query_formulas)
 
     def classify_word(self, w):
         if(w not in self.dict):
