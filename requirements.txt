@@ -9,7 +9,7 @@ decorator==4.4.2
 dotpy==0.0.2
 exrex==0.10.5
 graphviz==0.14
-ipython==7.15.0
+ipython==7.16.3
 ipython-genutils==0.2.0
 jedi==0.17.0
 joblib==0.15.1
