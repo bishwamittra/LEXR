@@ -1,7 +1,7 @@
 appnope==0.1.0
 asteval==0.9.18
 backcall==0.2.0
-certifi==2020.4.5.1
+certifi==2022.12.7
 codegen==1.0
 cycler==0.10.0
 Cython==0.29.20
